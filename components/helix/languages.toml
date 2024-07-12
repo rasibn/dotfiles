@@ -1,0 +1,9 @@
+[[language]]
+name = "rust"
+
+[language.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'"' = '"'
+'`' = '`'

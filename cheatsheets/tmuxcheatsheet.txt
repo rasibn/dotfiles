@@ -1,0 +1,83 @@
+Sessions:
+- tmux new                  : Start a new session
+- tmux new -s mysession     : Start a new session with the name mysession
+- tmux kill-ses -t mysession: Kill/delete session mysession
+- tmux kill-session -a      : Kill/delete all sessions but the current
+- tmux kill-session -a -t mysession: Kill/delete all sessions but mysession
+- [prefix] $                : Rename session
+- [prefix] d                : Detach from session
+- attach -d                 : Detach others on the session (Maximize window by detaching other clients)
+- tmux ls                   : Show all sessions
+- tmux a                    : Attach to last session
+- tmux a -t mysession       : Attach to a session with the name mysession
+- [prefix] w                : Session and Window Preview
+- [prefix] (                : Move to previous session
+- [prefix] )                : Move to next session
+
+Windows:
+- tmux new -s mysession -n mywindow: Start a new session with the name mysession and window mywindow
+- [prefix] c                : Create window
+- [prefix] ,                : Rename current window
+- [prefix] &                : Close current window
+- [prefix] w                : List windows
+- [prefix] p                : Previous window
+- [prefix] n                : Next window
+- [prefix] 0 ... 9          : Switch/select window by number
+- [prefix] l                : Toggle last active window
+- swap-window -s 2 -t 1     : Reorder window, swap window number 2(src) and 1(dst)
+- swap-window -t -1         : Move current window to the left by one position
+
+Panes:
+- [prefix] ;                : Toggle last active pane
+- [prefix] %                : Split pane with horizontal layout
+- [prefix] "                : Split pane with vertical layout
+- [prefix] {                : Move the current pane left
+- [prefix] }                : Move the current pane right
+- [prefix] Arrow keys       : Switch to pane in the specified direction
+- setw synchronize-panes    : Toggle synchronize-panes(send command to all panes)
+- [prefix] Spacebar         : Toggle between pane layouts
+- [prefix] o                : Switch to next pane
+- [prefix] q                : Show pane numbers
+- [prefix] q 0 ... 9        : Switch/select pane by number
+- [prefix] z                : Toggle pane zoom
+- [prefix] !                : Convert pane into a window
+- [prefix] +/-              : Resize current pane height/width (holding second key is optional)
+- [prefix] x                : Close current pane
+
+Copy Mode:
+- [prefix] [                : Enter copy mode
+- [prefix] PgUp             : Enter copy mode and scroll one page up
+- q                         : Quit mode
+- g                         : Go to top line
+- G                         : Go to bottom line
+- h                         : Move cursor left
+- j                         : Move cursor down
+- k                         : Move cursor up
+- l                         : Move cursor right
+- w                         : Move cursor forward one word at a time
+- b                         : Move cursor backward one word at a time
+- /                         : Search forward
+- ?                         : Search backward
+- n                         : Next keyword occurrence
+- N                         : Previous keyword occurrence
+- Spacebar                  : Start selection
+- Esc                       : Clear selection
+- Enter                     : Copy selection
+- [prefix] ]                : Paste contents of buffer_0
+- show-buffer               : Display buffer_0 contents
+- capture-pane              : Copy entire visible contents of pane to a buffer
+- list-buffers              : Show all buffers
+- choose-buffer             : Show all buffers and paste selected
+- save-buffer buf.txt       : Save buffer contents to buf.txt
+- delete-buffer -b 1        : Delete buffer_1
+
+Misc:
+- [prefix] :                : Enter command mode
+- set -g OPTION             : Set OPTION for all sessions
+- setw -g OPTION            : Set OPTION for all windows
+- set mouse on              : Enable mouse mode
+
+Help:
+- tmux list-keys            : List key bindings (shortcuts)
+- tmux info                 : Show every session, window, pane, etc...
+
