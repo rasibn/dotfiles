@@ -70,22 +70,32 @@ git_config_nvim:
 	echo "**/Session.vim" > ~/.gitignore
 
 git_config_work:
-	@if [ -z "$(WORK_EMAIL)" ]; then \
+	@if [ ! -f "$(HOME)/Projects/dotfiles/secrets.sh" ]; then \
+		echo "secrets.sh file not found."; \
+		exit 1; \
+	fi
+	. $(HOME)/Projects/dotfiles/secrets.sh && \
+	if [ -z "$$WORK_EMAIL" ]; then \
 		echo "WORK_EMAIL environment variable is not set."; \
 		exit 1; \
-	fi
-	git config --global user.name "Rasib Nadeem"
-	git config --global user.email "$(WORK_EMAIL)"
-	@echo "Configured Git for work with email: $(WORK_EMAIL)"
+	fi && \
+	git config --global user.name "Rasib Nadeem" && \
+	git config --global user.email "$$WORK_EMAIL" && \
+	echo "Configured Git for work with email: $$WORK_EMAIL"
 
 git_config_home:
-	@if [ -z "$(HOME_EMAIL)" ]; then \
-		echo "HOME_EMAIL environment variable is not set."; \
+	@if [ ! -f "$(HOME)/Projects/dotfiles/secrets.sh" ]; then \
+		echo "secrets.sh file not found."; \
 		exit 1; \
 	fi
-	git config --global user.name "Rasib Nadeem"
-	git config --global user.email "$(HOME_EMAIL)"
-	@echo "Configured Git for home with email: $(HOME_EMAIL)"
+	. $(HOME)/Projects/dotfiles/secrets.sh && \
+	if [ -z "$$HOME_EMAIL" ]; then \
+		echo "HOME_EMAIL environment variable is not set."; \
+		exit 1; \
+	fi && \
+	git config --global user.name "Rasib Nadeem" && \
+	git config --global user.email "$$HOME_EMAIL" && \
+	echo "Configured Git for home with email: $$HOME_EMAIL"
 
 # ----------------------------- NIXOS -----------------------------
 
