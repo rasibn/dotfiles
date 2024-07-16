@@ -6,5 +6,6 @@
 
   - `ui`: contains `.dotfiles` relating to GUI Desktop Environment (including `i3` and `sway`).
   - rest: is obvious
+  - `secret.sh` contians secrets
 
 - Refer to the `Makefile` for install instructions
