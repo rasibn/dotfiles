@@ -139,6 +139,7 @@ augroup obsession
         \ endif
   autocmd User Flags call Hoist('global', 'ObsessionStatus')
 augroup END
+
 " vim:set et sw=2:]])
 
 -- vim.api.nvim_create_autocmd({ "BufWritePre", "BufEnter" }, {
