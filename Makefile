@@ -16,6 +16,7 @@ config_nvim:
 # SHELL
 config_fish:
 	rm -rf ~/.config/fish; ln -s $(HOME)/Projects/dotfiles/components/fish ~/.config/fish
+
 config_zsh:
 	rm ~/.zshrc; ln -s $(HOME)/Projects/dotfiles/components/.zshrc ~/.zshrc
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
@@ -47,6 +48,9 @@ config_xprofile:
 	rm ~/.zprofile; ln -s $(HOME)/Projects/dotfiles/ui/.profile ~/.zprofile
 	rm ~/.profile; ln -s $(HOME)/Projects/dotfiles/ui/.profile ~/.profile
 
+config_sway:
+	rm ~/.config/sway; ln -s $(HOME)/Projects/dotfiles/ui/sway ~/.config/sway/config
+
 config_i3:
 	rm ~/.config/i3; ln -s $(HOME)/Projects/dotfiles/ui/i3 ~/.config/i3
 
@@ -62,6 +66,7 @@ config_picom:
 # For laptop screen-ratio
 config_xresources:
 	rm ~/.Xresources; ln -s $(HOME)/Projects/dotfiles/ui/.Xresources ~/.Xresources
+
 
 # ------------------------------ GIT -----------------------------
 
