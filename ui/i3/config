@@ -4,20 +4,21 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $TERMINAL wezterm
+set $BROWSER firefox
 
-# TODO: terminal env needed are $BROWSER2, $h
+# Font for window titles. Will also be used by the bar unless a different font is used in the bar {} block below.
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
+set $font "Inter Regular 11"
+# set $font "JetBrainsMono Nerd Font 9"
+
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 
+# set $font "DejaVu Sans Mono 9"
+# set $font "monospace 8"
 
-# TODO: fonts needed 
-font pango: Inter Regular 11
-# font pango:JetBrainsMono Nerd Font 9
-# font pango:DejaVu Sans Mono 9
-# font pango:monospace 8
+font pango: $font
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -156,16 +157,14 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 
 
 # Assign workspaces to applications
-assign [class="firefox" instance="Navigator"] → $ws3
-assign [class="Vivaldi-stable" instance="vivaldi-stable"] → $ws3
+assign [class=$BROWSER instance=$BROWSER] → $ws3
 assign [class="obsidian" instance="obsidian"] → $ws4
 assign [class="Anki" instance="anki"] → $ws4
-# assign [class="org.wezfurlong.wezterm" instance="org.wezfurlong.wezterm"] → $ws1
-
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
@@ -222,23 +221,18 @@ bindsym $mod+Shift+s exec --no-startup-id flameshot gui
 #
 
 
-bindsym $mod+u exec jumpapp $BROWSER2
+bindsym $mod+u exec jumpapp $BROWSER
 bindsym $mod+Shift+u exec jumpapp firefox-developer-edition
 
-bindsym $mod+m exec $BROWSER2 https://outlook.office.com/mail/inbox
-bindsym $mod+Shift+m exec  $BROWSER2 https://gmail.com
+bindsym $mod+m exec $BROWSER https://outlook.office.com/mail/inbox
+bindsym $mod+Shift+m exec  $BROWSER https://gmail.com
 
 bindsym $mod+t exec jumpapp $TERMINAL
-bindsym $mod+Shift+t exec $BROWSER2 -stable https://ticktick.com/webapp/#q/all/habit
+bindsym $mod+Shift+t exec $BROWSER -stable https://ticktick.com/webapp/#q/all/habit
     
 bindsym $mod+n workspace next
 bindsym $mod+p workspace prev
 
-bindsym $mod+i exec $TERMINAL -e vifm
-bindsym $mod+Shift+i exec "$TERMINAL -e sh -c 'cd ~/Projects/ && nvim'"
-
-bindsym $mod+o exec jumpapp obsidian
-bindsym $mod+Shift+o exec jumpapp anki
 
 
 bindsym $mod+z focus child
@@ -321,5 +315,5 @@ workspace $ws5 output $monitor_left
 workspace $ws6 output $monitor_right
 workspace $ws7 output $monitor_right
 workspace $ws8 output $monitor_right
-workspace $ws9 output $monitor_righ
+workspace $ws9 output $monitor_right
 workspace $ws10 output $monitor_right
