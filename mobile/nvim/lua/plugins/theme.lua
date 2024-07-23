@@ -1,6 +1,8 @@
 return {
+  { "ellisonleao/gruvbox.nvim" },
   {
-    "Mofiqul/vscode.nvim", -- opts = {
+    "Mofiqul/vscode.nvim",
+    -- opts = {
     --   transparent = true,
     --   styles = {
     --     sidebars = "transparent",
@@ -9,22 +11,24 @@ return {
     -- },
   },
   {
-    "folke/tokyonight.nvim", --   opts = {
-    -- transparent = true,
-    -- styles = {
-    --       sidebars = "transparent",
+    "folke/tokyonight.nvim",
+    -- opts = {
+    --   transparent = true,
+    --   styles = {
+    --      sidebars = "transparent",
     --      floats = "transparent",
+    --   },
     -- },
-    --  },
   },
+  { "projekt0n/github-nvim-theme" },
   {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "habamax",
       -- colorscheme = "github_dark_dimmed",
-      colorscheme = "catppuccin",
       -- colorscheme = "vscode"
       -- colorscheme = "tokyonight",
+      colorscheme = "catppuccin",
     },
   },
 }
