@@ -8,7 +8,6 @@
 #
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
-set $TOUCHPAD_NAME "1267:12872:ELAN06FA:00_04F3:3248_Touchpad"
 
 set $monitor_left "DP-4"
 set $monitor_right "DP-3"
@@ -54,15 +53,6 @@ output * bg $HOME/Projects/dotfiles/ui/wallpapers/dark-cat-rosewater.png fill
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
-#
-# Example configuration:
-# input "$TOUCHPAD_NAME" {
-#    dwt enabled
-#    tap enabled
-#    natural_scroll enabled
-#    middle_emulation enabled
-#}
-
 
 input type:touchpad {
     dwt enabled

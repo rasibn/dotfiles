@@ -64,6 +64,7 @@ git_config_home() {
 alias ta="tmux a"
 alias cls="clear"
 alias cat="bat"
+alias wife="nmtui"
 alias git-undo="git reset --soft HEAD^"
 
 # XRANDR ALIAS
