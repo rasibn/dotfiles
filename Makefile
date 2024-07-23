@@ -123,7 +123,6 @@ install_sway_pc:
 	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat
 	yay -S htop-vim catppuccin-gtk-theme rofi-search catppuccin-cursor ttf-jetbrains-mono-nerd waybar rofi-wayland grim swaybg brightness-ctl
 
-
 install_macos:
 	brew install nvim zsh tmux eza zoxide fd gh bat gh
 # TODO: add ripgrep

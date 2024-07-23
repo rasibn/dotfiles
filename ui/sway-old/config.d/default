@@ -235,10 +235,6 @@ bindsym Print+r mode "resize"
     bindsym XF86MonBrightnessUp exec brightnessctl -c backlight set +5%
     bindsym XF86MonBrightnessDown exec brightnessctl -c backlight set 5%-
 #
-# App shortcuts
-#
-
-# broswer row
 #  Screenshots
 # bindsym print exec /usr/share/sway/scripts/grimshot --notify save output
     
