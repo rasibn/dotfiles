@@ -123,6 +123,7 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 #
 
+# TODO: refactor to env variables instead of browser name
 bindsym $mod+y exec vivaldi-stable
 bindsym $mod+Shift+y exec vivaldi-stable https://youtube.com
 
