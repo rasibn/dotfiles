@@ -24,12 +24,15 @@ set $term wezterm
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | wmenu | xargs swaymsg exec --
+# set $menu dmenu_path | wmenu | xargs swaymsg exec --
+#
+ set $menu1 "rofi -modi drun,run -show drun -show-icons"
+ set $menu2 "rofi -combi-modi window,drun -show combi -show-icons"
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg $HOME/Projects/dotfiles/ui/wallpapers/dark-cat-rosewater.png fill
 #
 # Example configuration:
 #
@@ -53,12 +56,18 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 ### Input configuration
 #
 # Example configuration:
-#
-input "$TOUCHPAD_NAME" {
+# input "$TOUCHPAD_NAME" {
+#    dwt enabled
+#    tap enabled
+#    natural_scroll enabled
+#    middle_emulation enabled
+#}
+
+
+input type:touchpad {
     dwt enabled
     tap enabled
     natural_scroll enabled
-    middle_emulation enabled
 }
 
 # You can get the names of your inputs by running: swaymsg -t get_inputs
@@ -75,7 +84,8 @@ input "$TOUCHPAD_NAME" {
     bindsym $mod+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+d exec $menu1
+    bindsym $mod+Shift+d exec $menu2
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.

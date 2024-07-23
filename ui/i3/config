@@ -218,18 +218,7 @@ bindsym $mod+Shift+s exec --no-startup-id flameshot gui
 
 
 # Application shortcuts
-#
 
-
-bindsym $mod+u exec jumpapp $BROWSER
-bindsym $mod+Shift+u exec jumpapp firefox-developer-edition
-
-bindsym $mod+m exec $BROWSER https://outlook.office.com/mail/inbox
-bindsym $mod+Shift+m exec  $BROWSER https://gmail.com
-
-bindsym $mod+t exec jumpapp $TERMINAL
-bindsym $mod+Shift+t exec $BROWSER -stable https://ticktick.com/webapp/#q/all/habit
-    
 bindsym $mod+n workspace next
 bindsym $mod+p workspace prev
 
