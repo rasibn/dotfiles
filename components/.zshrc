@@ -60,7 +60,7 @@ git_config_home() {
 }
 
 # CORE ALIAS
-alias ls="eza"
+# alias ls="eza"
 alias ta="tmux a"
 alias cls="clear"
 alias cat="bat"
