@@ -116,15 +116,19 @@ config_nixos:
 # ----------------------------- INSTALL --------------------------
 
 install_i3_pc:
-	yay -S neovim zsh tmux picom i3status-rs rofi vifm vim eza zoxide fd rg bat flameshot
-	yay -S htop-vim catppuccin-gtk-theme rofi-search catppuccin-cursor ttf-jetbrains-mono-nerd i3status-rs
+	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat
+	yay -S htop-vim catppuccin-gtk-theme rofi-search catppuccin-cursor ttf-jetbrains-mono-nerd picom flameshot nitrogen i3status-rs rofi  brightness-ctl
 
+install_sway_pc:
+	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat
+	yay -S htop-vim catppuccin-gtk-theme rofi-search catppuccin-cursor ttf-jetbrains-mono-nerd waybar rofi-wayland grim swaybg brightness-ctl
+
+
+install_macos:
+	brew install nvim zsh tmux eza zoxide fd gh bat gh
 # TODO: add ripgrep
 # TODO: Add jebrains mono font
 # TODO: Add ui tools --casks
-
-install_macos:
-	brew install nvim tmux zsh gh eza zoxide fd gh bat
 
 install_phone:
 	pkg install fish nvim tmux zoxide fd eza bat

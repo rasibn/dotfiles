@@ -239,31 +239,8 @@ bindsym Print+r mode "resize"
 #
 
 # broswer row
-    bindsym $mod+y exec vivaldi-stable 
-    bindsym $mod+Shift+y exec vivaldi-stable https://youtube.com
-
-    bindsym $mod+u exec vivaldi-stable https:github.com
-    bindsym $mod+Shift+u exec vivaldi-stable http:://localhost:3000
-    bindsym $mod+o exec vivaldi-stable https://outlook.office.com/mail/inbox
-    bindsym $mod+Shift+o exec vivaldi-stable https://gmail.com
-
-    bindsym $mod+t exec vivaldi-stable https://ticktick.com/webapp/#q/all/habit
-    bindsym $mod+Shift+t exec vivaldi-stable https://www.notion.so
-    
-    bindsym $mod+x exec vivaldi-stable https://chat.openai.com
-    bindsym $mod+Shift+x exec vivaldi-stable https://phind.com
-
-    #utlity row 
-    bindsym $mod+n exec thunar
-    bindsym $mod+Shift+n exec code
-
-    
-    bindsym $mod+m exec anki
-    bindsym $mod+Shift+m exec obsidian
-    bindsym $mod+z focus child
-# Screenshots
-    # bindsym print exec /usr/share/sway/scripts/grimshot --notify save output
-
+#  Screenshots
+# bindsym print exec /usr/share/sway/scripts/grimshot --notify save output
     
     # capture the specified screen area to clipboard    
     bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy    
