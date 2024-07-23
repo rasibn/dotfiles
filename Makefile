@@ -18,16 +18,21 @@ config_fish:
 	rm -rf ~/.config/fish; ln -s $(HOME)/Projects/dotfiles/components/fish ~/.config/fish
 
 config_zsh:
+	rm -rf ~/.oh-my-zsh;
+	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	rm ~/.zshrc; ln -s $(HOME)/Projects/dotfiles/components/.zshrc ~/.zshrc
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
 	git clone https://github.com/jeffreytse/zsh-vi-mode.git ~/.oh-my-zsh/custom/plugins/zsh-vi-mode
+	chsh -s $$(which zsh)
 
 # MULTIPLEX
 config_tmux:
 	rm ~/.tmux.conf; ln -s $(HOME)/Projects/dotfiles/components/.tmux.conf ~/.tmux.conf
+	rm -rf ~/.tmux/plugins/tpm;
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 config_zellij:
 	rm ~/.config/zellij; ln -s $(HOME)/Projects/dotfiles/components/zellij ~/.config/zellij
 
