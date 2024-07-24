@@ -26,9 +26,9 @@ return {
     opts = {
       -- colorscheme = "habamax",
       -- colorscheme = "github_dark_dimmed",
-      -- colorscheme = "vscode"
+      colorscheme = "vscode"
       -- colorscheme = "tokyonight",
-      colorscheme = "catppuccin",
+      -- colorscheme = "catppuccin",
     },
   },
 }
