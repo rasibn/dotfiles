@@ -8,6 +8,7 @@ set -gx EDITOR nvim
 # Command aliases
 alias cls="clear"
 alias reader="zathura"
+alias ta = "tmux a"
 alias tvim ="tmux & $EDITOR"
 alias conf='cd ~/.config/'
 alias notes="cd ~/Projects/Vault/ && $EDITOR"
