@@ -91,6 +91,7 @@ git_config_work:
 	fi && \
 	git config --global user.name "Rasib Nadeem" && \
 	git config --global user.email "$$WORK_EMAIL" && \
+	git config --global init.defaultBranch main
 	echo "Configured Git for work with email: $$WORK_EMAIL"
 
 git_config_home:
@@ -105,6 +106,7 @@ git_config_home:
 	fi && \
 	git config --global user.name "Rasib Nadeem" && \
 	git config --global user.email "$$HOME_EMAIL" && \
+	git config --global init.defaultBranch main
 	echo "Configured Git for home with email: $$HOME_EMAIL"
 
 # ----------------------------- NIXOS -----------------------------
