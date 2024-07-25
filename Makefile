@@ -33,6 +33,11 @@ config_tmux:
 	rm -rf ~/.tmux/plugins/tpm;
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+config_tmux_mob:
+	rm ~/.tmux.conf; ln -s $(HOME)/Projects/dotfiles/mobile/.tmux.conf ~/.tmux.conf
+	rm -rf ~/.tmux/plugins/tpm;
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 config_zellij:
 	rm ~/.config/zellij; ln -s $(HOME)/Projects/dotfiles/components/zellij ~/.config/zellij
 
@@ -131,7 +136,7 @@ install_macos:
 # TODO: Add jebrains mono font
 # TODO: Add ui tools --casks
 
-install_phone:
+install_vm:
 	pkg install fish nvim tmux zoxide fd eza bat
 
 # ----------------------------- PUBLIC COMMANDS -------------------
@@ -139,6 +144,7 @@ install_phone:
 setup_macos:  config_nvim     config_tmux config_zsh git_config_work git_config_nvim                            install_macos
 setup_i3_pc:  config_nvim     config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm install_i3_pc config_i3_ui
 setup_nixos:  config_nvim     config_tmux            git_config_home git_config_nvim config_fish config_wezterm               config_nixos
-setup_phone:  config_nvim_mob config_tmux            git_config_home                 config_fish                install_phone
+setup_phone:  config_nvim_mob config_tmux_mob            git_config_home                 config_fish                install_vm
+setup_vm:  config_nvim config_tmux_mob            git_config_home                 config_fish                install_vm
 
 setup_i3_laptop: setup_i3 config_xresources
