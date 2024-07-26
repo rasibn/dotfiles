@@ -39,7 +39,7 @@ alias adb="$HOME/Android/Sdk/platform-tools/adb"
 
 source $HOME/Projects/dotfiles/secrets.sh
 
-git_config_work() {
+git_config_work_local() {
     if [ -z "$WORK_EMAIL" ]; then
         echo "WORK_EMAIL environment variable is not set."
         return 1
@@ -49,7 +49,7 @@ git_config_work() {
     echo "Configured Git for work with email: $WORK_EMAIL"
 }
 
-git_config_home() {
+git_config_home_local() {
     if [ -z "$HOME_EMAIL" ]; then
         echo "HOME_EMAIL environment variable is not set."
         return 1
