@@ -77,6 +77,8 @@ config_picom:
 config_xresources:
 	rm ~/.Xresources; ln -s $(HOME)/Projects/dotfiles/ui/.Xresources ~/.Xresources
 
+config_aerospace:
+	rm ~/.aerospace.toml; ln -s $(HOME)/Projects/dotfiles/ui/macos/.aerospace.toml ~/.aerospace.toml
 
 # ------------------------------ GIT -----------------------------
 
@@ -132,19 +134,20 @@ install_sway_pc:
 
 install_macos:
 	brew install nvim zsh tmux eza zoxide fd gh bat gh
-# TODO: add ripgrep
-# TODO: Add jebrains mono font
-# TODO: Add ui tools --casks
+
+install_macos_cask:
+	brew install --cask font-jetbrains-mono-nerd-font wezterm
+	brew install --cask nikitabobko/tap/aerospace chatgpt
 
 install_vm:
 	pkg install fish nvim tmux zoxide fd eza bat
 
 # ----------------------------- PUBLIC COMMANDS -------------------
 
-setup_macos:  config_nvim     config_tmux config_zsh git_config_work git_config_nvim                            install_macos
+setup_macos:  config_nvim     config_tmux config_zsh git_config_work git_config_nvim                            install_macos config_aerospace
 setup_i3_pc:  config_nvim     config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm install_i3_pc config_i3_ui
 setup_nixos:  config_nvim     config_tmux            git_config_home git_config_nvim config_fish config_wezterm               config_nixos
-setup_phone:  config_nvim_mob config_tmux_mob            git_config_home                 config_fish                install_vm
-setup_vm:  config_nvim config_tmux_mob            git_config_home                 config_fish                install_vm
+setup_phone:  config_nvim_mob config_tmux_mob            git_config_home             config_fish                install_vm
+setup_vm:     config_nvim     config_tmux_mob            git_config_home             config_fish                install_vm
 
 setup_i3_laptop: setup_i3 config_xresources
