@@ -9,4 +9,5 @@
 **/nvim/lazy-locky.json
 **/nvim/lazyvim.json
 **/vifm/vifminfo.json
+ui/sway/config.d/config-extras
 secrets.sh

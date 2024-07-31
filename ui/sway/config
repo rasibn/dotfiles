@@ -9,8 +9,9 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
-set $monitor_left "DP-4"
-set $monitor_right "DP-3"
+# Example
+# ln -s /home/rasib/Projects/dotfiles/ui/sway/platform-specific/config-sway-pc /home/rasib/Projects/dotfiles/ui/sway/config.d/config-extras
+include $HOME/.config/sway/config.d/*
 
 # Home row direction keys, like vim
 set $left h
@@ -59,6 +60,9 @@ input type:touchpad {
     tap enabled
     natural_scroll enabled
 }
+
+# input "type:keyboard" xkb_options caps:escapec
+input "type:keyboard" xkb_options caps:swapescape
 
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -248,35 +252,63 @@ bindsym XF86AudioPrev exec playerctl previous
 # Backlight
 #
 bindsym XF86MonBrightnessUp exec brightnessctl -c backlight set +5%
-bindsym XF86MonBrightnessDown exec brightnessctl -c backlight set 5%-
+bindsym XF86MonBrightnessDown exec brightnessctl -c backlight set 5%
 
 #
 # Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
+set $rosewater #f5e0dc
+set $flamingo  #f2cdcd
+set $pink      #f5c2e7
+set $mauve     #cba6f7
+set $red       #f38ba8
+set $maroon    #eba0ac
+set $peach     #fab387
+set $yellow    #f9e2af
+set $green     #a6e3a1
+set $teal      #94e2d5
+set $sky       #89dceb
+set $sapphire  #74c7ec
+set $blue      #89b4fa
+set $lavender  #b4befe
+set $text      #cdd6f4
+set $subtext1  #bac2de
+set $subtext0  #a6adc8
+set $overlay2  #9399b2
+set $overlay1  #7f849c
+set $overlay0  #6c7086
+set $surface2  #585b70
+set $surface1  #45475a
+set $surface0  #313244
+set $base      #1e1e2e
+set $mantle    #181825
+set $crust     #11111b
+
+
+#                        border background text indicator child_border
+client.focused           $lavender $surface1 $text  $rosewater $lavender
+client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
+client.unfocused         $overlay0 $base $text  $rosewater $overlay0
+client.urgent            $peach    $base $peach $overlay0  $peach
+client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
+client.background        $base
+
 bar {
-    position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
+        position bottom
+        status_command i3status-rs
+        font pango:JetBrainsMono Nerd Font, DejaVu Sans Mono, FontAwesome 10
+        
+        colors {
+           background         $base
+           statusline         $text
+           focused_statusline $text
+           active_workspace   $base $text $blue
+           focused_separator  $base
+           focused_workspace  $base $base $green
+           active_workspace   $base $base $blue
+           inactive_workspace $base $base $surface1
+           urgent_workspace   $base $base $surface1
+           binding_mode       $base $base $surface1
+         }
 }
-
-workspace $ws1 output $monitor_left
-workspace $ws2 output $monitor_left
-workspace $ws3 output $monitor_left
-workspace $ws4 output $monitor_left
-workspace $ws5 output $monitor_left
-workspace $ws6 output $monitor_right
-workspace $ws7 output $monitor_right
-workspace $ws8 output $monitor_right
-workspace $ws9 output $monitor_right
-workspace $ws10 output $monitor_right
 
 include /etc/sway/config.d/*

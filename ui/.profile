@@ -5,7 +5,6 @@ export EDITOR="nvim"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
-source /home/rasib/Projects/dotfiles/secrets.sh
 # export ROFI_SEARCH='ddgr'
 export ROFI_SEARCH='cse'
 

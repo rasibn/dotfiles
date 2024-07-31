@@ -54,14 +54,13 @@ config_wezterm:
 
 config_i3_ui: config_xprofile config_i3 config_rofi config_i3status_rust config_picom config_xresources
 
-config_xprofile:
+config_profile:
 	rm ~/.zprofile; ln -s $(HOME)/Projects/dotfiles/ui/.profile ~/.zprofile
 	rm ~/.profile; ln -s $(HOME)/Projects/dotfiles/ui/.profile ~/.profile
 
 config_sway:
 	rm -rf ~/.config/sway;
-	mkdir ~/.config/sway;
-	ln -s $(HOME)/Projects/dotfiles/ui/sway ~/.config/sway/config
+	ln -s $(HOME)/Projects/dotfiles/ui/sway ~/.config/sway
 
 config_i3:
 	rm ~/.config/i3; ln -s $(HOME)/Projects/dotfiles/ui/i3 ~/.config/i3
@@ -151,7 +150,7 @@ setup_macos:  config_nvim     config_tmux config_zsh git_config_work git_config_
 setup_i3_pc:  config_nvim     config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm install_i3_pc config_i3_ui
 setup_nixos:  config_nvim     config_tmux            git_config_home git_config_nvim config_fish config_wezterm               config_nixos
 setup_phone:  config_nvim_mob config_tmux_mob            git_config_home             config_fish                install_vm
-setup_sway_pc:  config_nvim     config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm  config_sway
+setup_sway_pc:  config_nvim     config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm  config_sway config_rofi config_i3status_rust
 setup_vm:     config_nvim     config_tmux_mob            git_config_home             config_fish                install_vm
 
 setup_i3_laptop: setup_i3 config_xresources
