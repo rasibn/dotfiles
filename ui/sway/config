@@ -95,7 +95,8 @@ input "type:keyboard" xkb_options caps:swapescape
 
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    # bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Shift+e exec ~/.config/sway/scripts/powermenu
 #
 # Moving around:
 #
@@ -285,10 +286,10 @@ set $crust     #11111b
 
 
 #                        border background text indicator child_border
-client.focused           $lavender $surface1 $text  $rosewater $lavender
-client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
+client.focused           $overlay0 $mauve $base $rosewater $lavender
+client.focused_inactive  $overlay0 $overlay0 $base $rosewater $overlay0
 client.unfocused         $overlay0 $base $text  $rosewater $overlay0
-client.urgent            $peach    $base $peach $overlay0  $peach
+client.urgent            $overlay0 $base $base $overlay0  $peach
 client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
 
