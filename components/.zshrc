@@ -26,7 +26,7 @@ alias weztermconfig="$EDITOR ~/.wezterm.lua"
 alias i3rustconfig="$EDITOR $HOME/.config/i3status-rust/config.toml"
 alias picomconfig="$EDITOR $HOME/.config/picom.conf"
 alias vifmconfig="$EDITOR $HOME/.config/vifm/vifmrc"
-alias tmuxconfig="$EDITOR $HOME/Projects/.tmux.conf"
+alias tmuxconfig="$EDITOR $HOME/.tmux.conf"
 alias zshconfig="$EDITOR $HOME/.zshrc"
 alias i3config="$EDITOR $HOME/.config/i3/config"
 

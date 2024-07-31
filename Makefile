@@ -132,7 +132,7 @@ install_i3_pc:
 install_sway_pc:
 	yay -S go
 	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat
-	yay -S sway swaync htop-vim catppuccin-gtk-theme-mocha rofi-search-git catppuccin-cursors-mocha ttf-jetbrains-mono-nerd waybar rofi-wayland wl-clipboard grim swaybg brightnessctl
+	yay -S sway swaync htop-vim catppuccin-gtk-theme-mocha rofi-search-git catppuccin-cursors-mocha ttf-jetbrains-mono-nerd waybar rofi-wayland wl-clipboard grim swaybg brightnessctl i3status-rs nwg-look
 
 install_macos:
 	brew install nvim zsh tmux eza zoxide fd gh bat gh
