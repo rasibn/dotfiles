@@ -35,7 +35,7 @@ config_tmux:
 
 config_tmux_mob:
 	rm ~/.tmux.conf; ln -s $(HOME)/Projects/dotfiles/mobile/.tmux.conf ~/.tmux.conf
-	rm -rf ~/.tmux/plugins/tpm;
+	rm -rf ~/.tmux/plugins/tpm; 
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 config_zellij:
@@ -59,7 +59,9 @@ config_xprofile:
 	rm ~/.profile; ln -s $(HOME)/Projects/dotfiles/ui/.profile ~/.profile
 
 config_sway:
-	rm ~/.config/sway; ln -s $(HOME)/Projects/dotfiles/ui/sway ~/.config/sway/config
+	rm -rf ~/.config/sway;
+	mkdir ~/.config/sway;
+	ln -s $(HOME)/Projects/dotfiles/ui/sway ~/.config/sway/config
 
 config_i3:
 	rm ~/.config/i3; ln -s $(HOME)/Projects/dotfiles/ui/i3 ~/.config/i3
@@ -126,11 +128,12 @@ config_nixos:
 
 install_i3_pc:
 	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat
-	yay -S htop-vim catppuccin-gtk-theme rofi-search catppuccin-cursor ttf-jetbrains-mono-nerd picom flameshot nitrogen i3status-rs rofi  brightness-ctl
+	yay -S htop-vim catppuccin-gtk-theme-mocha rofi-search-git catppuccin-cursors-mocha ttf-jetbrains-mono-nerd picom flameshot nitrogen i3status-rs rofi  brightnessctl
 
 install_sway_pc:
+	yay -S go
 	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat
-	yay -S htop-vim catppuccin-gtk-theme rofi-search catppuccin-cursor ttf-jetbrains-mono-nerd waybar rofi-wayland grim swaybg brightness-ctl
+	yay -S sway swaync htop-vim catppuccin-gtk-theme-mocha rofi-search-git catppuccin-cursors-mocha ttf-jetbrains-mono-nerd waybar rofi-wayland wl-clipboard grim swaybg brightnessctl
 
 install_macos:
 	brew install nvim zsh tmux eza zoxide fd gh bat gh
@@ -148,6 +151,7 @@ setup_macos:  config_nvim     config_tmux config_zsh git_config_work git_config_
 setup_i3_pc:  config_nvim     config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm install_i3_pc config_i3_ui
 setup_nixos:  config_nvim     config_tmux            git_config_home git_config_nvim config_fish config_wezterm               config_nixos
 setup_phone:  config_nvim_mob config_tmux_mob            git_config_home             config_fish                install_vm
+setup_sway_pc:  config_nvim     config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm  config_sway
 setup_vm:     config_nvim     config_tmux_mob            git_config_home             config_fish                install_vm
 
 setup_i3_laptop: setup_i3 config_xresources
