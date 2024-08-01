@@ -5,12 +5,21 @@ command_exists() {
 }
 
 # Use fd if available, otherwise use find
-if command_exists fd; then
-  FILE=$(fd --type f --search-path ~/Projects --search-path ~/work --follow --hidden --exclude .git | fzf)
+# Update search paths if a directory argument is provided
+if [[ -n "$1" ]]; then
+  if command_exists fd; then
+    FILE=$(fd --type f --search-path "$1" --follow --hidden --exclude .git | fzf)
+  else
+    FILE=$(find "$1" -type f | fzf)
+  fi
 else
-  FILE=$(find ~/Projects ~/work -type f | fzf)
-fi
+  if command_exists fd; then
+    FILE=$(fd --type f --search-path ~/Projects --search-path ~/work --follow --hidden --exclude .git | fzf)
+  else
+    FILE=$(find ~/Projects ~/work -type f | fzf)
+  fi
 
+fi
 # Check if a file was selected
 if [[ -z "$FILE" ]]; then
   echo "No file selected."
