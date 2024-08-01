@@ -60,7 +60,7 @@ local opts = {
   },
 }
 
-local os_name = vim.loop.os_uname().sysname
+local os_name = vim.uv.os_uname().sysname
 
 if os_name ~= "Darwin" then
   return opts
