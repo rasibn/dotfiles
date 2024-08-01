@@ -4,7 +4,6 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
-# Use fd if available, otherwise use find
 # Update search paths if a directory argument is provided
 if [[ -n "$1" ]]; then
   if command_exists fd; then
