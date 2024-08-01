@@ -287,9 +287,9 @@ set $crust     #11111b
 
 #                        border background text indicator child_border
 client.focused           $overlay2 $sapphire $base $rosewater $lavender
-client.focused_inactive  $overlay0 $surface0 $text $rosewater $overlay0
-client.unfocused         $overlay0 $crust $text  $rosewater $overlay0
-client.urgent            $overlay0 $peach $base $overlay0  $peach
+client.focused_inactive  $sapphire $mantle $text $rosewater $overlay0
+client.unfocused         $overlay0 $mantle $text $rosewater $overlay0
+client.urgent            $red $mantle $text $overlay0 $peach
 client.placeholder       $overlay0 $lavender $text $overlay0  $overlay0
 client.background        $base
 
