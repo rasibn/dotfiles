@@ -19,6 +19,7 @@ else
   fi
 
 fi
+
 # Check if a file was selected
 if [[ -z "$FILE" ]]; then
   echo "No file selected."
