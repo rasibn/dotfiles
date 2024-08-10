@@ -115,3 +115,15 @@ return {
 | `<leader><tab>`]    | Next Tab         | n    |
 | `<leader><tab>d`    | Close Tab        | n    |
 | `<leader><tab>`[    | Previous Tab     | n    |
+
+## Resizing Splits
+
+- Resizing splits with
+  - `100<ctrl>w<`
+  - `100<ctrl>w>`
+  or
+  - `100<leader>w<`
+  - `100<leader>w>`
+
+- You can use `+` and `-` for vertical resizing , and there is also a
+  `:resize 10` command
