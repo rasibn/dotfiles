@@ -44,9 +44,9 @@ git_config_work_local() {
         echo "WORK_EMAIL environment variable is not set."
         return 1
     fi
-    git config --global user.name "Rasib Nadeem"
-    git config --global user.email "$WORK_EMAIL"
-    echo "Configured Git for work with email: $WORK_EMAIL"
+    git config user.name "Rasib Nadeem"
+    git config user.email "$WORK_EMAIL"
+    echo "Configured Git locally for work with email: $WORK_EMAIL"
 }
 
 git_config_home_local() {
@@ -54,9 +54,9 @@ git_config_home_local() {
         echo "HOME_EMAIL environment variable is not set."
         return 1
     fi
-    git config --global user.name "Rasib Nadeem"
-    git config --global user.email "$HOME_EMAIL"
-    echo "Configured Git for home with email: $HOME_EMAIL"
+    git config user.name "Rasib Nadeem"
+    git config user.email "$HOME_EMAIL"
+    echo "Configured Git locally for home with email: $HOME_EMAIL"
 }
 
 # CORE ALIAS
