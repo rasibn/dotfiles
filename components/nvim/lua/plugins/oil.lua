@@ -5,6 +5,8 @@ return {
   keys = {
     { "<leader>fe", "<cmd>Oil<CR>", desc = "Oil file Explorer" },
     { "<leader>e", "<cmd>Oil<CR><C-p>", desc = "Oil file Explorer (Preview)" },
+    { "<c-l>", false },
+    { "<C-h>", false },
   },
   opts = {
     default_file_explorer = true,

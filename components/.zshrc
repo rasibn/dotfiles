@@ -61,6 +61,7 @@ git_config_home_local() {
 
 # CORE ALIAS
 # alias ls="eza"
+alias vim="nvim --clean"
 alias ta="tmux a"
 alias cls="clear"
 alias cat="bat"
