@@ -59,8 +59,22 @@ git_config_home_local() {
     echo "Configured Git locally for home with email: $HOME_EMAIL"
 }
 
+tmux_session_init_code() {
+    # Create session CODE with windows: nvim, zsh, and running
+    tmux new-session -d -s CODE -n nvim          # Create CODE session with 'nvim' window
+    tmux new-window -t CODE -n running           # Add 'running' window to CODE session
+    tmux new-window -t CODE -n zsh               # Add 'zsh' window to CODE session
+    tmux attach-session -t CODE
+}
+
+tmux_session_init_config() {
+    tmux new-session -d -s CONFIG
+    tmux attach-session -t CONFIG
+}
+
 # CORE ALIAS
 # alias ls="eza"
+alias oil="nvim +"Oil""
 alias vim="nvim --clean"
 alias ta="tmux a"
 alias cls="clear"
