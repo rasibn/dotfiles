@@ -9,5 +9,6 @@
 **/nvim/lazy-locky.json
 **/nvim/lazyvim.json
 **/vifm/vifminfo.json
+**/.DS_Store
 ui/sway/config.d/config-extras
 secrets.sh
