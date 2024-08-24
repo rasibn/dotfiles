@@ -25,7 +25,7 @@ alias swayconfig="$EDITOR ~/.config/sway/"
 alias proji="~/Projects/dotfiles/components/scripts/tmux-sessionizer.sh"
 alias nvimi="~/Projects/dotfiles/components/scripts/nvim-fzf-opener-preview.sh"
 alias vimi="~/Projects/dotfiles/components/scripts/nvim-fzf-opener.sh"
-
+alias git-undo="git reset --soft HEAD^"
 
 function git_config_work_global
     if not set -q WORK_EMAIL
