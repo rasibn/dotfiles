@@ -81,6 +81,11 @@ alias cls="clear"
 alias cat="bat"
 alias wife="nmtui"
 alias git-undo="git reset --soft HEAD^"
+if command -v python3 &> /dev/null; then
+    alias py="python3"
+elif command -v python &> /dev/null; then
+    alias py="python"
+fi
 
 # XRANDR ALIAS
 alias xrandrscaleup="xrandr --output eDP-1 --scale 0.95x0.95"
