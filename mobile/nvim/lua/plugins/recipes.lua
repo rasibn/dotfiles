@@ -1,4 +1,6 @@
 -- lazyvim.org/configuration/recipes
+return {}
+
 return {
   -- Fix clangd offset encoding
   {
