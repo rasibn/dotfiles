@@ -82,6 +82,7 @@ config_aerospace:
 # ------------------------------ GIT -----------------------------
 
 git_config_nvim:
+	git config --global core.editor "vim"
 	git config --global core.excludesfile ~/.gitignore
 	echo "**/Session.vim" > ~/.gitignore
 
