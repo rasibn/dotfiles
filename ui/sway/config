@@ -216,6 +216,7 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+bindsym $mod+m exec $HOME/.config/sway/platform-specific/toggle.sh
 
 bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
 # capture the focused monitor to clipboard
