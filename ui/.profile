@@ -1,7 +1,10 @@
 export TERMINAL="wezterm"
 export EDITOR="nvim"
 
+# For Mac
 export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
+
+# For Unix in general
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
