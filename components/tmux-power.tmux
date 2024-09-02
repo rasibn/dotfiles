@@ -27,7 +27,7 @@ session_icon="$(tmux_get '@tmux_power_session_icon' '')"
 user_icon="$(tmux_get '@tmux_power_user_icon' '')"
 time_icon="$(tmux_get '@tmux_power_time_icon' '')"
 date_icon="$(tmux_get '@tmux_power_date_icon' '')"
-show_user="$(tmux_get @tmux_power_show_user true)"
+show_user="$(tmux_get @tmux_power_show_user false)"
 show_upload_speed="$(tmux_get @tmux_power_show_upload_speed false)"
 show_download_speed="$(tmux_get @tmux_power_show_download_speed false)"
 show_web_reachable="$(tmux_get @tmux_power_show_web_reachable false)"
@@ -120,17 +120,16 @@ user=$(whoami)
 
 if "$show_user"; then
   # this one is for showing host name and user name
-  LS="#[fg=$G04,bg=$TC,bold] $user_icon $user@#h #[fg=$TC,bg=$G06,nobold]$rarrow#[fg=$TC,bg=$G06] $session_icon #S "
+  # LS="#[fg=$G04,bg=$TC,bold] $user_icon $user@#h #[fg=$TC,bg=$G06,nobold]$rarrow#[fg=$TC,bg=$G06] $session_icon #S "
   # this one is when you only want to show user name
   LS="#[fg=$G04,bg=$TC,bold] $user_icon $user #[fg=$TC,bg=$G06,nobold]$rarrow#[fg=$TC,bg=$G06] $session_icon #S "
 else
-  LS="$LS#[fg=$G06,bg=$BG]"
+  # LS="$LS#[fg=$G06,bg=$BG]"
+  LS="#[fg=$G06,bg=$TC] $session_icon #S#[fg=$TC,bg=$BG]$rarrow"
 fi
 
 if "$show_upload_speed"; then
   LS="$LS#[fg=$G06,bg=$G05]$rarrow#[fg=$TC,bg=$G05] $upload_speed_icon #{upload_speed} #[fg=$G05,bg=$BG]$rarrow"
-else
-  LS="$LS#[fg=$G06,bg=$BG]$rarrow"
 fi
 
 if [[ $prefix_highlight_pos == 'L' || $prefix_highlight_pos == 'LR' ]]; then
