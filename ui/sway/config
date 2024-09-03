@@ -9,6 +9,9 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
+set $font "Inter Regular 8"
+font pango: $font
+
 # Example
 # ln -s /home/rasib/Projects/dotfiles/ui/sway/platform-specific/config-sway-pc /home/rasib/Projects/dotfiles/ui/sway/config.d/config-extras
 include $HOME/.config/sway/config.d/*
@@ -287,8 +290,8 @@ set $crust     #11111b
 
 
 #                        border background text indicator child_border
-client.focused           $overlay2 $sapphire $base $rosewater $lavender
-client.focused_inactive  $sapphire $mantle $text $rosewater $overlay0
+client.focused           $overlay2 $mauve $base $rosewater $lavender
+client.focused_inactive  $mauve $mantle $text $rosewater $overlay0
 client.unfocused         $overlay0 $mantle $text $rosewater $overlay0
 client.urgent            $red $mantle $text $overlay0 $peach
 client.placeholder       $overlay0 $lavender $text $overlay0  $overlay0
@@ -297,7 +300,7 @@ client.background        $base
 bar {
         position bottom
         status_command i3status-rs
-        font pango:JetBrainsMono Nerd Font, DejaVu Sans Mono, FontAwesome 10
+        font pango:JetBrainsMono Nerd Font, DejaVu Sans Mono, FontAwesome 8
         
         colors {
            background         $crust
