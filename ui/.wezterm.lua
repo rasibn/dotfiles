@@ -33,7 +33,8 @@ if is_linux() then
 end
 
 if is_darwin() then
-	config.font_size = 15
+	config.font_size = 16
+	config.enable_tab_bar = false
 end
 
 config.window_close_confirmation = "NeverPrompt"
