@@ -3,7 +3,7 @@ icons_format = "{icon}"
 [theme]
 theme = "ctp-mocha"
 [theme.overrides]
-info_bg = "#0ab387"
+info_bg = "#f5c2e7"
 idle_bg = "#11111b"
 [icons]
 icons = "material-nf"

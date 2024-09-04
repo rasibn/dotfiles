@@ -116,6 +116,8 @@ git_config_home:
 	git config --global init.defaultBranch main
 	echo "Configured Git for home with email: $$HOME_EMAIL"
 
+global_ignore:
+	rm ~/.ignore; ln -s $(HOME)/Projects/dotfiles/components/.ignore ~/.ignore
 # ----------------------------- NIXOS -----------------------------
 
 config_nixos:
@@ -124,24 +126,25 @@ config_nixos:
 
 # ----------------------------- INSTALL --------------------------
 
-install_i3_pc:
-	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat
+install_i3_pc: global_ignore
+	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat starship
 	yay -S htop-vim catppuccin-gtk-theme-mocha rofi-search-git catppuccin-cursors-mocha ttf-jetbrains-mono-nerd picom flameshot nitrogen i3status-rs rofi  brightnessctl gnome-keyring
 
-install_sway_pc:
+install_sway_pc: global_ignore
 	yay -S go
-	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat
-	yay -S sway swaync slurp htop-vim catppuccin-gtk-theme-mocha rofi-search-git catppuccin-cursors-mocha ttf-jetbrains-mono-nerd waybar rofi-wayland wl-clipboard grim swaybg brightnessctl i3status-rs nwg-look gnome-keyring
+	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat starship
+	yay -S sway swaync slurp htop-vim catppuccin-gtk-theme-mocha rofi-search-git catppuccin-cursors-mocha ttf-jetbrains-mono-nerd waybar rofi-wayland wl-clipboard grim swaybg brightnessctl i3status-rs nwg-look gnome-keyring swayidle wl-mirror
 
-install_macos:
-	brew install nvim zsh tmux eza zoxide fd gh bat gh
+install_macos:global_ignore
+	brew install nvim zsh tmux eza zoxide fd gh bat gh starship
 
 install_macos_cask:
 	brew install --cask font-jetbrains-mono-nerd-font wezterm
 	brew install --cask nikitabobko/tap/aerospace chatgpt
 
-install_vm:
+install_vm: global_ignore
 	pkg install fish nvim tmux zoxide fd eza bat
+	rm ~/.ignore; ln -s $(HOME)/Projects/dotfiles/components/.ignore ~/.ignore
 
 # ----------------------------- PUBLIC COMMANDS -------------------
 
