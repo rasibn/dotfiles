@@ -12,8 +12,9 @@ assign [app_id="Kodi"] 6
 for_window [app_id="Kodi"] focus
 
 
-# for_window [app_id="xed"] focus
-
+assign [app_id="at.yrlf.wl_mirror"] 6
+for_window [app_id="at.yrlf.wl_mirror"] focus
+for_window [app_id="at.yrlf.wl_mirror"] fullscreen enable
 
 # set floating (nontiling)for apps needing it:
 for_window [class="Yad" instance="yad"] floating enable
