@@ -1,4 +1,5 @@
-DIR := $(HOME)/Projects/dotfiles
+DIR := $(DOTFILE_DIR)
+# DIR := $(HOME)/Projects/dotfiles
 
 # ------------------------------ CLIs ---------------------------------
 
