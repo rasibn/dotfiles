@@ -13,7 +13,7 @@ set $font "Inter Regular 6"
 font pango: $font
 
 # Example
-# ln -s /home/rasib/Projects/dotfiles/ui/sway/platform-specific/config-sway-pc /home/rasib/Projects/dotfiles/ui/sway/config.d/config-extras
+# ln -s $(DOTFILE_DIR)/ui/sway/platform-specific/config-sway-pc $(DOTFILE_DIR)/ui/sway/config.d/config-extras
 include $HOME/.config/sway/config.d/*
 
 # Home row direction keys, like vim
@@ -35,7 +35,7 @@ set $menu2 "rofi -combi-modi window,drun -show combi -show-icons"
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg $HOME/Projects/dotfiles/ui/wallpapers/dark-cat-rosewater.png fill
+output * bg $(DOTFILE_DIR)/ui/wallpapers/dark-cat-rosewater.png fill
 #
 # Example configuration:
 #
