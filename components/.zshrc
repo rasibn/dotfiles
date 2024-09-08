@@ -11,6 +11,8 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+source ~/projects/dotfiles/.env
+source "$DOTFILE_DIR/secrets.sh"
 
 alias dotfiles="cd $DOTFILE_DIR"
 alias dot="cd $DOTFILE_DIR"
@@ -37,7 +39,6 @@ alias zel="zellij"
 
 alias adb="$HOME/Android/Sdk/platform-tools/adb"
 
-source $DOTFILE_DIR/secrets.sh
 
 git_config_work_local() {
     if [ -z "$WORK_EMAIL" ]; then
