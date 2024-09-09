@@ -4,6 +4,7 @@ end
 
 set -gx EDITOR nvim
 
+source ~/projects/dotfiles/secrets.fish
 # Command aliases
 alias cls="clear"
 alias reader="zathura"
