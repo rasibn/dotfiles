@@ -1,4 +1,4 @@
-DIR := $(HOME)/Projects/dotfiles
+DIR := $(DOTFILE_DIR)
 
 # ------------------------------ CLIs ---------------------------------
 
@@ -95,12 +95,6 @@ config_aerospace:
 
 # ------------------------------ GIT -----------------------------
 
-.PHONY: git_config_nvim
-git_config_nvim:
-	git config --global core.editor "vim"
-	git config --global core.excludesfile ~/.gitignore
-	echo "**/Session.vim" > ~/.gitignore
-
 .PHONY: git_config_work
 git_config_work:
 	@if [ ! -f "$(DIR)/secrets.sh" ]; then \
@@ -183,19 +177,19 @@ install_vm: global_ignore
 # ----------------------------- PUBLIC COMMANDS -------------------
 
 .PHONY: setup_macos
-setup_macos: config_nvim config_tmux config_zsh git_config_work git_config_nvim install_macos config_aerospace
+setup_macos: config_nvim config_tmux config_zsh git_config_work install_macos config_aerospace
 
 .PHONY: setup_i3_pc
-setup_i3_pc: config_nvim config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm install_i3_pc config_i3_ui
+setup_i3_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm install_i3_pc config_i3_ui
 
 .PHONY: setup_nixos
-setup_nixos: config_nvim config_tmux git_config_home git_config_nvim config_fish config_wezterm config_nixos
+setup_nixos: config_nvim config_tmux git_config_home config_fish config_wezterm config_nixos
 
 .PHONY: setup_phone
 setup_phone: config_nvim_mob config_tmux_mob git_config_home config_fish install_vm
 
 .PHONY: setup_sway_pc
-setup_sway_pc: config_nvim config_tmux config_zsh git_config_home git_config_nvim config_fish config_wezterm config_sway config_rofi config_i3status_rust
+setup_sway_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm config_sway config_rofi config_i3status_rust
 
 .PHONY: setup_vm
 setup_vm: config_nvim config_tmux_mob git_config_home config_fish install_vm

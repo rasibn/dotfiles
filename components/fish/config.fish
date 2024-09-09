@@ -4,13 +4,13 @@ end
 
 set -gx EDITOR nvim
 
+source ~/projects/dotfiles/secrets.fish
 # Command aliases
 alias cls="clear"
 alias reader="zathura"
 alias ta ="tmux a"
-alias tvim ="tmux & $EDITOR"
 alias conf='cd ~/.config/'
-alias notes="cd ~/Projects/Vault/ && $EDITOR"
+alias notes="cd $PROJECT_DIR/Vault/ && $EDITOR"
 alias booksm='cd ~/storage/shared/Documents/Books/'
 alias notesm='cd ~/storage/shared/Documents/Vault/'
 
@@ -22,9 +22,9 @@ alias zshconfig="$EDITOR ~/.zshrc"
 alias i3config="$EDITOR ~/.config/i3/config"
 alias swayconfig="$EDITOR ~/.config/sway/"
 
-alias proji="~/Projects/dotfiles/components/scripts/tmux-sessionizer.sh"
-alias nvimi="~/Projects/dotfiles/components/scripts/nvim-fzf-opener-preview.sh"
-alias vimi="~/Projects/dotfiles/components/scripts/nvim-fzf-opener.sh"
+alias proji="$DOTFILE_DIR/components/scripts/tmux-sessionizer.sh"
+alias nvimi="$DOTFILE_DIR/components/scripts/nvim-fzf-opener-preview.sh"
+alias vimi="$DOTFILE_DIR/components/scripts/nvim-fzf-opener.sh"
 alias git-undo="git reset --soft HEAD^"
 
 function git_config_work_global
