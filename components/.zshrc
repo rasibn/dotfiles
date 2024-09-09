@@ -10,13 +10,12 @@ plugins=(
         git
 )
 
-source $HOME/projects/dotfiles/secrets.sh
 source $ZSH/oh-my-zsh.sh
 
-alias dotfiles="cd $DOTFILE_DIR"
-alias dot="cd $DOTFILE_DIR"
-alias projects="cd $PROJECT_DIR"
-alias notes="cd $PROJECT_DIR/Vault/ && git pull && $EDITOR"
+alias dotfiles="cd $HOME/Projects/dotfiles"
+alias dot="cd $HOME/Projects/dotfiles"
+alias projects="cd $HOME/Projects"
+alias notes="cd $HOME/Projects/Vault/ && git pull && $EDITOR"
 
 alias roficonfig="cd $HOME/.config/rofi/ && $EDITOR"
 alias nvimconfig="cd $HOME/.config/nvim/ && $EDITOR"
@@ -37,6 +36,8 @@ alias lg="lazygit"
 alias zel="zellij"
 
 alias adb="$HOME/Android/Sdk/platform-tools/adb"
+
+source $HOME/Projects/dotfiles/secrets.sh
 
 git_config_work_local() {
     if [ -z "$WORK_EMAIL" ]; then
@@ -59,6 +60,7 @@ git_config_home_local() {
 }
 
 tmux_session_init_code() {
+    # Create session CODE with windows: nvim, zsh, and running
     tmux new-session -d -s CODE -n nvim          # Create CODE session with 'nvim' window
     tmux new-window -t CODE -n running           # Add 'running' window to CODE session
     tmux new-window -t CODE -n zsh               # Add 'zsh' window to CODE session
@@ -90,9 +92,9 @@ alias xrandrscaleup="xrandr --output eDP-1 --scale 0.95x0.95"
 alias xrandrscalereset="xrandr --output eDP-1 --scale 1x1"
 
 # FZF ALIAS
-alias proji="$DOTFILE_DIR/components/scripts/tmux-sessionizer.sh"
-alias nvimi="$DOTFILE_DIR/scripts/nvim-fzf-opener-preview.sh"
-alias vimi="$DOTFILE_DIR/scripts/nvim-fzf-opener.sh"
+alias proji="~/Projects/dotfiles/components/scripts/tmux-sessionizer.sh"
+alias nvimi="~/Projects/dotfiles/components/scripts/nvim-fzf-opener-preview.sh"
+alias vimi="~/Projects/dotfiles/components/scripts/nvim-fzf-opener.sh"
 
 export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --exclude .git"
 # export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:45%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"

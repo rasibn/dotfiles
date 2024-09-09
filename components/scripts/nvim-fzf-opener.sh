@@ -13,9 +13,9 @@ if [[ -n "$1" ]]; then
   fi
 else
   if command_exists fd; then
-    FILE=$(fd --type f --search-path $PROJECT_DIR --search-path $WORK_DIR --follow --hidden --exclude .git | fzf)
+    FILE=$(fd --type f --search-path ~/Projects --search-path ~/work --follow --hidden --exclude .git | fzf)
   else
-    FILE=$(find $PROJECT_DIR $WORK_DIR -type f | fzf)
+    FILE=$(find ~/Projects ~/work -type f | fzf)
   fi
 
 fi
