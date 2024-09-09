@@ -9,9 +9,9 @@ if [[ $# -eq 1 ]]; then
   selected=$1
 else
   if command_exists fd; then
-    selected=$(fd . --type d --max-depth 1 ~/Projects ~/work | fzf)
+    selected=$(fd . --type d --max-depth 1 $PROJECT_DIR $WORK_DIR | fzf)
   else
-    selected=$(find ~/Projects ~/work -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find $PROJECT_DIR $WORK_DIR -mindepth 1 -maxdepth 1 -type d | fzf)
   fi
 fi
 
