@@ -91,8 +91,8 @@ alias xrandrscalereset="xrandr --output eDP-1 --scale 1x1"
 
 # FZF ALIAS
 alias proji="$DOTFILE_DIR/components/scripts/tmux-sessionizer.sh"
-alias nvimi="$DOTFILE_DIR/scripts/nvim-fzf-opener-preview.sh"
-alias vimi="$DOTFILE_DIR/scripts/nvim-fzf-opener.sh"
+alias nvimi="$DOTFILE_DIR/components/scripts/nvim-fzf-opener-preview.sh"
+alias vimi="$DOTFILE_DIR/components/scripts/nvim-fzf-opener.sh"
 
 export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --exclude .git"
 # export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:45%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
