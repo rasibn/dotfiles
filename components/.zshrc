@@ -10,7 +10,7 @@ plugins=(
         git
 )
 
-source $HOME/projects/dotfiles/secrets.sh
+source $HOME/assets/dotfiles/secrets.sh
 source $ZSH/oh-my-zsh.sh
 
 alias dotfiles="cd $DOTFILE_DIR"
