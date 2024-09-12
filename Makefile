@@ -177,7 +177,10 @@ install_vm: global_ignore
 # ----------------------------- PUBLIC COMMANDS -------------------
 
 .PHONY: setup_macos
-setup_macos: config_nvim config_tmux config_zsh git_config_work install_macos config_aerospace
+setup_macos: config_nvim config_tmux config_zsh config_aerospace config_wezterm git_config_work install_macos 
+
+.PHONY: resetup_macos
+resetup_macos: config_nvim config_tmux config_aerospace config_wezterm
 
 .PHONY: setup_i3_pc
 setup_i3_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm install_i3_pc config_i3_ui
