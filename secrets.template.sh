@@ -1,5 +1,5 @@
 export HOME_EMAIL=
 export WORK_EMAIL=
-export PROJECT_DIR=/home/rasib/projects
-export WORK_DIR=/home/rasib/work
-export DOTFILE_UIR=/home/rasib/projects/dotfiles
+export PROJECT_DIR=$HOME/projects
+export WORK_DIR=$HOME/work
+export DOTFILE_DIR=$HOME/projects/dotfiles
