@@ -1,3 +1,4 @@
+#!/bin/bash
 export HOME_EMAIL=
 export WORK_EMAIL=
 export PROJECT_DIR=$HOME/projects
