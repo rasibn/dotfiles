@@ -4,11 +4,11 @@ end
 
 set -gx EDITOR nvim
 
-source ~/projects/dotfiles/secrets.fish
+source ~/assets/dotfiles/secrets.fish
 # Command aliases
 alias cls="clear"
 alias reader="zathura"
-alias ta ="tmux a"
+alias ta="tmux a"
 alias conf='cd ~/.config/'
 alias notes="cd $PROJECT_DIR/Vault/ && $EDITOR"
 alias booksm='cd ~/storage/shared/Documents/Books/'
