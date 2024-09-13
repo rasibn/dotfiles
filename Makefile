@@ -188,6 +188,9 @@ setup_i3_pc: config_nvim config_tmux config_zsh git_config_home config_fish conf
 .PHONY: setup_nixos
 setup_nixos: config_nvim config_tmux git_config_home config_fish config_wezterm config_nixos
 
+.PHONY: resetup_nixos
+resetup_nixos: config_nvim config_tmux git_config_home config_fish config_wezterm
+
 .PHONY: setup_phone
 setup_phone: config_nvim_mob config_tmux_mob git_config_home config_fish install_vm
 
