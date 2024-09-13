@@ -12,4 +12,3 @@
 **/.DS_Store
 ui/sway/config.d/config-extras
 secrets.sh
-secrets.fish
