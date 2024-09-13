@@ -13,9 +13,9 @@ if test -n "$argv[1]"
     end
 else
     if command_exists fd
-        set FILE (fd --type f --search-path $PROJECT_DIR --search-path $WORK_DIR --follow --hidden --exclude .git | fzf --ansi --preview-window 'right:45%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
+        set FILE (fd --type f --search-path $PROJECT_DIR --search-path $WORK_DIR --search-path $ASSET_DIR --follow --hidden --exclude .git | fzf --ansi --preview-window 'right:45%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
     else
-        set FILE (find $PROJECT_DIR $WORK_DIR -type f | fzf)
+        set FILE (find $PROJECT_DIR $WORK_DIR $ASSET_DIR -type f | fzf)
     end
 end
 

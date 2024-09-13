@@ -10,9 +10,9 @@ if test (count $argv) -eq 1
     set selected $argv[1]
 else
     if command_exists fd
-        set selected (fd . --type d --max-depth 1 $PROJECT_DIR $WORK_DIR | fzf)
+        set selected (fd . --type d --max-depth 1 $PROJECT_DIR $WORK_DIR $ASSET_DIR | fzf)
     else
-        set selected (find $PROJECT_DIR $WORK_DIR -mindepth 1 -maxdepth 1 -type d | fzf)
+        set selected (find $PROJECT_DIR $WORK_DIR $ASSET_DIR -mindepth 1 -maxdepth 1 -type d | fzf)
     end
 end
 
