@@ -13,9 +13,9 @@ if [[ -n "$1" ]]; then
   fi
 else
   if command_exists fd; then
-    FILE=$(fd --type f --search-path $PROJECT_DIR --search-path $WORK_DIR --follow --hidden --exclude .git | fzf --ansi --preview-window 'right:45%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
+    FILE=$(fd --type f --search-path $PROJECT_DIR --search-path $WORK_DIR --search-path $ASSET_DIR --follow --hidden --exclude .git | fzf --ansi --preview-window 'right:45%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
   else
-    FILE=$(find $PROJECT_DIR $WORK_DIR -type f | fzf)
+    FILE=$(find $PROJECT_DIR $WORK_DIR $ASSET_DIR -type f | fzf)
   fi
 
 fi
