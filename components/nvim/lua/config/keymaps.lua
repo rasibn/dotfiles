@@ -2,7 +2,7 @@
 -- -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- -- Add any additional keymaps here
 --
---
+-- mistakes of the past
 -- vim.keymap.set("i", "kj", "<Esc>")
 -- vim.keymap.set("i", "jk", "<Esc>")
 
@@ -19,6 +19,11 @@ vim.keymap.del("n", "<leader>ft")
 vim.keymap.del("n", "<leader>fT")
 vim.keymap.del("n", "<c-/>")
 vim.keymap.del("n", "<c-_>")
+
+-- I like helix okay?
+vim.keymap.set("n", "gh", "^", { desc = "Move to start of line" })
+vim.keymap.set("n", "ge", "G", { desc = "Move to end of file" })
+vim.keymap.set("n", "gl", "l", { desc = "Move right" })
 
 -- vim.api.nvim_set_keymap(
 --   "n",
