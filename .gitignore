@@ -13,3 +13,4 @@
 ui/sway/config.d/config-extras
 ../nvim/lua/plugins/cord.lua
 secrets.sh
+.env
