@@ -22,8 +22,8 @@ vim.keymap.del("n", "<c-_>")
 
 -- I like helix okay?
 vim.keymap.set("n", "gh", "^", { desc = "Move to start of line" })
-vim.keymap.set("n", "ge", "G", { desc = "Move to end of file" })
 vim.keymap.set("n", "gl", "$", { desc = "Move right" })
+vim.keymap.set("n", "ge", "G", { desc = "Move to end of file" })
 
 -- vim.api.nvim_set_keymap(
 --   "n",
