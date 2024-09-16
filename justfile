@@ -1,3 +1,5 @@
+set shell := ["bash", "-cu"]
+
 # Set the directory
 DIR := "{{DOTFILE_DIR}}"
 
