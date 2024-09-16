@@ -5,10 +5,12 @@ local plugin = {
   opts = {},
 }
 
-local os_name = vim.uv.os_uname().sysname
+return plugin
 
-if os_name ~= "Darwin" then
-  return plugin
-else
-  return {}
-end
+-- local os_name = vim.uv.os_uname().sysname
+--
+-- if os_name ~= "Darwin" then
+--   return plugin
+-- else
+--   return {}
+-- end
