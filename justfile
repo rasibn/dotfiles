@@ -1,9 +1,13 @@
 set shell := ["bash", "-cu"]
+set dotenv-load
 
 # Set the directory
-DIR := "{{DOTFILE_DIR}}"
+DIR := "$DOTFILE_DIR"
 
 # ------------------------------ CLIs ---------------------------------
+test:
+  echo "Hello world"
+  echo "$DOTFILE_DIR"
 
 # Configure Neovim
 config_nvim:
@@ -25,14 +29,14 @@ config_fish:
 # Configure Zsh shell and download all the plugins
 config_zsh:
 	rm -rf ~/.oh-my-zsh
-	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	rm ~/.zshrc
 	ln -s {{DIR}}/components/.zshrc ~/.zshrc
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
 	git clone https://github.com/jeffreytse/zsh-vi-mode.git ~/.oh-my-zsh/custom/plugins/zsh-vi-mode
-	chsh -s $$(which zsh)
+	chsh -s $(which zsh)
 
 # ------------------------------ MULTIPLEX ------------------------------
 
@@ -95,34 +99,14 @@ config_xresources:
 # ------------------------------ GIT -----------------------------
 
 git_config_work:
-	if [ ! -f "{{DIR}}/secrets.sh" ]; then
-		echo "secrets.sh file not found."
-		exit 1
-	fi
-	. {{DIR}}/secrets.sh
-	if [ -z "$$WORK_EMAIL" ]; then
-		echo "WORK_EMAIL environment variable is not set."
-		exit 1
-	fi
 	git config --global user.name "Rasib Nadeem"
-	git config --global user.email "$$WORK_EMAIL"
+	git config --global user.email $WORK_EMAIL
 	git config --global init.defaultBranch main
-	echo "Configured Git for work with email: $$WORK_EMAIL"
 
 git_config_home:
-	if [ ! -f "{{DIR}}/secrets.sh" ]; then
-		echo "secrets.sh file not found."
-		exit 1
-	fi
-	. {{DIR}}/secrets.sh
-	if [ -z "$$HOME_EMAIL" ]; then
-		echo "HOME_EMAIL environment variable is not set."
-		exit 1
-	fi
 	git config --global user.name "Rasib Nadeem"
-	git config --global user.email "$$HOME_EMAIL"
+	git config --global user.email $HOME_EMAIL
 	git config --global init.defaultBranch main
-	echo "Configured Git for home with email: $$HOME_EMAIL"
 
 global_ignore:
 	rm ~/.ignore
@@ -131,12 +115,12 @@ global_ignore:
 # ----------------------------- NIXOS -----------------------------
 
 config_nixos:
-	ln -s {{DIR}}/nixos/home-manager $(HOME)/.config/home-manager
+	ln -s {{DIR}}/nixos/home-manager $HOME/.config/home-manager
 	sudo ln -s {{DIR}}/nixos/configuration.nix /etc/nixos/configuration.nix
 
 config_home-manager:
 	rm -rf ~/nixos/home-manager
-	ln -s {{DIR}}/nixos/home-manager $(HOME)/.config/home-manager
+	ln -s {{DIR}}/nixos/home-manager $HOME/.config/home-manager
 
 # ----------------------------- MACOS -----------------------------
 

@@ -2,6 +2,10 @@ DIR := $(DOTFILE_DIR)
 
 # ------------------------------ CLIs ---------------------------------
 
+test:
+	echo "Hello world"
+	echo "$(DOTFILE_DIR)"
+
 .PHONY: config_nvim
 config_nvim:
 	rm ~/.config/nvim; ln -s $(DIR)/components/nvim ~/.config/nvim
