@@ -11,6 +11,6 @@
 **/vifm/vifminfo.json
 **/.DS_Store
 ui/sway/config.d/config-extras
-../nvim/lua/plugins/cord.lua
+**/nvim/lua/plugins/cord.lua
 secrets.sh
 .env
