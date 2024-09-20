@@ -141,8 +141,7 @@ install_sway_pc:
 	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat starship htop-vim
 	yay -S sway swaync swaybg swayidle wl-mirror waybar wl-clipboard grim slurp brightnessctl catppuccin-gtk-theme-mocha catppuccin-cursors-mocha ttf-jetbrains-mono-nerd nwg-look i3status-rs rofi-search-git rofi-wayland gnome-keyring
 
-install_macos:
-	global_ignore
+install_macos: global_ignore
 	brew install nvim zsh tmux eza zoxide fd gh bat gh starship
 
 install_macos_cask:
