@@ -22,6 +22,7 @@ return {
         rust_analyzer = {},
         ruff = {},
         gopls = {},
+        nil_ls = {},
         svelte = {},
         vtsls = {},
         yamlls = {},
