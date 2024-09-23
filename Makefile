@@ -166,11 +166,11 @@ install_sway_pc: global_ignore
 
 .PHONY: install_macos
 install_macos: global_ignore
-	brew install nvim zsh tmux eza zoxide fd gh bat gh starship
+	brew install nvim zsh tmux eza zoxide fd ripgrep gh bat gh starship
 
 .PHONY: install_macos_cask
 install_macos_cask:
-	brew install --cask font-jetbrains-mono-nerd-font wezterm
+	brew install --cask font-jetbrains-mono-nerd-font wezterm github
 	brew install --cask nikitabobko/tap/aerospace chatgpt
 
 .PHONY: install_vm
