@@ -43,15 +43,6 @@ config_tmux_mob:
 	rm -rf ~/.tmux/plugins/tpm; 
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-.PHONY: config_zellij
-config_zellij:
-	rm ~/.config/zellij; ln -s $(DIR)/components/zellij ~/.config/zellij
-
-# OTHER
-.PHONY: config_vifm
-config_vifm:
-	rm ~/.config/vifm; ln -s $(DIR)/components/vifm ~/.config/vifm
-
 # ------------------------------ Terminal Emulator -----------------
 
 .PHONY: config_wezterm
