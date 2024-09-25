@@ -26,7 +26,8 @@ return {
         svelte = {},
         vtsls = {},
         yamlls = {},
-        tailwindcss = {}
+        tailwindcss = {},
+        ocamllsp = {},
       },
     },
   },
