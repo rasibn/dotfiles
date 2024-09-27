@@ -154,9 +154,9 @@ install_macos_cask:
 	brew install --cask font-jetbrains-mono-nerd-font wezterm github
 	brew install --cask nikitabobko/tap/aerospace chatgpt
 
-.PHONY: install_vm
-install_vm: global_ignore
-	pkg install fish nvim tmux zoxide fd eza bat
+.PHONY: install_phone
+install_phone: global_ignore
+	pkg install fish nvim tmux zoxide fd eza bat lazygit
 	rm ~/.ignore; ln -s $(DIR)/components/.ignore ~/.ignore
 
 # ----------------------------- PUBLIC COMMANDS -------------------
@@ -178,7 +178,7 @@ resetup_nixos: config_nvim config_tmux git_config_home config_fish config_wezter
 
 # setup phone or terminal vm
 .PHONY: setup_phone
-setup_phone: config_nvim config_tmux git_config_home config_fish install_vm
+setup_phone: config_nvim config_tmux git_config_home config_fish install_phone
 
 .PHONY: resetup_phone
 resetup_phone: config_nvim config_tmux git_config_home config_fish
