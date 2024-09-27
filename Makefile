@@ -10,10 +10,6 @@ test:
 config_nvim:
 	rm ~/.config/nvim; ln -s $(DIR)/components/nvim ~/.config/nvim
 
-.PHONY: config_nvim_mob
-config_nvim_mob:
-	rm ~/.config/nvim; ln -s $(DIR)/mobile/nvim ~/.config/nvim
-
 # SHELL
 .PHONY: config_fish
 config_fish:
@@ -35,12 +31,6 @@ config_zsh:
 config_tmux:
 	rm ~/.tmux.conf; ln -s $(DIR)/components/.tmux.conf ~/.tmux.conf
 	rm -rf ~/.tmux/plugins/tpm;
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-.PHONY: config_tmux_mob
-config_tmux_mob:
-	rm ~/.tmux.conf; ln -s $(DIR)/mobile/.tmux.conf ~/.tmux.conf
-	rm -rf ~/.tmux/plugins/tpm; 
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # ------------------------------ Terminal Emulator -----------------
@@ -186,17 +176,15 @@ setup_nixos: config_nvim config_tmux git_config_home config_fish config_wezterm 
 .PHONY: resetup_nixos
 resetup_nixos: config_nvim config_tmux git_config_home config_fish config_wezterm
 
+# setup phone or terminal vm
 .PHONY: setup_phone
-setup_phone: config_nvim_mob config_tmux_mob git_config_home config_fish install_vm
+setup_phone: config_nvim config_tmux git_config_home config_fish install_vm
 
 .PHONY: resetup_phone
-resetup_phone: config_nvim_mob config_tmux_mob git_config_home config_fish
+resetup_phone: config_nvim config_tmux git_config_home config_fish
 
 .PHONY: setup_sway_pc
 setup_sway_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm config_sway config_rofi config_i3status_rust
-
-.PHONY: setup_vm
-setup_vm: config_nvim config_tmux_mob git_config_home config_fish install_vm
 
 .PHONY: setup_i3_laptop
 setup_i3_laptop: setup_i3_pc config_xresources
