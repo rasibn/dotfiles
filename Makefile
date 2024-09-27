@@ -157,7 +157,7 @@ install_sway_pc: global_ignore
 
 .PHONY: install_macos
 install_macos: global_ignore
-	brew install nvim zsh tmux eza zoxide fd ripgrep gh bat gh starship
+	brew install nvim zsh tmux eza zoxide fd ripgrep gh bat gh starship fzf
 
 .PHONY: install_macos_cask
 install_macos_cask:
