@@ -5,7 +5,14 @@ return {
     opts = {
       inlay_hints = { enabled = false },
       servers = {
+        rust_analyzer = {},
+        ruff = {},
+        gopls = {},
+        nil_ls = {},
+        yamlls = {},
+        ocamllsp = {},
         --   eslint = {
+        -- tailwindcss = {},
         --     filetypes = {
         --       "javascript",
         --       "javascriptreact",
@@ -19,15 +26,8 @@ return {
         --     },
         --   },
         --
-        rust_analyzer = {},
-        ruff = {},
-        gopls = {},
-        nil_ls = {},
-        svelte = {},
-        vtsls = {},
-        yamlls = {},
-        tailwindcss = {},
-        ocamllsp = {},
+        -- svelte = {},
+        -- vtsls = {},
       },
     },
   },
