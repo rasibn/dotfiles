@@ -182,6 +182,9 @@ setup_phone: config_nvim config_tmux git_config_home config_fish install_phone
 
 .PHONY: resetup_phone
 resetup_phone: config_nvim config_tmux git_config_home config_fish
+# :MasonInstall --target=linux_arm64_gnu lua-language-server
+# :MasonInstall --target=linux_arm64_gnu stylua
+
 
 .PHONY: setup_sway_pc
 setup_sway_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm config_sway config_rofi config_i3status_rust
