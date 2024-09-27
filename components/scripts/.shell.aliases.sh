@@ -1,6 +1,14 @@
-alias proji="$DOTFILE_DIR/components/scripts/tmux-sessionizer.sh"
-alias nvimi="$DOTFILE_DIR/components/scripts/nvim-fzf-opener-preview.sh"
-alias vimi="$DOTFILE_DIR/components/scripts/nvim-fzf-opener.sh"
+# mapping functions (or scripts) to aliases so we can use them cross shell
+alias proji="$DOTFILE_DIR/components/scripts/tmux-session-fzf.sh"
+alias nvimi="$DOTFILE_DIR/components/scripts/nvim-fzf-preview.sh"
+alias vimi="$DOTFILE_DIR/components/scripts/nvim-fzf.sh"
+alias git_config_home_local="$DOTFILE_DIR/components/scripts/git_config_home_local.sh"
+alias git_config_work_local="$DOTFILE_DIR/components/scripts/git_config_work_local.sh"
+alias git_config_home_global="$DOTFILE_DIR/components/scripts/git_config_home_global.sh"
+alias git_config_work_global="$DOTFILE_DIR/components/scripts/git_config_work_global.sh"
+alias tmux_session_init_code="$DOTFILE_DIR/components/scripts/tmux_session_init_code.sh"
+alias tmux_session_init_config="$DOTFILE_DIR/components/scripts/tmux_session_init_config.sh"
+
 alias git-undo="git reset --soft HEAD^"
 alias cls="clear"
 alias ta="tmux a"
@@ -10,12 +18,17 @@ alias nvimc="nvim --clean"
 alias vimm="command vim"
 alias wife="nmtui"
 alias lg="lazygit"
-
+alias rga="rg --hidden"
 alias cat="bat"
+
 alias pnotes="cd $ASSET_DIR/personal-notes/ && $EDITOR"
 alias wnotes="cd $ASSET_DIR/work-notes/ && $EDITOR"
-alias notes="cd $ASSET_DIR/personal-notes/ && git pull && $EDITOR"
+alias plnotes="cd $ASSET_DIR/personal-notes/ && git pull && $EDITOR"
+alias wlnotes="cd $ASSET_DIR/work-notes/ && git pull && $EDITOR"
+
+alias conf="cd ~/.config"
 alias dot="cd $DOTFILE_DIR"
+alias nixos="cd $ASSET_DIR/nixos-config"
 
 # dot. prefix = points to $DOTFILE_DIR or $ASSET_DIR/nixos* for nixos
 alias dot.zsh="$EDITOR $DOTFILE_DIR/components/.zshrc"

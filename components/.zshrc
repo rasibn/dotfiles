@@ -12,8 +12,7 @@ plugins=(
 
 source $HOME/assets/dotfiles/secrets.sh
 source $ZSH/oh-my-zsh.sh
-source $DOTFILE_DIR/components/.zshrc.scripts.sh
-source $DOTFILE_DIR/components/.zshrc.aliases.sh
+source $DOTFILE_DIR/components/scripts/.shell.aliases.sh
 
 if command -v python3 &> /dev/null; then
     alias py="python3"
@@ -25,8 +24,6 @@ export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --exclude .git"
 # export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:45%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 export PATH="$PATH:$(go env GOPATH)/bin"
 
-
-source $DOTFILE_DIR/components/.zshrc.aliases.sh
 eval "$(zoxide init --cmd 'cd' zsh)"
 
 # BUN COMPLETIONS AUTO GENERATED

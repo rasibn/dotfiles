@@ -5,27 +5,10 @@ end
 set -gx EDITOR nvim
 
 source ~/assets/dotfiles/secrets.sh
-# Command aliases
-alias cls="clear"
-alias reader="zathura"
-alias ta="tmux a"
-alias conf='cd ~/.config/'
-alias notes="cd $PROJECT_DIR/Vault/ && $EDITOR"
+source $DOTFILE_DIR/components/scripts/aliases.sh
+
 alias booksm='cd ~/storage/shared/Documents/Books/'
 alias notesm='cd ~/storage/shared/Documents/Vault/'
-
-# Configs Aliases
-alias nvimconfig="$EDITOR ~/.config/nvim/"
-alias fishconfig="$EDITOR ~/.config/fish/"
-alias tmuxconfig="$EDITOR ~/.tmux.conf"
-alias zshconfig="$EDITOR ~/.zshrc"
-alias i3config="$EDITOR ~/.config/i3/config"
-alias swayconfig="$EDITOR ~/.config/sway/"
-
-alias proji="$DOTFILE_DIR/components/scripts/tmux-sessionizer.sh"
-alias nvimi="$DOTFILE_DIR/components/scripts/nvim-fzf-opener-preview.sh"
-alias vimi="$DOTFILE_DIR/components/scripts/nvim-fzf-opener.sh"
-alias git-undo="git reset --soft HEAD^"
 
 function git_config_work_global
     if not set -q WORK_EMAIL
