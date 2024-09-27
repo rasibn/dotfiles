@@ -6,8 +6,6 @@
 -- vim.keymap.set("i", "kj", "<Esc>")
 -- vim.keymap.set("i", "jk", "<Esc>")
 
--- I just changed .local/share/nvim/lazy/LazyVim/utils/init.lua to treesitter builtin = "find_files"
-
 -- vim.keymap.set(
 --   "n",
 --   "<leader><space>",
@@ -20,10 +18,20 @@ vim.keymap.del("n", "<leader>fT")
 vim.keymap.del("n", "<c-/>")
 vim.keymap.del("n", "<c-_>")
 
--- -- I like helix okay?
--- vim.keymap.set("n", "gh", "^", { desc = "Move to start of line" })
--- vim.keymap.set("n", "gl", "$", { desc = "Move right" })
--- vim.keymap.set("n", "ge", "G", { desc = "Move to end of file" })
+-- I like helix okay?
+-- Normal mode mappings
+vim.keymap.set("n", "gh", "^", { desc = "Go to the start of the line" })
+vim.keymap.set("n", "gl", "$", { desc = "Go to the end of the line" })
+vim.keymap.set("n", "ge", "G", { desc = "Go to the end of the file" })
+
+-- Visual mode mappings
+vim.keymap.set("v", "gh", "^", { desc = "Go to the start of the line" })
+vim.keymap.set("v", "gl", "$", { desc = "Go to the end of the line" })
+vim.keymap.set("v", "ge", "G", { desc = "Go to the end of the file" })
+
+-- Command mode mappings
+-- vim.keymap.set("c", "<C-h>", "<Home>", { desc = "Go to the start of the line in command mode" })
+-- vim.keymap.set("c", "<C-l>", "<End>", { desc = "Go to the end of the line in command mode" })
 
 -- vim.api.nvim_set_keymap(
 --   "n",
