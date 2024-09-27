@@ -34,9 +34,7 @@ alias nixos="cd $ASSET_DIR/nixos-config"
 alias dot.zsh="$EDITOR $DOTFILE_DIR/components/.zshrc"
 alias dot.tmux="$EDITOR $DOTFILE_DIR/components/.tmux.conf"
 alias dot.nvim="cd $DOTFILE_DIR/components/nvim"
-alias dot.mob.nvim="cd $DOTFILE_DIR/mobile/nvim"
 alias dot.fish="cd $DOTFILE_DIR/components/fish"
-alias dot.mob.fish="cd $DOTFILE_DIR/mobile/fish"
 alias dot.nixos="cd $ASSET_DIR/nixos-config"
 
 # config. prefix = points to $HOME/.config or $HOME dir
