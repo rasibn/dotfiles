@@ -6,7 +6,7 @@
 **/nvim/foo.*
 **/nvim/*.log
 **/nvim/data
-**/nvim/lazy-locky.json
+**/nvim/lazy-lock.json
 **/nvim/lazyvim.json
 **/vifm/vifminfo.json
 **/.DS_Store
