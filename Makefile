@@ -159,6 +159,10 @@ install_phone: global_ignore
 	pkg install fish nvim tmux zoxide fd eza bat lazygit
 	rm ~/.ignore; ln -s $(DIR)/components/.ignore ~/.ignore
 
+install_go_development:
+	go install github.com/air-verse/air@latest
+	go install github.com/melkeydev/go-blueprint@latest
+
 # ----------------------------- PUBLIC COMMANDS -------------------
 
 .PHONY: setup_macos
