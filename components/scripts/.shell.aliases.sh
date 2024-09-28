@@ -11,6 +11,7 @@ alias tmux_session_init_config="$DOTFILE_DIR/components/scripts/tmux_session_ini
 
 alias git-undo="git reset --soft HEAD^"
 alias cls="clear"
+alias ex="exit"
 alias ta="tmux a"
 alias oil="nvim +"Oil""
 alias vim="nvim"
