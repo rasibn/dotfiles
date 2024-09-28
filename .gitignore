@@ -1,16 +1,4 @@
-**/nvim/tt.*
-**/nvim/.tests
-**/nvim/doc/tags
-**/nvim/debug
-**/nvim/.repro
-**/nvim/foo.*
-**/nvim/*.log
-**/nvim/data
-**/nvim/lazy-lock.json
-**/nvim/lazyvim.json
-**/vifm/vifminfo.json
 **/.DS_Store
 ui/sway/config.d/config-extras
-**/nvim/lua/plugins/cord.lua
 secrets.sh
 .env
