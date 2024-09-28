@@ -13,5 +13,6 @@ alias notesm='cd ~/storage/shared/Documents/Vault/'
 # Export FZF_DEFAULT_COMMAND
 set -Ux FZF_DEFAULT_COMMAND "fd --type file --follow --hidden --exclude .git"
 
+export PATH=$HOME/go/bin:$PATH
 gh completion --shell fish | source
 zoxide init --cmd cd fish | source
