@@ -16,4 +16,4 @@
 
 ## Footnote
 
-- my nixos dotfiles are in nixos-home-config](https://www.github.com/rasibn/nixos-home-config).
+- my nixos dotfiles are in [nixos-home-config](https://www.github.com/rasibn/nixos-home-config).
