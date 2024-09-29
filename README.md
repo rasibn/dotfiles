@@ -1,7 +1,5 @@
 # Dotfiles
 
-## Description
-
 - `dotfiles` for `pc`, `macos`, `termux`, arch and more
 
 ## Folder Structure
