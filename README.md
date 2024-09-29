@@ -6,8 +6,8 @@
 
 ## Folder Structure
 
-- `components`: contains files that are universal in terminal environment
-- `ui`: contains files relating to GUI Environment for i3 and sway mostly.
+- `shared`: contains files that are universal in terminal environment
+- `desktop`: contains files relating to GUI Environment for i3 and sway mostly.
 - `secret.sh` contains secrets or other environment variables.
 
 ## Install Instruction

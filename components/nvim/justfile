@@ -1,8 +1,0 @@
-# adds lsp and disables mason for nix!
-for-nix:
-  ln -s $DOTFILE_DIR/components/nvim/lua/nix-only/lsp.lua ./lua/plugins/lsp.lua
-  ln -s $DOTFILE_DIR/components/nvim/lua/nix-only/disable-mason.lua ./lua/plugins/disable-mason.lua
-
-# adds cord plugin for discord ;)
-for-pc:
-  ln -s $DOTFILE_DIR/components/nvim/lua/pc-only/cord.lua ./lua/plugins/cord.lua
