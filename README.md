@@ -17,3 +17,5 @@
 ## Footnote
 
 - my nixos dotfiles are in [nixos-home-config](https://www.github.com/rasibn/nixos-home-config).
+
+credits to [XNM1](https://github.com/XNM1/linux-nixos-hyprland-config-dotfiles) for the nix config
