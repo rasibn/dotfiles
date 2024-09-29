@@ -12,7 +12,7 @@ plugins=(
 
 source $HOME/assets/dotfiles/secrets.sh
 source $ZSH/oh-my-zsh.sh
-source $DOTFILE_DIR/components/scripts/.shell.aliases.sh
+source $DOTFILE_DIR/shared/scripts/.shell.aliases.sh
 
 if command -v python3 &> /dev/null; then
     alias py="python3"

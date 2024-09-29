@@ -5,7 +5,7 @@ end
 set -gx EDITOR nvim
 
 source ~/assets/dotfiles/secrets.sh
-source $DOTFILE_DIR/components/scripts/.shell.aliases.sh
+source $DOTFILE_DIR/shared/scripts/.shell.aliases.sh
 
 alias booksm='cd ~/storage/shared/Documents/Books/'
 alias notesm='cd ~/storage/shared/Documents/Vault/'

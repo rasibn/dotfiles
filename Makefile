@@ -6,20 +6,17 @@ test:
 	echo "Hello world"
 	echo "$(DOTFILE_DIR)"
 
-.PHONY: config_nvim
 config_nvim:
-	rm ~/.config/nvim; ln -s $(DIR)/components/nvim ~/.config/nvim
+	rm ~/.config/nvim; ln -s $(DIR)/shared/nvim ~/.config/nvim
 
 # SHELL
-.PHONY: config_fish
 config_fish:
-	rm -rf ~/.config/fish; ln -s $(DIR)/components/fish ~/.config/fish
+	rm -rf ~/.config/fish; ln -s $(DIR)/shared/fish ~/.config/fish
 
-.PHONY: config_zsh
 config_zsh:
 	rm -rf ~/.oh-my-zsh;
 	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-	rm ~/.zshrc; ln -s $(DIR)/components/.zshrc ~/.zshrc
+	rm ~/.zshrc; ln -s $(DIR)/shared/.zshrc ~/.zshrc
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
@@ -27,60 +24,48 @@ config_zsh:
 	chsh -s $$(which zsh)
 
 # MULTIPLEX
-.PHONY: config_tmux
 config_tmux:
-	rm ~/.tmux.conf; ln -s $(DIR)/components/.tmux.conf ~/.tmux.conf
+	rm ~/.tmux.conf; ln -s $(DIR)/shared/.tmux.conf ~/.tmux.conf
 	rm -rf ~/.tmux/plugins/tpm;
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # ------------------------------ Terminal Emulator -----------------
 
-.PHONY: config_wezterm
 config_wezterm:
-	rm ~/.wezterm.lua; ln -s $(DIR)/ui/.wezterm.lua ~/.wezterm.lua
+	rm ~/.wezterm.lua; ln -s $(DIR)/desktop/.wezterm.lua ~/.wezterm.lua
 
 # ------------------------------ I3WM ------------------------------
 
-.PHONY: config_i3_ui
-config_i3_ui: config_xprofile config_i3 config_rofi config_i3status_rust config_picom config_xresources
+config_i3_desktop: config_xprofile config_i3 config_rofi config_i3status_rust config_picom config_xresources
 
-.PHONY: config_xprofile
 config_xprofile:
-	rm ~/.zprofile; ln -s $(DIR)/ui/.profile ~/.zprofile
-	rm ~/.profile; ln -s $(DIR)/ui/.profile ~/.profile
+	rm ~/.zprofile; ln -s $(DIR)/desktop/.profile ~/.zprofile
+	rm ~/.profile; ln -s $(DIR)/desktop/.profile ~/.profile
 
-.PHONY: config_sway
 config_sway:
 	rm -rf ~/.config/sway;
-	ln -s $(DIR)/ui/sway ~/.config/sway
+	ln -s $(DIR)/desktop/sway ~/.config/sway
 
-.PHONY: config_i3
 config_i3:
-	rm ~/.config/i3; ln -s $(DIR)/ui/i3 ~/.config/i3
+	rm ~/.config/i3; ln -s $(DIR)/desktop/i3 ~/.config/i3
 
-.PHONY: config_rofi
 config_rofi:
-	rm ~/.config/rofi; ln -s $(DIR)/ui/rofi ~/.config/rofi
+	rm ~/.config/rofi; ln -s $(DIR)/desktop/rofi ~/.config/rofi
 
-.PHONY: config_i3status_rust
 config_i3status_rust:
-	rm ~/.config/i3status-rust; ln -s $(DIR)/ui/i3status-rust ~/.config/i3status-rust
+	rm ~/.config/i3status-rust; ln -s $(DIR)/desktop/i3status-rust ~/.config/i3status-rust
 
-.PHONY: config_picom
 config_picom:
-	rm ~/.config/picom.conf; ln -s $(DIR)/ui/picom.conf ~/.config/picom.conf
+	rm ~/.config/picom.conf; ln -s $(DIR)/desktop/picom.conf ~/.config/picom.conf
 
-.PHONY: config_xresources
 config_xresources:
-	rm ~/.Xresources; ln -s $(DIR)/ui/.Xresources ~/.Xresources
+	rm ~/.Xresources; ln -s $(DIR)/desktop/.Xresources ~/.Xresources
 
-.PHONY: config_aerospace
 config_aerospace:
-	rm ~/.aerospace.toml; ln -s $(DIR)/ui/macos/.aerospace.toml ~/.aerospace.toml
+	rm ~/.aerospace.toml; ln -s $(DIR)/desktop/macos/.aerospace.toml ~/.aerospace.toml
 
 # ------------------------------ GIT -----------------------------
 
-.PHONY: git_config_work
 git_config_work:
 	@if [ ! -f "$(DIR)/secrets.sh" ]; then \
 		echo "secrets.sh file not found."; \
@@ -96,7 +81,6 @@ git_config_work:
 	git config --global init.defaultBranch main
 	echo "Configured Git for work with email: $$WORK_EMAIL"
 
-.PHONY: git_config_home
 git_config_home:
 	@if [ ! -f "$(DIR)/secrets.sh" ]; then \
 		echo "secrets.sh file not found."; \
@@ -112,20 +96,20 @@ git_config_home:
 	git config --global init.defaultBranch main
 	echo "Configured Git for home with email: $$HOME_EMAIL"
 
-.PHONY: global_ignore
 global_ignore:
-	rm ~/.ignore; ln -s $(DIR)/components/.ignore ~/.ignore
+	rm ~/.ignore; ln -s $(DIR)/shared/.ignore ~/.ignore
 
 # ----------------------------- NIXOS -----------------------------
 
-.PHONY: config_nixos
-config_nixos:
+config_nix_home:
 	ln -s $(DIR)/nixos/home-manager $(HOME)/.config/home-manager
 	sudo ln -s $(DIR)/nixos/configuration.nix /etc/nixos/configuration.nix
 
+config_nixos:
+	rm /etc/nixos/configuration.nix; ln -s $(DIR)/nixos/configuration.nix /etc/nixos/configuration.nix
+
 # ----------------------------- INSTALL --------------------------
 
-.PHONY: install_i3_pc
 install_i3_pc: global_ignore
 	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat starship htop-vim
 	yay -S \
@@ -135,7 +119,6 @@ install_i3_pc: global_ignore
 			gnome-keyring
 
 
-.PHONY: install_sway_pc
 install_sway_pc: global_ignore
 	yay -S go
 	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat starship htop-vim
@@ -145,19 +128,16 @@ install_sway_pc: global_ignore
 			i3status-rs rofi-search-git rofi-wayland \
 			gnome-keyring
 
-.PHONY: install_macos
 install_macos: global_ignore
 	brew install nvim zsh tmux eza zoxide fd ripgrep gh bat gh starship fzf
 
-.PHONY: install_macos_cask
 install_macos_cask:
 	brew install --cask font-jetbrains-mono-nerd-font wezterm github
 	brew install --cask nikitabobko/tap/aerospace chatgpt
 
-.PHONY: install_phone
 install_phone: global_ignore
 	pkg install fish nvim tmux zoxide fd eza bat lazygit
-	rm ~/.ignore; ln -s $(DIR)/components/.ignore ~/.ignore
+	rm ~/.ignore; ln -s $(DIR)/shared/.ignore ~/.ignore
 
 install_go_development:
 	go install github.com/air-verse/air@latest
@@ -165,33 +145,23 @@ install_go_development:
 
 # ----------------------------- PUBLIC COMMANDS -------------------
 
-.PHONY: setup_macos
 setup_macos: config_nvim config_tmux config_zsh config_aerospace config_wezterm git_config_work install_macos 
 
-.PHONY: resetup_macos
 resetup_macos: config_nvim config_tmux config_aerospace config_wezterm
 
-.PHONY: setup_i3_pc
-setup_i3_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm install_i3_pc config_i3_ui
+setup_i3_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm install_i3_pc config_i3_desktop
 
-.PHONY: setup_nixos
-setup_nixos: config_nvim config_tmux git_config_home config_fish config_wezterm config_nixos
+setup_nixos: config_nvim config_tmux git_config_home config_fish config_wezterm config_nix_home
 
-.PHONY: resetup_nixos
 resetup_nixos: config_nvim config_tmux git_config_home config_fish config_wezterm
 
 # setup phone or terminal vm
-.PHONY: setup_phone
 setup_phone: config_nvim config_tmux git_config_home config_fish install_phone
 
-.PHONY: resetup_phone
 resetup_phone: config_nvim config_tmux git_config_home config_fish
 # :MasonInstall --target=linux_arm64_gnu lua-language-server
 # :MasonInstall --target=linux_arm64_gnu stylua
 
-
-.PHONY: setup_sway_pc
 setup_sway_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm config_sway config_rofi config_i3status_rust
 
-.PHONY: setup_i3_laptop
 setup_i3_laptop: setup_i3_pc config_xresources
