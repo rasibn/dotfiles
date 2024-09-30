@@ -51,5 +51,7 @@
     avizo
     wlogout
     gifsicle
+    kdePackages.kdeconnect-kde
+    # libsForQt5.kdeconnect-kde
   ];
 }

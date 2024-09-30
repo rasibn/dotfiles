@@ -17,7 +17,6 @@
       vscode
       brave
       github-desktop
-      libsForQt5.kdeconnect-kde
     ];
   };
 
