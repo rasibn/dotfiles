@@ -2,7 +2,7 @@ return {
   "stevearc/oil.nvim",
   lazy = false,
   keys = {
-    { "<leader>e", "<cmd>Oil<CR>", desc = "Explorer" },
+    -- { "<leader>e", "<cmd>Oil<CR>", desc = "Explorer" },
     { "<leader>o", "<cmd>Oil<CR>", desc = "Explorer" },
   },
 
