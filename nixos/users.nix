@@ -15,7 +15,8 @@
       obsidian
       # vscodium
       vscode
-      brave
+      # brave
+      google-chrome
       github-desktop
     ];
   };

@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     neovim
     vim
@@ -46,10 +44,10 @@
     lsd
     lsof
     gping
-    viu
     tre-command
     #felix-fm
     chafa
+    #viu
 
     cmatrix
     pipes-rs
