@@ -16,6 +16,7 @@
 
     nwg-displays
 
+    # wezterm
     foot
     cool-retro-term
     libsixel

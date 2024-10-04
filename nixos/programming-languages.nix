@@ -29,7 +29,13 @@
     ocamlPackages.ocamlformat
     ocamlPackages.findlib
 
-    # js
-    biome
+    # formatting
+    prettierd
+    alejandra
+    stylua
+    black
+    gofumpt
+    gotools # godoc, goimports, callgraph, digraph, stringer or toolstash.
+    shfmt
   ];
 }
