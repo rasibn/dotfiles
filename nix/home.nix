@@ -81,10 +81,10 @@
 
   home.sessionVariables = {
     EDITOR = "vim";
-    PROJECT_DIR="${config.home.homeDirectory}/projects";
-    WORK_DIR="${config.home.homeDirectory}/work";
-    ASSET_DIR="${config.home.homeDirectory}/assets";
-    DOTFILE_DIR="${config.home.homeDirectory}/assets/dotfiles";
+    PROJECT_DIR = "${config.home.homeDirectory}/projects";
+    WORK_DIR = "${config.home.homeDirectory}/work";
+    ASSET_DIR = "${config.home.homeDirectory}/assets";
+    DOTFILE_DIR = "${config.home.homeDirectory}/assets/dotfiles";
   };
 
   # Let Home Manager install and manage itself.
