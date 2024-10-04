@@ -1,17 +1,15 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   # Select internationalisation properties.
   services.xserver = {
     xkb.layout = "us,ua";
     xkb.options = "grp:alt_shift_toggle";
   };
-  
+
   i18n.supportedLocales = [
     "en_US.UTF-8/UTF-8"
     "uk_UA.UTF-8/UTF-8"
   ];
-  
+
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
