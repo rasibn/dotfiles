@@ -29,7 +29,7 @@ return {
         -- svelte = {},
         -- vtsls = {},
         tailwindcss = {},
-        vuels = {},
+        volar = {}, -- vue-language-server
         ts_ls = {},
       },
     },
