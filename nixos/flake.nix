@@ -2,14 +2,13 @@
   description = "rasib's NixOS Configuration";
 
   inputs = {
-      nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-      # rust-overlay.url = "github:oxalica/rust-overlay";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
-  outputs = { nixpkgs, ... } @ inputs:
-  {
+  outputs = {nixpkgs, ...} @ inputs: {
     nixosConfigurations.rasib-nix = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs; };
+      specialArgs = {inherit inputs;};
       modules = [
         ./configuration.nix
         ./hardware-configuration.nix

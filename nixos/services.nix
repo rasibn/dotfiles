@@ -1,11 +1,9 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   # Systemd services setup
   systemd.packages = with pkgs; [
     auto-cpufreq
   ];
-  
+
   # Enable Services
   services.geoclue2.enable = true;
   programs.direnv.enable = true;
@@ -14,8 +12,8 @@
   programs.dconf.enable = true;
   services.dbus.enable = true;
   services.dbus.packages = with pkgs; [
-  	xfce.xfconf
-  	gnome2.GConf
+    xfce.xfconf
+    gnome2.GConf
   ];
   services.mpd.enable = true;
   programs.thunar.enable = true;
