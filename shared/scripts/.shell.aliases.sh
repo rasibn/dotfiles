@@ -66,6 +66,7 @@ alias config.picom="$EDITOR $HOME/.config/picom.conf"
 alias xrandrscaleup="xrandr --output eDP-1 --scale 0.95x0.95"
 alias xrandrscalereset="xrandr --output eDP-1 --scale 1x1"
 
+alias gcmsg='git commit --message'
 # alias reader="zathura"
 # alias fdupes="rmlint"
 # alias adb="$HOME/Android/Sdk/platform-tools/adb"
