@@ -37,6 +37,7 @@ alias nixos="cd $ASSET_DIR/nixos-config"
 alias dot.zsh="$EDITOR $DOTFILE_DIR/shared/.zshrc"
 alias dot.tmux="$EDITOR $DOTFILE_DIR/shared/.tmux.conf"
 alias dot.nvim="cd $DOTFILE_DIR/shared/nvim"
+alias dot.vim="cd $DOTFILE_DIR/shared/nvim"
 alias dot.fish="cd $DOTFILE_DIR/shared/fish"
 alias dot.nixos="cd $DOTFILE_DIR/nixos"
 
