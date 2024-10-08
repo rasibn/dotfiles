@@ -28,7 +28,9 @@ alias plnotes="cd $ASSET_DIR/personal-notes/ && git pull && $EDITOR"
 alias wlnotes="cd $ASSET_DIR/work-notes/ && git pull && $EDITOR"
 
 alias conf="cd ~/.config"
+alias dot.conf="cd ~/.config"
 alias dot="cd $DOTFILE_DIR"
+alias dot.dot="cd $DOTFILE_DIR"
 alias nixos="cd $ASSET_DIR/nixos-config"
 
 # dot. prefix = points to $DOTFILE_DIR or $ASSET_DIR/nixos* for nixos
