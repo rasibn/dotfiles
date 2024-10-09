@@ -16,6 +16,9 @@
       # brave
       google-chrome
       github-desktop
+      # for github desktop
+      kdePackages.kwallet
+      vivaldi
     ];
   };
 

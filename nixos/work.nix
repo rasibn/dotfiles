@@ -3,6 +3,8 @@
     turso-cli
     bitwarden-cli
     bws
+    sqlite
+    usql
     air
     # slack
     # aws-sam-cli
