@@ -29,6 +29,7 @@
 
     # formatting
     prettierd
+    nodePackages.prettier
     alejandra
     stylua
     black
