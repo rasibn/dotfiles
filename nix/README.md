@@ -12,5 +12,5 @@ I use this on debian mostly
 
 - install nix via the single-user installation
 
-- scary install script ->  `sh <(curl -L https://nixos.org/nix/install) --no-daemon`
+- scary install script -> `sh <(curl -L https://nixos.org/nix/install) --no-daemon`
 - home-manager installation -> `https://nix-community.github.io/home-manager/#sec-install-standalone`
