@@ -28,14 +28,3 @@ vim.keymap.set("n", "ge", "G", { desc = "Go to the end of the file" })
 vim.keymap.set("v", "gh", "^", { desc = "Go to the start of the line" })
 vim.keymap.set("v", "gl", "$", { desc = "Go to the end of the line" })
 vim.keymap.set("v", "ge", "G", { desc = "Go to the end of the file" })
-
--- Command mode mappings
--- vim.keymap.set("c", "<C-h>", "<Home>", { desc = "Go to the start of the line in command mode" })
--- vim.keymap.set("c", "<C-l>", "<End>", { desc = "Go to the end of the line in command mode" })
-
--- vim.api.nvim_set_keymap(
---   "n",
---   "<leader><space>",
---   "<cmd>Telescope find_files<cr>",
---   { noremap = true, silent = true, desc = "Find Files (test2)" }
--- )
