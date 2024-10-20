@@ -15,10 +15,9 @@
       vscode
       # brave
       google-chrome
-      github-desktop
-      # for github desktop
-      kdePackages.kwallet
       vivaldi
+      # github-desktop
+      kdePackages.kwallet
     ];
   };
 
