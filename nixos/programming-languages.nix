@@ -5,6 +5,7 @@
     nodePackages_latest.nodejs
     nodePackages_latest.pnpm
     bun
+    deno
     lua
     zig
     numbat

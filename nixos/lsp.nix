@@ -7,7 +7,6 @@
     nodePackages_latest.yaml-language-server
     nodePackages_latest.dockerfile-language-server-nodejs
     nodePackages_latest.svelte-language-server
-    vue-language-server
 
     sumneko-lua-language-server
     marksman

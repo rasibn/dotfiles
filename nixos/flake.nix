@@ -2,7 +2,7 @@
   description = "rasib's NixOS Configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
@@ -41,7 +41,7 @@
         ./dns.nix
         # ./vpn.nix
         ./users.nix
-        # ./virtualisation.nix
+        ./virtualisation.nix
         ./programming-languages.nix
         ./lsp.nix
         ./info-fetchers.nix
