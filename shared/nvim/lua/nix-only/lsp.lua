@@ -26,9 +26,9 @@ return {
         --       "html",
         --     },
         --   },
-        -- svelte = {},
         -- vtsls = {},
         tailwindcss = {},
+        svelte = {},
         volar = {}, -- vue-language-server
         ts_ls = {},
       },
