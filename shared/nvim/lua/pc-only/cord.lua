@@ -2,7 +2,11 @@ local plugin = {
   "vyfor/cord.nvim",
   build = "./build",
   event = "VeryLazy",
-  opts = {},
+  opts = {
+    text = {
+      workspace = "",
+    },
+  },
 }
 
 return plugin

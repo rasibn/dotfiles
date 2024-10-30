@@ -2,6 +2,7 @@
   environment.systemPackages = with pkgs; [
     turso-cli
     bitwarden-cli
+    caddy
     bws
     sqlite
     usql
