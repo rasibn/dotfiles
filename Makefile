@@ -136,7 +136,7 @@ install_macos_cask:
 	brew install --cask nikitabobko/tap/aerospace chatgpt
 
 install_phone: global_ignore
-	pkg install fish nvim tmux zoxide fd gh eza bat lazygit
+	pkg install fish nvim tmux zoxide fd gh eza bat lazygit fzf
 	rm ~/.ignore; ln -s $(DIR)/shared/.ignore ~/.ignore
 
 install_go_development:
