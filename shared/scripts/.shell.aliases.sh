@@ -20,7 +20,6 @@ alias vimm="command vim"
 alias wife="nmtdesktop"
 alias lg="lazygit"
 alias rga="rg --hidden"
-alias cat="bat"
 alias pn="pnpm"
 
 alias pnotes="cd $ASSET_DIR/personal-notes/ && $EDITOR"
