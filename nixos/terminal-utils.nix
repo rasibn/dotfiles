@@ -14,7 +14,7 @@
     # tgpt
     # mcfly # terminal history
     tmux
-    # zellij
+    zellij
     progress
     noti
     topgrade
