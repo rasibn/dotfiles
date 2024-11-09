@@ -14,7 +14,6 @@
     zls
     gopls
     ruff
-    delve
     emmet-language-server
     tailwindcss-language-server
     nodePackages_latest.typescript-language-server
