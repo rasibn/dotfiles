@@ -36,7 +36,8 @@
     imagemagick
     swappy
     ffmpeg_6-full
-    wl-screenrec
+    #TODO:
+    # wl-screenrec
     wl-clipboard
     wl-clip-persist
     cliphist

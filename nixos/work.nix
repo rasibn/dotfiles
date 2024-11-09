@@ -7,6 +7,8 @@
     sqlite
     usql
     air
+    delve
+    gdlv
     # slack
     # aws-sam-cli
     # awscli2

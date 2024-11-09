@@ -14,7 +14,6 @@
       # vscodium
       vscode
       # brave
-      google-chrome
       vivaldi
       # github-desktop
       kdePackages.kwallet
