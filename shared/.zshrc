@@ -7,6 +7,7 @@ plugins=(
         zsh-completions
         zsh-vi-mode
         starship
+        direnv
         git
 )
 
@@ -27,7 +28,7 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 eval "$(zoxide init --cmd 'cd' zsh)"
 
 # rustup-init always
-. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
+# . "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
 
 # BUN COMPLETIONS AUTO GENERATED
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"

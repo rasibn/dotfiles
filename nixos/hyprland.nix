@@ -5,8 +5,7 @@
   environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
 
   environment.systemPackages = with pkgs; [
-    # TODO: wait for update :/
-    # pyprland
+    pyprland
     hyprpicker
     hyprcursor
     hyprlock
@@ -22,6 +21,8 @@
 
     starship
     helix
+
+    lxqt.lxqt-policykit # https://www.reddit.com/r/NixOS/comments/171mexa/polkit_on_hyprland/
 
     # qutebrowser
     firefox

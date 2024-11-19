@@ -21,6 +21,7 @@ alias wife="nmtdesktop"
 alias lg="lazygit"
 alias rga="rg --hidden"
 alias pn="pnpm"
+alias mk="make"
 
 alias pnotes="cd $ASSET_DIR/personal-notes/ && $EDITOR"
 alias wnotes="cd $ASSET_DIR/work-notes/ && $EDITOR"
