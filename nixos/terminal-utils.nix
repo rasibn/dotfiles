@@ -52,7 +52,8 @@
     cmatrix
     pipes-rs
     rsclock
-    cava
+    #TODO:
+    # cava
     figlet
 
     ncdu

@@ -9,6 +9,7 @@
   programs.direnv.enable = true;
   services.upower.enable = true;
   programs.fish.enable = true;
+  programs.zsh.enable = true;
   programs.dconf.enable = true;
   services.dbus.enable = true;
   services.dbus.packages = with pkgs; [
@@ -36,8 +37,7 @@
     imagemagick
     swappy
     ffmpeg_6-full
-    #TODO:
-    # wl-screenrec
+    wl-screenrec
     wl-clipboard
     wl-clip-persist
     cliphist
