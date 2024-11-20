@@ -129,7 +129,7 @@ install_sway_pc: global_ignore
 			gnome-keyring
 
 install_macos: global_ignore
-	brew install nvim zsh tmux eza zoxide fd ripgrep gh bat gh starship fzf
+	brew install nvim zsh tmux eza zoxide fd ripgrep gh bat gh starship fzf direnv
 
 install_macos_cask:
 	brew install --cask font-jetbrains-mono-nerd-font wezterm github
