@@ -6,7 +6,7 @@ plugins=(
         zsh-autosuggestions
         zsh-completions
         zsh-vi-mode
-        starship
+        # starship
         direnv
         git
 )
