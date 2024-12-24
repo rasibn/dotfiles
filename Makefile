@@ -13,6 +13,9 @@ config_nvim:
 config_fish:
 	rm -rf ~/.config/fish; ln -s $(DIR)/shared/fish ~/.config/fish
 
+config_zellij:
+	rm -rf ~/.config/zellij; ln -s $(DIR)/shared/zellij ~/.config/zellij
+
 config_zsh:
 	rm -rf ~/.oh-my-zsh;
 	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
