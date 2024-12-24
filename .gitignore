@@ -1,5 +1,4 @@
 **/.DS_Store
 ui/sway/config.d/config-extras
-nixos/hardware-configuration.nix
 secrets.sh
 .env
