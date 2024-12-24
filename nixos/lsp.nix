@@ -8,6 +8,8 @@
     nodePackages_latest.dockerfile-language-server-nodejs
     nodePackages_latest.svelte-language-server
 
+    tailwindcss-language-server
+
     sumneko-lua-language-server
     marksman
     nil

@@ -7,7 +7,7 @@
   };
 
   outputs = {nixpkgs, ...} @ inputs: {
-    nixosConfigurations.rasib-nix = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.rasib = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
         ./configuration.nix
