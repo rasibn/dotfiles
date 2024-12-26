@@ -16,6 +16,12 @@ config_fish:
 config_zellij:
 	rm -rf ~/.config/zellij; ln -s $(DIR)/shared/zellij ~/.config/zellij
 
+config_delta:
+	git config --global core.pager delta
+	git config --global interactive.diffFilter 'delta --color-only'
+	git config --global delta.navigate true
+	git config --global merge.conflictStyle zdiff3
+
 config_zsh:
 	rm -rf ~/.oh-my-zsh;
 	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
