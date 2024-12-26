@@ -60,5 +60,6 @@
     nix-search-cli
     gnumake
     unzip
+    delta # git highlighting
   ];
 }
