@@ -7,7 +7,7 @@ plugins=(
         zsh-completions
         zsh-vi-mode
         # starship
-        direnv
+        # direnv
         git
 )
 
