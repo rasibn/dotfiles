@@ -13,6 +13,7 @@
       obsidian
       # vscodium
       vscode
+      zed-editor
       # brave
       vivaldi
       # github-desktop
