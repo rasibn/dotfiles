@@ -7,7 +7,7 @@ for-nix:
 	rm ./lua/plugins/disable-mason.lua; ln -s $(DOTFILE_DIR)/shared/nvim/lua/nix-only/disable-mason.lua ./lua/plugins/disable-mason.lua
 
 # adds cord plugin for discord ;)
-for-pc:
+adding-cord:
 	rm ./lua/plugins/cord.lua; ln -s $(DOTFILE_DIR)/shared/nvim/lua/pc-only/cord.lua ./lua/plugins/cord.lua
 
 for-macos:
