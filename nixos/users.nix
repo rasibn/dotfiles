@@ -16,6 +16,7 @@
       zed-editor
       # brave
       vivaldi
+      google-chrome
       # github-desktop
       kdePackages.kwallet
     ];

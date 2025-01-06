@@ -31,6 +31,7 @@ return {
         svelte = {},
         volar = {}, -- vue-language-server
         ts_ls = {},
+        templ = {},
       },
     },
   },
