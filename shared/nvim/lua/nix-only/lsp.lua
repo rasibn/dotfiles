@@ -32,6 +32,7 @@ return {
         volar = {}, -- vue-language-server
         ts_ls = {},
         templ = {},
+        gleam = {},
       },
     },
   },
@@ -49,7 +50,9 @@ return {
         javascript = { "prettierd", "prettier", stop_after_first = true },
         markdown = { "prettierd", "prettier", stop_after_first = true },
         html = { "prettierd", "prettier", stop_after_first = true },
+        templ = { "rustywind", "templ" },
         nix = { "alejandra" },
+        gleam = { "gleam" },
       },
     },
   },
