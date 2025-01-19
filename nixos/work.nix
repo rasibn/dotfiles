@@ -7,6 +7,7 @@
     bws
     sqlite
     usql
+    vue-language-server
     air
     delve
     gdlv
