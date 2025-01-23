@@ -194,7 +194,7 @@ alt-p = 'workspace --wrap-around next'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
 alt-shift-n = 'move-workspace-to-monitor --wrap-around next'
 
-alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
+alt-shift-f = 'layout floating tiling' # 'floating toggle' in i3
 alt-f = 'fullscreen'
 alt-shift-r = 'reload-config'
 alt-r = 'mode resize'
