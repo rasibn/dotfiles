@@ -12,6 +12,10 @@ return {
         show_hidden = true,
       },
 
+      win_options = {
+        signcolumn = "yes:2",
+      },
+
       keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
@@ -42,5 +46,15 @@ return {
     keys = {
       { "<leader>e", false },
     },
+  },
+
+  {
+    "refractalize/oil-git-status.nvim",
+
+    dependencies = {
+      "stevearc/oil.nvim",
+    },
+
+    config = true,
   },
 }

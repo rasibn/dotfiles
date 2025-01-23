@@ -49,7 +49,7 @@ return {
         javascript = { "prettierd", "prettier", stop_after_first = true },
         nix = { "alejandra" },
         swift = { "swiftformat" },
-        templ = { "rustywind" },
+        templ = { "rustywind", "templ" },
       },
     },
   },
