@@ -3,9 +3,10 @@
     turso-cli
     bitwarden-cli
     bruno
-    caddy
+    nodePackages.rollup
     bws
     sqlite
+    sqlx-cli
     usql
     vue-language-server
     air
