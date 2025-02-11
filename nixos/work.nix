@@ -7,6 +7,7 @@
     bws
     sqlite
     sqlx-cli
+    cargo-shuttle
     usql
     vue-language-server
     air
