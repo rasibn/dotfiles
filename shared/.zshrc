@@ -36,3 +36,5 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH=$HOME/.nimble/bin:$PATH
 export PATH="$HOME/go/bin:$PATH"
+
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-18.jdk/Contents/Home"
