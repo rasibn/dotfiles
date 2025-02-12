@@ -52,9 +52,11 @@ key-mapping.preset = 'qwerty'
 2 = 'built-in'
 3 = 'built-in'
 4 = 'built-in'
-5 = 'secondary'
+5 = 'built-in'
 6 = 'secondary'
 7 = 'secondary'
+8 = 'secondary'
+9 = 'secondary'
 
 [gaps]
 inner.horizontal = 5
