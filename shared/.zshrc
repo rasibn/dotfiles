@@ -38,3 +38,8 @@ export PATH=$HOME/.nimble/bin:$PATH
 export PATH="$HOME/go/bin:$PATH"
 
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-18.jdk/Contents/Home"
+
+aws_export_credentials() {
+    local profile_name="$1"
+    eval "$(aws configure export-credentials --profile "$profile_name" --format env)"
+}
