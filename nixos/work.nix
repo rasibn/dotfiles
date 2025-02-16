@@ -4,12 +4,14 @@
     bitwarden-cli
     bruno
     nodePackages.rollup
+    jetbrains.idea-ultimate
     bws
     sqlite
     sqlx-cli
     cargo-shuttle
     usql
     vue-language-server
+    sea-orm-cli
     air
     delve
     gdlv
