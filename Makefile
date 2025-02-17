@@ -72,6 +72,10 @@ config_xresources:
 
 config_aerospace:
 	rm ~/.aerospace.toml; ln -s $(DIR)/desktop/macos/.aerospace.toml ~/.aerospace.toml
+	brew tap FelixKratz/formulae
+	brew install borders
+	defaults write com.apple.dock expose-group-apps -bool true && killall Dock # mission control
+	defaults write com.apple.spaces spans-displays -bool true && killall SystemUIServer # display have separate spaces
 
 # ------------------------------ GIT -----------------------------
 
