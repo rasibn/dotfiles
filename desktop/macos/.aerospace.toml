@@ -14,11 +14,11 @@ after-login-command = []
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
   # 'exec-and-forget borders active_color=0xffe6e6fa inactive_color=0xff494d64 width=8.0',
-  'exec-and-forget borders active_color=0xCFEBBF83 inactive_color=0x33434c5e width=8.0',
+  'exec-and-forget borders active_color=0xEEFAB6C5 inactive_color=0x33434c5e width=8.0',
 ]
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
