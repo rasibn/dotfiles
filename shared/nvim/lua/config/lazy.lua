@@ -40,3 +40,5 @@ require("lazy").setup({
     },
   },
 })
+
+vim.g.lazyvim_check_order = false
