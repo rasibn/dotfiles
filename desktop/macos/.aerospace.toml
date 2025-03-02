@@ -95,6 +95,7 @@ PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
 # 'main' binding mode must be always presented
 [mode.main.binding]
 alt-q = 'close'
+cmd-q = 'close'
 # All possible keys:
 # - Letters.        a, b, c, ..., z
 # - Numbers.        0, 1, 2, ..., 9
@@ -121,7 +122,6 @@ alt-q = 'close'
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
 cmd-h = 'layout accordion horizontal vertical'
-cmd-q = 'layout accordion horizontal vertical'
 alt-w = 'layout accordion horizontal vertical'
 alt-e = 'layout tiles horizontal vertical'
 

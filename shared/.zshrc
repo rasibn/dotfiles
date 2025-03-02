@@ -37,6 +37,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH=$HOME/.nimble/bin:$PATH
 export PATH="$HOME/go/bin:$PATH"
 
+ # aws sso login --profile qa
 aws_export_credentials() {
     local profile_name="$1"
     eval "$(aws configure export-credentials --profile "$profile_name" --format env)"
