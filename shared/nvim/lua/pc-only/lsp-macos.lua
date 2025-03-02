@@ -11,6 +11,7 @@ return {
         yamlls = {},
         sourcekit = {},
         tailwindcss = {},
+        gleam = {},
         volar = {}, -- vue-language-server
         -- ts_ls = {},
         -- nil_ls = {},
@@ -50,6 +51,7 @@ return {
         nix = { "alejandra" },
         swift = { "swiftformat" },
         templ = { "rustywind", "templ" },
+        gleam = { "gleam" },
       },
     },
   },
