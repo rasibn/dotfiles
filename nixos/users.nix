@@ -14,9 +14,8 @@
       # vscodium
       vscode
       zed-editor
-      # brave
+      brave
       vivaldi
-      google-chrome
       # github-desktop
       kdePackages.kwallet
     ];
