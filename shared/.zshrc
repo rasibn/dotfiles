@@ -42,11 +42,12 @@ aws_export_credentials() {
     local profile_name="$1"
     eval "$(aws configure export-credentials --profile "$profile_name" --format env)"
 }
-export CERTIFI_PATH=$(python3 -m certifi)
-export SSL_CERT_FILE=${CERTIFI_PATH}
-export REQUESTS_CA_BUNDLE=${CERTIFI_PATH}
-export PIP_CERT=${CERTIFI_PATH}
-export HTTPLIB2_CA_CERTS=${CERTIFI_PATH}
-export CURL_CA_BUNDLE=${CERTIFI_PATH}
-export NODE_EXTRA_CA_CERTS=${CERTIFI_PATH}
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# export CERTIFI_PATH=$(python3 -m certifi)
+# export SSL_CERT_FILE=${CERTIFI_PATH}
+# export REQUESTS_CA_BUNDLE=${CERTIFI_PATH}
+# export PIP_CERT=${CERTIFI_PATH}
+# export HTTPLIB2_CA_CERTS=${CERTIFI_PATH}
+# export CURL_CA_BUNDLE=${CERTIFI_PATH}
+# export NODE_EXTRA_CA_CERTS=${CERTIFI_PATH}
+# export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
