@@ -12,6 +12,7 @@ return {
         sourcekit = {},
         tailwindcss = {},
         gleam = {},
+        templ = {},
         volar = {}, -- vue-language-server
         -- ts_ls = {},
         -- nil_ls = {},

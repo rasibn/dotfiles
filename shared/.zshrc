@@ -26,6 +26,7 @@ export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --exclude .git"
 export PATH="$PATH:$(go env GOPATH)/bin"
 
 eval "$(zoxide init --cmd 'cd' zsh)"
+eval "$(ssh-agent -s)"
 
 # rustup-init always
 # . "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
