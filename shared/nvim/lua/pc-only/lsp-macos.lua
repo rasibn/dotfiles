@@ -11,6 +11,7 @@ return {
         yamlls = {},
         sourcekit = {},
         tailwindcss = {},
+        templ = {},
         gleam = {},
         templ = {},
         volar = {}, -- vue-language-server
