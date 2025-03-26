@@ -4,7 +4,7 @@
     bitwarden-cli
     bruno
     nodePackages.rollup
-    jetbrains.idea-ultimate
+    # jetbrains.idea-ultimate
     bws
     sqlite
     sqlx-cli
