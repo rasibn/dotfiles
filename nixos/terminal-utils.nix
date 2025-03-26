@@ -2,15 +2,12 @@
   environment.systemPackages = with pkgs; [
     neovim
     vim
-    upx
     git
     lazygit
     license-generator
     git-ignore
-    gitleaks
     pass-git-helper
     just
-    xh
     # tgpt
     # mcfly # terminal history
     tmux
@@ -49,12 +46,8 @@
     chafa
     #viu
 
-    cmatrix
-    pipes-rs
-    rsclock
     #TODO:
     # cava
-    figlet
 
     ncdu
     nix-search-cli

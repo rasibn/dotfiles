@@ -14,10 +14,11 @@
       # vscodium
       vscode
       zed-editor
-      brave
-      vivaldi
+      # brave
+      # vivaldi
       # github-desktop
       kdePackages.kwallet
+      kdePackages.kwallet-pam
     ];
   };
 

@@ -3,6 +3,9 @@
   services.gvfs.enable = true;
   # services.udisks2.enable = true;
   # services.devmon.enable = true;
+  security.pam.services.hyprland = {
+    enableKwallet = true;
+  };
 
   # Enable USB Guard
   services.usbguard = {
