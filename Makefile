@@ -127,7 +127,7 @@ config_nixos:
 install_i3_pc: global_ignore
 	yay -S neovim zsh tmux vifm vim eza zoxide fd rg bat starship htop-vim
 	yay -S \
-			brightnessctl i3status-rs gnome-keyring \
+			brightnessctl i3status-rust gnome-keyring \
 			catppuccin-gtk-theme-mocha catppuccin-cursors-mocha ttf-jetbrains-mono-nerd \
 			rofi rofi-search-git picom nitrogen flameshot \
 			gnome-keyring
@@ -138,7 +138,7 @@ install_sway_pc: global_ignore
 	yay -S \
 			sway swaync swaybg swayidle wl-mirror waybar wl-clipboard grim slurp brightnessctl \
 			catppuccin-gtk-theme-mocha catppuccin-cursors-mocha ttf-jetbrains-mono-nerd nwg-look \
-			i3status-rs rofi-search-git rofi-wayland \
+			i3status-rust rofi-search-git rofi-wayland \
 			gnome-keyring
 
 install_macos: global_ignore
