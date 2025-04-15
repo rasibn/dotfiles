@@ -1,8 +1,8 @@
-set $monitor_left "HDMI-A-1"
-set $monitor_right "DP-1"
+set $monitor_left "DP-1"
+set $monitor_right "DP-3"
 
 output $monitor_left pos 0 0
-output $monitor_right pos 1920 0
+output $monitor_right pos 2560 0
 
 exec xrandr --output $monitor_left --primary
 

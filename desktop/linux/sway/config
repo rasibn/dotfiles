@@ -35,7 +35,7 @@ set $menu2 "rofi -combi-modi window,drun -show combi -show-icons"
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg $(DOTFILE_DIR)/ui/wallpapers/dark-cat-rosewater.png fill
+output * bg $HOME/assets/dotfiles/desktop/wallpapers/dark-cat-rosewater.png fill
 #
 # Example configuration:
 #
