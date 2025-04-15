@@ -1,4 +1,5 @@
 DIR := $(DOTFILE_DIR)
+LINUX_DIR = $(DIR)/desktop/linux
 
 # ------------------------------ CLIs ---------------------------------
 
@@ -30,7 +31,7 @@ config_zsh:
 	git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
 	git clone https://github.com/jeffreytse/zsh-vi-mode.git ~/.oh-my-zsh/custom/plugins/zsh-vi-mode
-	chsh -s $$(which zsh)
+	sudo chsh -s $$(which zsh)
 
 # MULTIPLEX
 config_tmux:
@@ -48,27 +49,27 @@ config_wezterm:
 config_i3_desktop: config_xprofile config_i3 config_rofi config_i3status_rust config_picom config_xresources
 
 config_xprofile:
-	rm ~/.zprofile; ln -s $(DIR)/desktop/.profile ~/.zprofile
-	rm ~/.profile; ln -s $(DIR)/desktop/.profile ~/.profile
+	rm ~/.zprofile; ln -s $(LINUX_DIR)/.profile ~/.zprofile
+	rm ~/.profile; ln -s $(LINUX_DIR)/.profile ~/.profile
 
 config_sway:
 	rm -rf ~/.config/sway;
-	ln -s $(DIR)/desktop/sway ~/.config/sway
+	ln -s $(LINUX_DIR)/sway ~/.config/sway
 
 config_i3:
-	rm ~/.config/i3; ln -s $(DIR)/desktop/i3 ~/.config/i3
+	rm ~/.config/i3; ln -s $(LINUX_DIR)/i3 ~/.config/i3
 
 config_rofi:
-	rm ~/.config/rofi; ln -s $(DIR)/desktop/rofi ~/.config/rofi
+	rm ~/.config/rofi; ln -s $(LINUX_DIR)/rofi ~/.config/rofi
 
 config_i3status_rust:
-	rm ~/.config/i3status-rust; ln -s $(DIR)/desktop/i3status-rust ~/.config/i3status-rust
+	rm ~/.config/i3status-rust; ln -s $(LINUX_DIR)/i3status-rust ~/.config/i3status-rust
 
 config_picom:
-	rm ~/.config/picom.conf; ln -s $(DIR)/desktop/picom.conf ~/.config/picom.conf
+	rm ~/.config/picom.conf; ln -s $(LINUX_DIR)/picom.conf ~/.config/picom.conf
 
 config_xresources:
-	rm ~/.Xresources; ln -s $(DIR)/desktop/.Xresources ~/.Xresources
+	rm ~/.Xresources; ln -s $(LINUX_DIR)/.Xresources ~/.Xresources
 
 config_aerospace:
 	rm ~/.aerospace.toml; ln -s $(DIR)/desktop/macos/.aerospace.toml ~/.aerospace.toml
@@ -130,7 +131,6 @@ install_i3_pc: global_ignore
 			catppuccin-gtk-theme-mocha catppuccin-cursors-mocha ttf-jetbrains-mono-nerd \
 			rofi rofi-search-git picom nitrogen flameshot \
 			gnome-keyring
-
 
 install_sway_pc: global_ignore
 	yay -S go
