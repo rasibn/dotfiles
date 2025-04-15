@@ -28,7 +28,7 @@ end
 config.color_scheme = "Catppuccin Mocha"
 
 if is_linux() then
-	config.font_size = 13.0
+	config.font_size = 15.0
 	config.enable_tab_bar = false
 end
 
