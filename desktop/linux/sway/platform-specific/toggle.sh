@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define monitor names
-monitor_left="HDMI-A-1"
-monitor_right="DP-1"
+monitor_left="DP-1"
+monitor_right="DP-3"
 
 # Get current active outputs
 active_outputs=$(swaymsg -t get_outputs | grep -c '"active": true')
