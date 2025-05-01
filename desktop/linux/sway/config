@@ -9,7 +9,7 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
-set $font "Inter Regular 6"
+set $font "Inter Regular 9"
 font pango: $font
 
 # Example
@@ -59,6 +59,11 @@ exec wl-copy
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
+
+input 1133:49278:Logitech_Gaming_Mouse_G402 {
+    accel_profile "flat" # disable mouse acceleration (enabled by default; to set it manually, use "adaptive" instead of "flat")
+    pointer_accel 0.2 # set mouse sensitivity (between -1 and 1)
+}
 
 input type:touchpad {
     dwt enabled
@@ -306,7 +311,7 @@ client.background        $base
 bar {
         position bottom
         status_command i3status-rs
-        font pango:JetBrainsMono Nerd Font, DejaVu Sans Mono, FontAwesome 6
+        font pango:JetBrainsMono Nerd Font, DejaVu Sans Mono, FontAwesome 12
         
         colors {
            background         $crust

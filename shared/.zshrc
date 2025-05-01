@@ -51,3 +51,12 @@ aws_export_credentials() {
 # export CURL_CA_BUNDLE=${CERTIFI_PATH}
 # export NODE_EXTRA_CA_CERTS=${CERTIFI_PATH}
 # export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/home/rasib/.opam/opam-init/init.zsh' ]] || source '/home/rasib/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
