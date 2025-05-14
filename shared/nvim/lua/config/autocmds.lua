@@ -3,6 +3,7 @@
 -- Add any additional autocmds here
 
 -- vim.cmd("silent! Copilot disable")
+vim.cmd("silent! RenderMarkdown toggle")
 --
 -- Add an autocommand for Rust lifetimes `
 local rust_group = vim.api.nvim_create_augroup("RustSettings", { clear = true })
