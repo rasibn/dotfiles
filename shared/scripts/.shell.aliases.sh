@@ -26,6 +26,7 @@ alias cr="cargo run"
 alias ck="cargo check"
 alias ci="cargo install --path ."
 
+alias notes="cd $ASSET_DIR/vault/ && $EDITOR"
 alias pnotes="cd $ASSET_DIR/personal-notes/ && $EDITOR"
 alias wnotes="cd $ASSET_DIR/work-notes/ && $EDITOR"
 alias plnotes="cd $ASSET_DIR/personal-notes/ && git pull && $EDITOR"
