@@ -12,3 +12,25 @@ vim.api.nvim_create_autocmd("FileType", {
   group = rust_group,
   command = "inoremap ' '",
 })
+
+local client = vim.lsp.start({
+  name = "appenginelsp",
+  cmd = { "/home/rasib/projects/appenginelsp/main" },
+  on_attach = function()
+    vim.notify("Good stuff")
+  end,
+})
+
+if not client then
+  vim.notify("hey, you didnt do the client thing good")
+  return
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    if vim.api.nvim_buf_is_loaded(0) then
+      vim.lsp.buf_attach_client(0, client)
+    end
+  end,
+})
