@@ -1,1 +1,3 @@
 plugins/lsp-macos.lua
+plugins/lsp-nixos.lua
+plugins/disable-mason.lua

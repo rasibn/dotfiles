@@ -97,6 +97,7 @@
       hm = "home-manager";
       hms = "home-manager switch";
       hme = "home-manager edit";
+      nswitch = "sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/"
       cls = "clear";
       # git aliases
       gst = "git status";
