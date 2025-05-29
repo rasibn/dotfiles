@@ -29,7 +29,6 @@ in {
     };
     stateVersion = "24.11";
     file = {
-      # ".tmux.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/.tmux.conf";
       ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/nvim";
       ".wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/.wezterm.lua";
       ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr";
@@ -74,16 +73,14 @@ in {
         # Scroll speed configuration
         set -g @scroll-speed-num-lines-per-scroll 2
 
-
         # Bind 'v' to copy-mode
         bind 'v' copy-mode
 
-        # Custom script execution: run-shell "${dotfiles_dir}/shared/scripts/tmux-power.tmux"
+        run-shell "$DOTFILE_DIR/shared/scripts/tmux-power.tmux"
 
         # True colours support
         set -ga terminal-overrides ",xterm-256color:Tc"
         set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
-
         # Underscore colours - needs tmux-3.0
         set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
       '';
@@ -97,19 +94,22 @@ in {
       enableGitIntegration = true;
     };
 
+    fzf.enable = true;
     ripgrep.enable = true;
     fish = {
       enable = true;
       shellAliases = {
         vim = "nvim";
+        vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
+        nswitchu = "sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/";
+        cls = "clear";
+        lg = "lazygit";
       };
       shellAbbrs = {
         # system aliases
         hm = "home-manager";
         hms = "home-manager switch";
         hme = "home-manager edit";
-        cls = "clear";
-        nswitchu = "sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/";
         # git aliases
         gst = "git status";
         ga = "git add";
@@ -119,11 +119,9 @@ in {
         gp = "git push";
         git-undo = "git reset --soft HEAD^";
         # other aliases
-        lg = "lazygit";
       };
       shellInit = ''
-        set fish_vi_force_cursor
-        set fish_vi_keybindings
+        set -g fish_key_bindings fish_vi_key_bindings
       '';
     };
     lazygit.enable = true;
