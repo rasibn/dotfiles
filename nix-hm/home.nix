@@ -16,6 +16,9 @@ in {
       pavucontrol
       nil # nix lsp
       alejandra # nix formator
+      kdePackages.dolphin
+      hyprpaper
+      gopls
       gnumake
       nodejs
       gcc
@@ -86,7 +89,6 @@ in {
       '';
     };
 
-    wofi.enable = true;
     rofi.enable = true;
     go.enable = true;
     bun = {
@@ -125,7 +127,6 @@ in {
       '';
     };
     lazygit.enable = true;
-
     gh.enable = true;
     git = {
       enable = true;
