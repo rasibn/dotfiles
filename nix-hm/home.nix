@@ -17,10 +17,14 @@ in {
       nil # nix lsp
       alejandra # nix formator
       kdePackages.dolphin
+      google-chrome
       hyprpaper
       gopls
       gnumake
+      direnv
+      pnpm
       nodejs
+      air
       gcc
     ];
     sessionVariables = {
@@ -40,7 +44,6 @@ in {
 
   #	wayland.windowManager.hyprland = {
   #		enable = true;
-  #		extraConfig = builtins.readFile ./hyprland.conf;
   #	};
 
   services = {
