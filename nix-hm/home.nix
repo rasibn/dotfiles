@@ -20,6 +20,8 @@ in {
       google-chrome
       hyprpaper
       gopls
+      tailwindcss-language-server
+      templ
       gnumake
       direnv
       pnpm
