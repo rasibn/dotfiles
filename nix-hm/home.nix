@@ -49,6 +49,7 @@ in {
   #	};
 
   services = {
+    swayosd.enable = true;
     cliphist = {
       enable = true;
       allowImages = true;
