@@ -19,6 +19,8 @@ in {
       kdePackages.dolphin
       google-chrome
       hyprpaper
+      nwg-displays
+      btop
       gopls
       tailwindcss-language-server
       templ
