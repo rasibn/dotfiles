@@ -25,6 +25,7 @@ in {
       tailwindcss-language-server
       templ
       gnumake
+      vscode
       direnv
       pnpm
       nodejs
