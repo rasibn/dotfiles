@@ -30,7 +30,13 @@ in {
       pnpm
       nodejs
       air
+      rustup
       gcc
+      fd
+
+      # screenshots
+      hyprshot
+      swappy
     ];
     sessionVariables = {
       EDITOR = "vim";
@@ -114,6 +120,7 @@ in {
         vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
         nswitchu = "sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/";
         cls = "clear";
+        ta = "tmux a";
         lg = "lazygit";
       };
       shellAbbrs = {
