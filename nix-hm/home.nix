@@ -29,8 +29,9 @@ in {
       direnv
       pnpm
       nodejs
-      air
       rustup
+      air
+      zathura
       gcc
       fd
 
