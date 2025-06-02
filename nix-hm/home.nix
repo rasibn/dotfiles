@@ -31,7 +31,6 @@ in {
       nodejs
       rustup
       air
-      zathura
       gcc
       fd
 
@@ -71,6 +70,7 @@ in {
     wezterm.enable = true;
     firefox.enable = true;
     waybar.enable = true;
+    zoxide.enable = true;
     tmux = {
       enable = true;
       baseIndex = 1;
@@ -141,6 +141,7 @@ in {
       };
       shellInit = ''
         set -g fish_key_bindings fish_vi_key_bindings
+        zoxide init --cmd cd fish | source
       '';
     };
     lazygit.enable = true;
