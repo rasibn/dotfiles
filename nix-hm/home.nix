@@ -28,6 +28,7 @@ in {
       vscode
       direnv
       pnpm
+      waypaper
       nodejs
       rustup
       air
