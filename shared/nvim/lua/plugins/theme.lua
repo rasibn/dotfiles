@@ -12,6 +12,7 @@ return {
   },
   { "folke/tokyonight.nvim" },
   { "projekt0n/github-nvim-theme" },
+  { "rebelot/kanagawa.nvim" },
   {
     "LazyVim/LazyVim",
     opts = {
