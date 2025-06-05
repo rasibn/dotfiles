@@ -27,7 +27,8 @@ in {
       gnumake
       vscode
       direnv
-      steam
+      sqlite
+      ncdu
       typescript-language-server
       pnpm
       waypaper
