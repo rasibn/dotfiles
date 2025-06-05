@@ -27,6 +27,8 @@ in {
       gnumake
       vscode
       direnv
+      steam
+      typescript-language-server
       pnpm
       waypaper
       nodejs
