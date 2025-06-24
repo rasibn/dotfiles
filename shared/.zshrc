@@ -41,6 +41,7 @@ export PATH="$HOME/go/bin:$PATH"
 aws_export_credentials() {
     local profile_name="$1"
     eval "$(aws configure export-credentials --profile "$profile_name" --format env)"
+    eval "export AWS_REGION=eu-west-1"
 }
 
 # export CERTIFI_PATH=$(python3 -m certifi)
