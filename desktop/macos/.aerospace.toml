@@ -208,8 +208,8 @@ alt-shift-9 = 'move-node-to-workspace 9'
 # alt-shift-z = 'move-node-to-workspace Z'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-alt-n = 'workspace-back-and-forth'
-alt-p = 'workspace --wrap-around next'
+# alt-n = 'workspace-back-and-forth'
+# alt-p = 'workspace --wrap-around next'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
 alt-shift-n = 'move-workspace-to-monitor --wrap-around next'
 
