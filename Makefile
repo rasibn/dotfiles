@@ -17,6 +17,10 @@ config_fish:
 config_zellij:
 	rm -rf ~/.config/zellij; ln -s $(DIR)/shared/zellij ~/.config/zellij
 
+config_helix:
+	rm -rf ~/.config/helix; ln -s $(DIR)/shared/helix ~/.config/helix
+	
+
 config_delta:
 	git config --global core.pager delta
 	git config --global interactive.diffFilter 'delta --color-only'
