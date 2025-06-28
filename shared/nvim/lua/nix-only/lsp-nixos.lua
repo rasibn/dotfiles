@@ -7,6 +7,7 @@ return {
       servers = {
         rust_analyzer = {},
         ruff = {},
+        pyright = {},
         gopls = {},
         nil_ls = {},
         yamlls = {},

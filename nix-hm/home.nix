@@ -23,8 +23,12 @@ in {
       btop
       gopls
       tailwindcss-language-server
+      typescript-language-server
       templ
       gnumake
+      python3
+      ruff
+      pyright
       vscode
       direnv
       sqlite
@@ -122,6 +126,7 @@ in {
       enable = true;
       shellAliases = {
         vim = "nvim";
+        nvimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf-preview.sh";
         vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
         nswitchu = "sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/";
         cls = "clear";

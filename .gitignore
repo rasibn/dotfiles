@@ -1,4 +1,5 @@
 **/.DS_Store
 ui/sway/config.d/config-extras
+node_modules/
 secrets.sh
 .env
