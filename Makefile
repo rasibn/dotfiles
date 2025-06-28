@@ -10,6 +10,12 @@ test:
 config_nvim:
 	rm ~/.config/nvim; ln -s $(DIR)/shared/nvim ~/.config/nvim
 
+config_nix_hm:
+	# add flakes instruction to /etc/configuration.nix nix.settings.experatklj
+	# rm ~/hardware-config
+	# copy from /etc/
+	# nixos-rebuilt switch flake run .
+
 # SHELL
 config_fish:
 	rm -rf ~/.config/fish; ln -s $(DIR)/shared/fish ~/.config/fish
