@@ -58,9 +58,14 @@ def get_env_dirs() -> list[str]:
 
 def run_capture(cmd: list[str]) -> str:
     try:
-        return subprocess.check_output(
-            cmd, text=True, stderr=subprocess.DEVNULL
-        ).strip()
+        result = subprocess.run(
+            cmd,
+            text=True,
+            capture_output=True,
+            stderr=subprocess.DEVNULL,
+            check=True,
+        )
+        return result.stdout.strip()
     except subprocess.CalledProcessError:
         return ""
 
