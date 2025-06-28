@@ -32,6 +32,8 @@ in {
       gopls
       gofumpt
 
+      bruno
+
       bat
 
       nwg-displays
