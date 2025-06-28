@@ -1,5 +1,6 @@
 **/.DS_Store
 ui/sway/config.d/config-extras
 node_modules/
+__pycache__/
 secrets.sh
 .env

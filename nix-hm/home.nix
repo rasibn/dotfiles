@@ -14,19 +14,32 @@ in {
     packages = with pkgs; [
       wl-clipboard-rs
       pavucontrol
+
       nil # nix lsp
       alejandra # nix formator
+
       kdePackages.dolphin
       google-chrome
+
       hyprpaper
+
+      gleam
+      erlang_28
+
+      uv
+      python3
+
+      gopls
+      gofumpt
+
+      bat
+
       nwg-displays
       btop
-      gopls
       tailwindcss-language-server
       typescript-language-server
       templ
       gnumake
-      python3
       ruff
       pyright
       vscode
