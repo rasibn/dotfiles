@@ -31,6 +31,7 @@ in {
 
       gopls
       gofumpt
+      gotools
 
       bruno
 
