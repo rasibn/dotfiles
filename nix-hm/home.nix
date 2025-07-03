@@ -37,6 +37,8 @@ in {
 
       bat
 
+      svelte-language-server
+
       nwg-displays
       btop
       tailwindcss-language-server
