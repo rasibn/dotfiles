@@ -37,14 +37,11 @@ def panic(message: str, code: int = 1) -> None:
     sys.exit(code)
 
 
+def check_call(cmd: List[str]) -> bool:
+    """Run a command and return True if it succeeds (exit code 0), suppressing output."""
+    return call(cmd, stdout=DEVNULL, stderr=DEVNULL) == 0
+
+
 def command_exists(command: str) -> bool:
     """Check if a command exists in the system PATH."""
     return shutil.which(command) is not None
-
-
-## NEW FUNCTIONS NEED TO TEST AND CHECK
-
-
-def check_call(cmd: list[str]) -> bool:
-    """Run a command and return True if it succeeds (exit code 0), suppressing output."""
-    return call(cmd, stdout=DEVNULL, stderr=DEVNULL) == 0

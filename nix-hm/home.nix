@@ -144,7 +144,7 @@ in {
       enable = true;
       shellAliases = {
         vim = "nvim";
-        nvimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf-preview.sh";
+        nvimi = "python $DOTFILE_DIR/shared/scripts/python/nvimi.py";
         vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
         nswitchu = "sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/";
         cls = "clear";
