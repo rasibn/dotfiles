@@ -12,6 +12,8 @@ in {
     username = "rasib";
     homeDirectory = "/home/rasib";
     packages = with pkgs; [
+      swaylock-effects
+
       wl-clipboard-rs
       pavucontrol
 
@@ -32,6 +34,10 @@ in {
       gopls
       gofumpt
       gotools
+
+      obsidian
+
+      unzip
 
       bruno
 
@@ -84,6 +90,30 @@ in {
   #	};
 
   services = {
+    swayidle = {
+      enable = true;
+      events = [
+        {
+          event = "before-sleep";
+          command = "${pkgs.swaylock-effects}/bin/swaylock -f --color 00000000 --effect-blur 7x5";
+        }
+      ];
+      timeouts = [
+        {
+          timeout = 300;
+          command = "${pkgs.swaylock-effects}/bin/swaylock -f --color 00000000 --effect-blur 7x5";
+        }
+        {
+          timeout = 600;
+          command = "${pkgs.sway}/bin/swaymsg 'output * dpms off'";
+          resumeCommand = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
+        }
+        {
+          timeout = 900;
+          command = "systemctl poweroff";
+        }
+      ];
+    };
     swayosd.enable = true;
     cliphist = {
       enable = true;
