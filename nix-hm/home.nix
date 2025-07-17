@@ -66,6 +66,8 @@ in {
       gcc
       fd
 
+      docker-compose
+
       # screenshots
       hyprshot
       swappy
@@ -198,6 +200,11 @@ in {
       };
       shellInit = ''
         set -g fish_key_bindings fish_vi_key_bindings
+
+        if not set -q TMUX
+          tmux attach || tmux new -s base
+        end
+
         zoxide init --cmd cd fish | source
       '';
     };
