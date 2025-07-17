@@ -98,7 +98,10 @@ def create_tmux_session(
         )
 
         # Send cd commands to ensure proper directory and prompt updates
-        for window in ["nvim", "zsh", "extra"]:
+        for window in [
+            "nvim",
+            "zsh",
+        ]:
             check_call(
                 [
                     "tmux",
