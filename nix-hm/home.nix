@@ -24,6 +24,8 @@ in {
       google-chrome
 
       hyprpaper
+      hypridle
+      rofi
 
       gleam
       erlang_28
@@ -66,6 +68,13 @@ in {
       gcc
       fd
 
+      opencode
+
+      nerd-fonts.caskaydia-cove
+      font-awesome
+
+      udiskie
+
       docker-compose
 
       # screenshots
@@ -81,9 +90,11 @@ in {
     };
     stateVersion = "24.11";
     file = {
+      ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/rofi";
       ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/nvim";
       ".wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/.wezterm.lua";
       ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr";
+      ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/waybar";
     };
   };
 
@@ -92,29 +103,35 @@ in {
   #	};
 
   services = {
-    swayidle = {
+    mako = {
       enable = true;
-      events = [
-        {
-          event = "before-sleep";
-          command = "${pkgs.swaylock-effects}/bin/swaylock -f --color 00000000 --effect-blur 7x5";
-        }
-      ];
-      timeouts = [
-        {
-          timeout = 300;
-          command = "${pkgs.swaylock-effects}/bin/swaylock -f --color 00000000 --effect-blur 7x5";
-        }
-        {
-          timeout = 600;
-          command = "${pkgs.sway}/bin/swaymsg 'output * dpms off'";
-          resumeCommand = "${pkgs.sway}/bin/swaymsg 'output * dpms on'";
-        }
-        {
-          timeout = 900;
-          command = "systemctl poweroff";
-        }
-      ];
+      extraConfig = ''
+        sort=-time
+        layer=overlay
+        background-color=#1e222a7f
+        width=450
+        height=150
+        border-size=0
+        border-color=#14181d
+        border-radius=10
+        icons=0
+        max-icon-size=64
+        default-timeout=5000
+        ignore-timeout=0
+        font="HarmonyOS Sans SC" 16
+        margin=12
+        padding=12,20
+
+        [urgency=low]
+        border-color=#cccccc
+
+        [urgency=normal]
+        border-color=#99c0d0
+
+        [urgency=critical]
+        border-color=#bf616a
+        default-timeout=0
+      '';
     };
     swayosd.enable = true;
     cliphist = {
@@ -163,7 +180,6 @@ in {
       '';
     };
 
-    rofi.enable = true;
     go.enable = true;
     bun = {
       enable = true;
@@ -202,8 +218,12 @@ in {
       shellInit = ''
         set -g fish_key_bindings fish_vi_key_bindings
 
-        if not set -q TMUX
-          tmux attach || tmux new -s base
+        if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
+            dbus-run-session Hyprland
+        else
+            if not set -q TMUX
+                tmux attach || tmux new -s base
+            end
         end
 
         zoxide init --cmd cd fish | source
