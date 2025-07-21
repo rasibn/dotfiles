@@ -68,7 +68,7 @@ in {
       gcc
       fd
 
-      opencode
+      # opencode
 
       nerd-fonts.caskaydia-cove
       font-awesome
@@ -195,10 +195,14 @@ in {
         nvimi = "python $DOTFILE_DIR/shared/scripts/python/nvimi.py";
         proji = "python $DOTFILE_DIR/shared/scripts/python/proji.py";
         vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
+        flake-update = "nix flake update";
         nswitchu = "sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/";
         cls = "clear";
         ta = "tmux a";
         lg = "lazygit";
+        ngc = "sudo nix-collect-garbage -d";
+        ngc7 = "sudo nix-collect-garbage --delete-older-than 7d";
+        ngc14 = "sudo nix-collect-garbage --delete-older-than 14d";
       };
       shellAbbrs = {
         # system aliases
