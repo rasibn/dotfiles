@@ -68,7 +68,7 @@ in {
       gcc
       fd
 
-      # opencode
+      opencode
 
       nerd-fonts.caskaydia-cove
       font-awesome
