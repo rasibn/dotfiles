@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  stateVersion,
   ...
 }: let
   dotfiles_dir = "${config.home.homeDirectory}/assets/dotfiles";
@@ -9,6 +10,7 @@
   projects_dir = "${config.home.homeDirectory}/projects";
 in {
   home = {
+    stateVersion = stateVersion;
     username = "rasib";
     homeDirectory = "/home/rasib";
     packages = with pkgs; [
