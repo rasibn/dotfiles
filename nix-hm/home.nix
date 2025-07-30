@@ -27,9 +27,6 @@ in {
       hypridle
       rofi
 
-      gleam
-      erlang_28
-
       uv
       python3
 
@@ -88,7 +85,6 @@ in {
       ASSET_DIR = assets_dir;
       DOTFILE_DIR = dotfiles_dir;
     };
-    stateVersion = "24.11";
     file = {
       ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/rofi";
       ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/nvim";
@@ -196,7 +192,7 @@ in {
         proji = "python $DOTFILE_DIR/shared/scripts/python/proji.py";
         vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
         flake-update = "nix flake update";
-        nswitchu = "sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/";
+        nswitchu = "nswitchu_func";
         cls = "clear";
         ta = "tmux a";
         lg = "lazygit";
@@ -221,6 +217,17 @@ in {
       };
       shellInit = ''
         set -g fish_key_bindings fish_vi_key_bindings
+
+        # Dynamic nswitchu function that detects current host
+        function nswitchu_func
+            # Check if device has a battery (laptop indicator)
+            if test -d /sys/class/power_supply/BAT0 -o -d /sys/class/power_supply/BAT1
+                set host_config "laptop"
+            else
+                set host_config "desktop"
+            end
+            sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/#$host_config
+        end
 
         if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
             dbus-run-session Hyprland
