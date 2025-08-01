@@ -94,8 +94,15 @@ in {
       ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/rofi";
       ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/nvim";
       ".wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/.wezterm.lua";
-      ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr";
       ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/waybar";
+
+      ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprland.conf";
+      ".config/hypr/hyprpaper.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprpaper.conf";
+      ".config/hypr/monitors.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/monitors.conf";
+      ".config/hypr/workspaces.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/workspaces.conf";
+      ".config/hypr/hyprlock.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprlock.png";
+      ".config/hypr/thunder.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/thunder.png";
+      ".config/hypr/wallpaper.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/wallpaper.png";
     };
   };
 
@@ -104,6 +111,31 @@ in {
   #	};
 
   services = {
+    hypridle = {
+      enable = true;
+      settings = {
+        listener = [
+          {
+            timeout = 300; # 5 minutes
+            on-timeout = "swayosd-client --brightness lower";
+            on-resume = "swayosd-client --brightness raise";
+          }
+          {
+            timeout = 600;
+            on-timeout = "hyprlock";
+          }
+          {
+            timeout = 900; # 10 minutes (display off)
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+          {
+            timeout = 1800; # 30 minutes (suspend)
+            on-timeout = "systemctl suspend";
+          }
+        ];
+      };
+    };
     mako = {
       enable = true;
       extraConfig = ''
