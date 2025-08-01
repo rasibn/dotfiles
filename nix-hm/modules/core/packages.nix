@@ -84,4 +84,3 @@
     font-awesome
   ];
 }
-

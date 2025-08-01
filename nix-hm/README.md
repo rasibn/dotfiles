@@ -38,10 +38,6 @@ nix-hm/
 │   │   ├── environment.nix           # Environment variables & home.file configs
 │   │   └── default.nix               # Core module imports
 │   ├── programs/
-│   │   ├── shell/
-│   │   │   ├── fish.nix              # Fish configuration ✓ (already extracted)
-│   │   │   ├── zsh.nix               # Zsh configuration (if needed)
-│   │   │   └── default.nix           # Shell program imports
 │   │   ├── terminal/
 │   │   │   ├── tmux.nix              # Tmux configuration
 │   │   │   ├── wezterm.nix           # Wezterm configuration
@@ -208,4 +204,3 @@ After migration, you can easily customize per host:
 - Always test on a non-critical system first if possible
 - Consider using `nixos-rebuild build` to test before applying
 - Keep the old structure until fully migrated and tested
-
