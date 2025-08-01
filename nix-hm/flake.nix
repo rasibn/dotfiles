@@ -42,7 +42,7 @@
       laptop = nixpkgs.lib.nixosSystem {
         specialArgs = {stateVersion = laptopStateVersion;};
         modules = [
-          ./hardware-configuration.nix
+          ./laptop-hardware-configuration.nix
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {
