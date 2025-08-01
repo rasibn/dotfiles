@@ -20,14 +20,15 @@
   in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = { stateVersion = desktopStateVersion; };
+        specialArgs = {stateVersion = desktopStateVersion;};
         modules = [
+          ./desktop-hardware-configuration.nix
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { stateVersion = desktopStateVersion; };
+            home-manager.extraSpecialArgs = {stateVersion = desktopStateVersion;};
             home-manager.users.rasib = {
               imports = [
                 ./home.nix
@@ -37,16 +38,17 @@
           }
         ];
       };
-      
+
       laptop = nixpkgs.lib.nixosSystem {
-        specialArgs = { stateVersion = laptopStateVersion; };
+        specialArgs = {stateVersion = laptopStateVersion;};
         modules = [
+          ./hardware-configuration.nix
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { stateVersion = laptopStateVersion; };
+            home-manager.extraSpecialArgs = {stateVersion = laptopStateVersion;};
             home-manager.users.rasib = {
               imports = [
                 ./home.nix

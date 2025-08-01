@@ -72,6 +72,9 @@ in {
       nerd-fonts.caskaydia-cove
       font-awesome
 
+      prettier
+      stylua
+
       udiskie
 
       docker-compose
@@ -142,6 +145,7 @@ in {
   programs = {
     wezterm.enable = true;
     firefox.enable = true;
+    brave.enable = true;
     waybar.enable = true;
     zoxide.enable = true;
     tmux = {

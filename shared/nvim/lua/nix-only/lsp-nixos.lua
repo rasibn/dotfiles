@@ -41,7 +41,7 @@ return {
               staticcheck = true,
               directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
               semanticTokens = true,
-      },
+            },
           },
         },
         pyright = {},
@@ -85,6 +85,7 @@ return {
         rust = { "rustfmt", lsp_format = "fallback" },
         -- Conform will run the first available formatter
         javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
         svelte = { "prettierd", "prettier", stop_after_first = true },
         markdown = { "prettierd", "prettier", stop_after_first = true },
         go = { "goimports", "gofumpt" },
@@ -92,6 +93,11 @@ return {
         templ = { "rustywind", "templ" },
         nix = { "alejandra" },
         gleam = { "gleam" },
+      },
+      formatters = {
+        prettier = {
+          require_cwd = true,
+        },
       },
     },
   },
