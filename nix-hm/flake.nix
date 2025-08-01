@@ -22,7 +22,7 @@
       desktop = nixpkgs.lib.nixosSystem {
         specialArgs = {stateVersion = desktopStateVersion;};
         modules = [
-          ./desktop-hardware-configuration.nix
+          ./hosts/desktop/hardware.nix
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {
@@ -32,7 +32,7 @@
             home-manager.users.rasib = {
               imports = [
                 ./home.nix
-                ./hosts/desktop.nix
+                ./hosts/desktop/default.nix
               ];
             };
           }
@@ -42,7 +42,7 @@
       laptop = nixpkgs.lib.nixosSystem {
         specialArgs = {stateVersion = laptopStateVersion;};
         modules = [
-          ./laptop-hardware-configuration.nix
+          ./hosts/laptop/hardware.nix
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {
@@ -55,7 +55,7 @@
             home-manager.users.rasib = {
               imports = [
                 ./home.nix
-                ./hosts/laptop.nix
+                ./hosts/laptop/default.nix
               ];
             };
           }
