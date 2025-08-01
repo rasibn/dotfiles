@@ -28,11 +28,14 @@
       gst = "git status";
       ga = "git add";
       gaa = "git add .";
-      gcm = "git commit -m";
+      gcmsg = "git commit -m";
       gl = "git pull";
       gp = "git push";
+      gb = "git branch";
+      gpsup = "git push --set-upstream origin $(git_current_branch)";
+      gdup = "git diff @{upstream}";
+
       git-undo = "git reset --soft HEAD^";
-      # other aliases
     };
     shellInit = ''
       set -g fish_key_bindings fish_vi_key_bindings
@@ -60,3 +63,4 @@
     '';
   };
 }
+
