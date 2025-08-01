@@ -46,6 +46,9 @@
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {
+            powerManagement.enable = true;
+            powerManagement.powertop.enable = true;
+
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {stateVersion = laptopStateVersion;};
