@@ -5,7 +5,8 @@
 }: {
   # Laptop-specific configuration
 
-  # Laptop-specific packages
-  home.packages = with pkgs; [
-  ];
+  home = {
+    packages = with pkgs; [
+    ];
+  };
 }
