@@ -78,8 +78,19 @@
           home-manager.nixosModules.home-manager
           {
             powerManagement.enable = true;
-            powerManagement.powertop.enable = true;
-
+            services.auto-cpufreq = {
+              enable = true;
+              settings = {
+                battery = {
+                  governor = "powersave";
+                  turbo = "never";
+                };
+                charger = {
+                  governor = "performance";
+                  turbo = "auto";
+                };
+              };
+            };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
