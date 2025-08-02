@@ -9,7 +9,6 @@
       vim = "nvim";
 
       nvimi = "python $DOTFILE_DIR/shared/scripts/python/nvimi.py";
-      proji = "python $DOTFILE_DIR/shared/scripts/python/proji.py";
       vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
 
       flake-update = "nix flake update";
