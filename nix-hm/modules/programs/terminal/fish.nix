@@ -7,9 +7,7 @@
     enable = true;
     shellAliases = {
       vim = "nvim";
-
-      nvimi = "python $DOTFILE_DIR/shared/scripts/python/nvimi.py";
-      vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
+      vimi = "nvimi --no-preview";
 
       flake-update = "nix flake update";
       nswitchu = "nswitchu_func";
