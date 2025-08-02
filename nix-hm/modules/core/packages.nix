@@ -27,7 +27,7 @@
 
     # System tools
     unzip
-    btop
+    htop-vim
     ncdu
     fd
     bat
