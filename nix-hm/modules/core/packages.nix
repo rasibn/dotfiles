@@ -78,6 +78,7 @@
 
     # AI tools
     opencode
+    lf
 
     # Fonts
     nerd-fonts.caskaydia-cove

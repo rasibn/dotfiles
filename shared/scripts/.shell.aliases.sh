@@ -6,8 +6,8 @@ alias git_config_home_local="$DOTFILE_DIR/shared/scripts/git_config_home_local.s
 alias git_config_work_local="$DOTFILE_DIR/shared/scripts/git_config_work_local.sh"
 alias git_config_home_global="$DOTFILE_DIR/shared/scripts/git_config_home_global.sh"
 alias git_config_work_global="$DOTFILE_DIR/shared/scripts/git_config_work_global.sh"
-alias tmux_session_init_code="$DOTFILE_DIR/shared/scripts/tmux_session_init_code.sh"
-alias tmux_session_init_config="$DOTFILE_DIR/shared/scripts/tmux_session_init_config.sh"
+alias tmux_session_init_code="$DOTFILE_DIR/shared/scripts/tmux/tmux_session_init_code.sh"
+alias tmux_session_init_config="$DOTFILE_DIR/shared/scripts/tmux/tmux_session_init_config.sh"
 
 alias git-undo="git reset --soft HEAD^"
 alias cls="clear"
@@ -44,7 +44,7 @@ alias dot.tmux="$EDITOR $DOTFILE_DIR/shared/.tmux.conf"
 alias dot.nvim="cd $DOTFILE_DIR/shared/nvim"
 alias dot.vim="cd $DOTFILE_DIR/shared/nvim"
 alias dot.fish="cd $DOTFILE_DIR/shared/fish"
-alias dot.nixos="cd $DOTFILE_DIR/nixos"
+alias dot.nixos="cd $DOTFILE_DIR/nix-hm"
 
 # config. prefix = points to $HOME/.config or $HOME dir
 alias config.zsh="$EDITOR $HOME/.zshrc"
