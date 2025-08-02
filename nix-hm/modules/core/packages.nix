@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  proji,
+  nvimi,
   ...
 }: {
   home.packages = with pkgs; [
@@ -83,5 +85,9 @@
     # Fonts
     nerd-fonts.caskaydia-cove
     font-awesome
+
+    # Custom packages
+    proji
+    nvimi
   ];
 }
