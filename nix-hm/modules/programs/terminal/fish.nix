@@ -7,9 +7,11 @@
     enable = true;
     shellAliases = {
       vim = "nvim";
+
       nvimi = "python $DOTFILE_DIR/shared/scripts/python/nvimi.py";
       proji = "python $DOTFILE_DIR/shared/scripts/python/proji.py";
       vimi = "$DOTFILE_DIR/shared/scripts/nvim-fzf.sh";
+
       flake-update = "nix flake update";
       nswitchu = "nswitchu_func";
       cls = "clear";
@@ -18,6 +20,13 @@
       ngc = "sudo nix-collect-garbage -d";
       ngc7 = "sudo nix-collect-garbage --delete-older-than 7d";
       ngc14 = "sudo nix-collect-garbage --delete-older-than 14d";
+
+      "dot.zsh" = "$EDITOR $DOTFILE_DIR/shared/.zshrc";
+      "dot.tmux" = "$EDITOR $DOTFILE_DIR/shared/.tmux.conf";
+      "dot.nvim" = "cd $DOTFILE_DIR/shared/nvim/";
+      "dot.vim" = "cd $DOTFILE_DIR/shared/nvim/";
+      "dot.fish" = "cd $DOTFILE_DIR/shared/fish/";
+      "dot.nix" = "cd $DOTFILE_DIR/nix-hm/";
     };
     shellAbbrs = {
       # system aliases
@@ -63,4 +72,3 @@
     '';
   };
 }
-
