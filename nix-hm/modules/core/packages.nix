@@ -2,7 +2,7 @@
   config,
   pkgs,
   proji,
-  nvimi,
+  vimi,
   ...
 }: {
   home.packages = with pkgs; [
@@ -88,6 +88,6 @@
 
     # Custom packages
     proji
-    nvimi
+    vimi
   ];
 }
