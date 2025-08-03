@@ -12,16 +12,23 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name:  "nvimi",
+		Name:  "vimi",
 		Usage: "Fuzzy-find and open files in Neovim",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
-				Name:  "no-preview",
-				Usage: "Disable preview using bat",
+				Name:    "preview",
+				Aliases: []string{"p"},
+				Usage:   "Enable preview",
+			},
+			&cli.BoolFlag{
+				Name:    "files",
+				Aliases: []string{"f"},
+				Usage:   "Search directories instead of files",
 			},
 		},
 		Action: func(c *cli.Context) error {
-			usePreview := !c.Bool("no-preview")
+			usePreview := c.Bool("preview")
+			searchDirs := c.Bool("files")
 
 			// Collect args and fallback to env vars
 			searchPaths := c.Args().Slice()
@@ -33,6 +40,18 @@ func main() {
 			}
 			if len(searchPaths) == 0 {
 				searchPaths = append(searchPaths, ".")
+			}
+
+			if searchDirs {
+				selectedDir, err := findDirectory(searchPaths, usePreview)
+				if err != nil {
+					return fmt.Errorf("failed to find directory: %w", err)
+				}
+				if selectedDir == "" {
+					return nil
+				}
+				fmt.Println(selectedDir)
+				return nil
 			}
 
 			selectedFile, err := findFile(searchPaths, usePreview)
@@ -55,22 +74,38 @@ func main() {
 }
 
 func findFile(paths []string, usePreview bool) (string, error) {
+	return findItems(paths, usePreview, "f")
+}
+
+func findDirectory(paths []string, usePreview bool) (string, error) {
+	return findItems(paths, usePreview, "d")
+}
+
+func findItems(paths []string, usePreview bool, itemType string) (string, error) {
 	fzfArgs := []string{"fzf"}
-	if usePreview && commandExists("bat") {
-		fzfArgs = append(fzfArgs,
-			"--ansi",
-			"--preview-window=right:45%",
-			"--preview=bat --color=always --style=header,grid --line-range :300 {}",
-		)
+	if usePreview {
+		if itemType == "f" && commandExists("bat") {
+			fzfArgs = append(fzfArgs,
+				"--ansi",
+				"--preview-window=right:45%",
+				"--preview=bat --color=always --style=header,grid --line-range :300 {}",
+			)
+		} else if itemType == "d" {
+			fzfArgs = append(fzfArgs,
+				"--ansi",
+				"--preview-window=right:45%",
+				"--preview=ls -la {}",
+			)
+		}
 	}
 
 	var findCmd *exec.Cmd
 	if commandExists("fd") {
-		args := []string{".", "--type", "f", "--hidden", "--follow", "--exclude", ".git"}
+		args := []string{".", "--type", itemType, "--hidden", "--follow", "--exclude", ".git"}
 		args = append(args, paths...)
 		findCmd = exec.Command("fd", args...)
 	} else if commandExists("find") {
-		findCmd = exec.Command("find", append(paths, "-type", "f")...)
+		findCmd = exec.Command("find", append(paths, "-type", itemType)...)
 	} else {
 		return "", fmt.Errorf("neither fd nor find is installed")
 	}

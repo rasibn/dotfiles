@@ -7,7 +7,8 @@
     enable = true;
     shellAliases = {
       vim = "nvim";
-      vimi = "nvimi --no-preview";
+      nvimi = "vimi --preview";
+      cdpls = "cd (vimi --files)";
 
       flake-update = "nix flake update";
       nswitchu = "nswitchu_func";

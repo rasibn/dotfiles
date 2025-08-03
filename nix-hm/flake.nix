@@ -30,10 +30,10 @@
         license = licenses.mit;
       };
     };
-    nvimi = pkgs.buildGoModule {
-      pname = "nvimi";
+    vimi = pkgs.buildGoModule {
+      pname = "vimi";
       version = "1.0.0";
-      src = ../shared/scripts/golang/nvimi;
+      src = ../shared/scripts/golang/vimi;
       vendorHash = "sha256-2adRLsTSd0vTGcis5FfOT5ZFgB420nvDqHkEEopmgec=";
       meta = with pkgs.lib; {
         description = "fzf based file picker for neovim";
@@ -56,7 +56,7 @@
             home-manager.extraSpecialArgs = {
               stateVersion = desktopStateVersion;
               inherit proji;
-              inherit nvimi;
+              inherit vimi;
             };
             home-manager.users.rasib = {
               imports = [
@@ -96,7 +96,7 @@
             home-manager.extraSpecialArgs = {
               stateVersion = laptopStateVersion;
               inherit proji;
-              inherit nvimi;
+              inherit vimi;
             };
             home-manager.users.rasib = {
               imports = [
