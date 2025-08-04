@@ -73,6 +73,7 @@
     powerOnBoot = true;
   };
   services.blueman.enable = true;
+  services.hypridle.enable = true;
   virtualisation.docker.enable = true;
 
   # List packages installed in system profile. To search, run:

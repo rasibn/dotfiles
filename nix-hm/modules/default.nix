@@ -2,6 +2,6 @@
   imports = [
     ./core
     ./programs
-    ./services
+    ./services.nix
   ];
 }

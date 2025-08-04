@@ -27,7 +27,7 @@
       # Bind 'v' to copy-mode
       bind 'v' copy-mode
 
-      run-shell "$DOTFILE_DIR/shared/scripts/tmux-power.tmux"
+      run-shell "$DOTFILE_DIR/shared/scripts/tmux/tmux-power.tmux"
 
       # True colours support
       set -ga terminal-overrides ",xterm-256color:Tc"
