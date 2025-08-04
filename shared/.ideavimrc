@@ -17,7 +17,6 @@ Plug 'tpope/vim-commentary'             " Easy commenting
 let mapleader="\<Space>"
 
 " === Project / File Tree ===
-" nnoremap <leader>fe  :action ActivateProjectToolWindow<CR>
 
 " === File Navigation ===
 nnoremap <leader>ff :action SearchEverywhere<CR>
@@ -31,11 +30,8 @@ nnoremap <leader>/  :action FindInPath<CR>
 " === Buffer & Tab Navigation ===
 nnoremap <S-l>      :action NextTab<CR>
 nnoremap <S-h>      :action PreviousTab<CR>
-nnoremap <leader>bd :action CloseEditor<CR>
+" nnoremap <leader>bd :action CloseEditor<CR> (use native keybind)
 nnoremap <leader>ba :action CloseAllEditors<CR>
-
-" === Terminal ===
-nnoremap <leader>tt :action ActivateTerminalToolWindow<CR>
 
 " === Git Integration ===
 nnoremap <leader>gs :action Git.Show.Log<CR>
@@ -59,9 +55,12 @@ nnoremap gcc        :action CommentByLineComment<CR>
 " === Debugging ===
 nnoremap <leader>db :action ToggleLineBreakpoint<CR>
 nnoremap <leader>dr :action Debug<CR>
-nnoremap <leader>dc :action Resume<CR>
-nnoremap <leader>dn :action StepOver<CR>
-nnoremap <leader>di :action StepInto<CR>
+nnoremap <leader>dc :action resume<cr>
+nnoremap <leader>dn :action stepover<cr>
+nnoremap <leader>di :action stepinto<cr>
 
-" === Reload Config ===
+" === reload config ===
 nnoremap <leader>sr :source ~/.ideavimrc<CR>
+
+
+
