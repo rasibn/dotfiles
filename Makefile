@@ -33,6 +33,10 @@ config_delta:
 	git config --global delta.navigate true
 	git config --global merge.conflictStyle zdiff3
 
+
+config_idea_vim:
+	rm ~/.ideavimrc; ln -s $(DIR)/shared/.ideavimrc ~/.ideavimrc
+
 config_zsh:
 	rm -rf ~/.oh-my-zsh;
 	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended

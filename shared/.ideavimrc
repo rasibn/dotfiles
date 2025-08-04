@@ -1,0 +1,67 @@
+" === Basic Behavior ===
+set clipboard=unnamedplus    " Yank/delete to system clipboard
+set number
+set relativenumber
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set scrolloff=5
+set timeoutlen=1000
+
+" === Plugins ===
+Plug 'machakann/vim-highlightedyank'    " Highlight yanks
+Plug 'tpope/vim-commentary'             " Easy commenting
+
+" === Leader Key ===
+let mapleader="\<Space>"
+
+" === Project / File Tree ===
+" nnoremap <leader>fe  :action ActivateProjectToolWindow<CR>
+
+" === File Navigation ===
+nnoremap <leader>ff :action SearchEverywhere<CR>
+nnoremap <leader><leader> :action SearchEverywhere<CR>
+nnoremap <leader>fr :action RecentFiles<CR>
+nnoremap <leader>fm :action RecentLocations<CR>
+
+" === Search ===
+nnoremap <leader>/  :action FindInPath<CR>
+
+" === Buffer & Tab Navigation ===
+nnoremap <S-l>      :action NextTab<CR>
+nnoremap <S-h>      :action PreviousTab<CR>
+nnoremap <leader>bd :action CloseEditor<CR>
+nnoremap <leader>ba :action CloseAllEditors<CR>
+
+" === Terminal ===
+nnoremap <leader>tt :action ActivateTerminalToolWindow<CR>
+
+" === Git Integration ===
+nnoremap <leader>gs :action Git.Show.Log<CR>
+nnoremap <leader>gc :action Git.Commit<CR>
+nnoremap <leader>gp :action Git.Push<CR>
+nnoremap <leader>gl :action Git.Pull<CR>
+nnoremap <leader>gx :action SearchWithGoogle<CR>
+
+" === Code Navigation & Refactor ===
+nnoremap gd         :action GotoDeclaration<CR>
+nnoremap gD         :action GotoTypeDeclaration<CR>
+nnoremap gI         :action GotoImplementation<CR>
+nnoremap gr         :action FindUsages<CR>
+nnoremap <leader>cr :action RenameElement<CR>
+nnoremap <leader>ce :action ExtractMethod<CR>
+nnoremap <leader>cv :action IntroduceVariable<CR>
+
+" === Commenting ===
+nnoremap gcc        :action CommentByLineComment<CR>
+
+" === Debugging ===
+nnoremap <leader>db :action ToggleLineBreakpoint<CR>
+nnoremap <leader>dr :action Debug<CR>
+nnoremap <leader>dc :action Resume<CR>
+nnoremap <leader>dn :action StepOver<CR>
+nnoremap <leader>di :action StepInto<CR>
+
+" === Reload Config ===
+nnoremap <leader>sr :source ~/.ideavimrc<CR>
