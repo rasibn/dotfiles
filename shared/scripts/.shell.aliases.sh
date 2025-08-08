@@ -1,7 +1,9 @@
 # mapping functions (or scripts) to aliases so we can use them cross shell
-alias proji="$DOTFILE_DIR/shared/scripts/tmux-session-fzf.sh"
-alias nvimi="$DOTFILE_DIR/shared/scripts/nvim-fzf-preview.sh"
-alias vimi="$DOTFILE_DIR/shared/scripts/nvim-fzf.sh"
+alias proji="$DOTFILE_DIR/shared/scripts/golang/proji/proji"
+alias cdpls="$DOTFILE_DIR/shared/scripts/golang/vimi/vimi --files"
+alias nvimi="$DOTFILE_DIR/shared/scripts/golang/vimi/vimi -p"
+alias vimi="$DOTFILE_DIR/shared/scripts/golang/vimi/vimi"
+
 alias git_config_home_local="$DOTFILE_DIR/shared/scripts/git_config_home_local.sh"
 alias git_config_work_local="$DOTFILE_DIR/shared/scripts/git_config_work_local.sh"
 alias git_config_home_global="$DOTFILE_DIR/shared/scripts/git_config_home_global.sh"
