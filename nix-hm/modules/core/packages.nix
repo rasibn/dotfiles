@@ -14,6 +14,9 @@
     google-chrome
     udiskie
 
+    jdt-language-server
+    jdk
+
     # Wayland/Hyprland
     hyprpaper
     hypridle
