@@ -48,7 +48,7 @@
     typescript-language-server
     svelte-language-server
     tailwindcss-language-server
-    prettier
+    prettierd
 
     # Development - Python
     uv
