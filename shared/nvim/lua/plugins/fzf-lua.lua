@@ -10,6 +10,10 @@ return {
   --   }
   -- end,
   opts = {
-    preview_opts = "hidden",
+    previewers = {
+      builtin = {
+        snacks_image = { enabled = false },
+      },
+    },
   },
 }
