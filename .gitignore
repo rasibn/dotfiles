@@ -5,3 +5,5 @@ __pycache__/
 secrets.sh
 .env
 desktop/linux/hypr/hypridle.conf
+shared/scripts/golang/proji/proji
+shared/scripts/golang/vimi/vimi
