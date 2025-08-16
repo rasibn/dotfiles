@@ -80,6 +80,9 @@
     obsidian
 
     stremio
+    qbittorrent-enhanced
+    mpv
+    feh
 
     # Docker
     docker-compose
