@@ -15,6 +15,7 @@
     udiskie
 
     jdt-language-server
+    maven
     jdk
 
     # Wayland/Hyprland
@@ -77,6 +78,8 @@
     vscode
     bruno
     obsidian
+
+    stremio
 
     # Docker
     docker-compose

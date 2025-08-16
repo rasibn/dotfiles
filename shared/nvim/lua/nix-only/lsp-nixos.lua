@@ -44,6 +44,7 @@ return {
             },
           },
         },
+        jdtls = {},
         pyright = {},
         nil_ls = {},
         yamlls = {},
