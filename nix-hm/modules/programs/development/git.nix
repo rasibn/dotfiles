@@ -14,5 +14,7 @@
   };
 
   programs.lazygit.enable = true;
+  programs.lazydocker.enable = true;
   programs.gh.enable = true;
 }
+
