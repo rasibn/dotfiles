@@ -9,12 +9,9 @@
       vim = "nvim";
       nvimi = "vimi --preview";
       cdpls = "cd (vimi --files)";
-
       flake-update = "nix flake update";
       nswitchu = "nswitchu_func";
       cls = "clear";
-      ta = "tmux a";
-      lg = "lazygit";
       ngc = "sudo nix-collect-garbage -d";
       ngc7 = "sudo nix-collect-garbage --delete-older-than 7d";
       ngc14 = "sudo nix-collect-garbage --delete-older-than 14d";
@@ -31,6 +28,10 @@
       hm = "home-manager";
       hms = "home-manager switch";
       hme = "home-manager edit";
+
+      ta = "tmux a";
+      lg = "lazygit";
+      ld = "sudo lazydoker";
       # git aliases
       gst = "git status";
       ga = "git add";
