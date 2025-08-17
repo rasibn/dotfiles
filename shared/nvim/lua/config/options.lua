@@ -2,3 +2,4 @@
 -- Add any additional options here
 
 vim.g.snacks_animate = false
+vim.opt.wrap = true
