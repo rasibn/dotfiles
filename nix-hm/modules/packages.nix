@@ -21,7 +21,7 @@
     # Wayland/Hyprland
     hyprpaper
     hypridle
-    rofi
+    rofi-wayland-unwrapped
     nwg-displays
     waypaper
 
