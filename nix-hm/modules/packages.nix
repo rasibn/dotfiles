@@ -10,7 +10,7 @@
     swaylock-effects
     wl-clipboard-rs
     pavucontrol
-    kdePackages.dolphin
+    # kdePackages.dolphin
     google-chrome
     udiskie
 
@@ -42,7 +42,6 @@
     gnumake
     gcc
 
-    yazi
     gnome-keyring
     ghostty
 

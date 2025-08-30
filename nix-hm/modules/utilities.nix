@@ -5,6 +5,7 @@
 }: {
   programs = {
     wezterm.enable = true;
+    yazi.enable = true;
     waybar.enable = true;
     fzf.enable = true;
     ripgrep.enable = true;
