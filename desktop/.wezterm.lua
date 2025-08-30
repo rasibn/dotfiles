@@ -26,6 +26,7 @@ end
 
 -- For example, changing the color scheme:
 config.color_scheme = "Catppuccin Mocha"
+config.color_scheme = "Kanagawa (Gogh)"
 
 if is_linux() then
 	config.font_size = 12.0

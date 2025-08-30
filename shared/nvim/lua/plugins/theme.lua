@@ -20,7 +20,7 @@ return {
       -- colorscheme = "github_dark_dimmed",
       -- colorscheme = "vscode",
       -- colorscheme = "tokyonight",
-      colorscheme = "catppuccin",
+      colorscheme = "kanagawa",
     },
   },
 }

@@ -9,7 +9,7 @@
   projects_dir = "${config.home.homeDirectory}/projects";
 in {
   home.sessionVariables = {
-    EDITOR = "vim";
+    EDITOR = "nvim";
     PROJECT_DIR = projects_dir;
     WORK_DIR = works_dir;
     ASSET_DIR = assets_dir;
