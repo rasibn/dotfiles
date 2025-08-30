@@ -42,6 +42,10 @@
     gnumake
     gcc
 
+    yazi
+    gnome-keyring
+    ghostty
+
     # Development - Node/JS
     nodejs
     pnpm

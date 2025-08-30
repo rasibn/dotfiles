@@ -3,6 +3,7 @@
   pkgs,
   ...
 }: {
+  # home-manager services
   services = {
     cliphist = {
       enable = true;

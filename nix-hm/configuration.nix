@@ -74,6 +74,7 @@
   };
   services.blueman.enable = true;
   services.hypridle.enable = true;
+  services.gnome.gnome-keyring.enable = true;
   virtualisation.docker.enable = true;
 
   # List packages installed in system profile. To search, run:

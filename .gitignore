@@ -7,3 +7,4 @@ secrets.sh
 desktop/linux/hypr/hypridle.conf
 shared/scripts/golang/proji/proji
 shared/scripts/golang/vimi/vimi
+desktop/linux/hypr/*.png
