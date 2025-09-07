@@ -29,7 +29,7 @@ config.color_scheme = "Catppuccin Mocha"
 config.color_scheme = "Kanagawa (Gogh)"
 
 if is_linux() then
-	config.font_size = 12.0
+	config.font_size = 14.0
 	config.enable_tab_bar = false
 end
 
