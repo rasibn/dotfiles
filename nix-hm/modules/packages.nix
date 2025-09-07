@@ -10,7 +10,8 @@
     swaylock-effects
     wl-clipboard-rs
     pavucontrol
-    # kdePackages.dolphin
+    xfce.thunar
+    mpv
     google-chrome
     udiskie
 
@@ -22,7 +23,7 @@
     hyprpaper
     hypridle
     rofi-wayland-unwrapped
-    nwg-displays
+    # nwg-displays
     waypaper
 
     # Screenshots
@@ -55,10 +56,10 @@
     prettierd
 
     # Development - Python
-    uv
-    python3
-    ruff
-    pyright
+    # uv
+    # python3
+    # ruff
+    # pyright
 
     # Development - Go
     gopls
@@ -81,9 +82,9 @@
     vscode
     bruno
     obsidian
-
-    stremio
-    qbittorrent-enhanced
+    # stremio
+    # qbittorrent-enhanced
+    transmission_4-gtk
     mpv
     feh
 
@@ -92,7 +93,7 @@
 
     # AI tools
     opencode
-    lf
+    lf # life manager
 
     # Fonts
     nerd-fonts.caskaydia-cove
