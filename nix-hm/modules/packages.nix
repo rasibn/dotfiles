@@ -121,6 +121,7 @@ in {
     # Fonts
     nerd-fonts.caskaydia-cove
     font-awesome
+    inter
 
     # Custom packages
     proji

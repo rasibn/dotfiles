@@ -9,5 +9,6 @@
     ./packages.nix
     ./environment.nix
     ./services.nix
+    ./fonts.nix
   ];
 }
