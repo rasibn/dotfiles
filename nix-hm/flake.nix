@@ -7,39 +7,19 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
   outputs = {
     nixpkgs,
     home-manager,
+    zen-browser,
     ...
   } @ inputs: let
     system = "x86_64-linux";
     desktopStateVersion = "24.11";
     laptopStateVersion = "25.05";
     pkgs = nixpkgs.legacyPackages.${system};
-
-    # Custom packages
-    proji = pkgs.buildGoModule {
-      pname = "proji";
-      version = "1.0.0";
-      src = ../shared/scripts/golang/proji;
-      vendorHash = "sha256-2adRLsTSd0vTGcis5FfOT5ZFgB420nvDqHkEEopmgec=";
-      meta = with pkgs.lib; {
-        description = "Tmux session manager with directory selection";
-        license = licenses.mit;
-      };
-    };
-    vimi = pkgs.buildGoModule {
-      pname = "vimi";
-      version = "1.0.0";
-      src = ../shared/scripts/golang/vimi;
-      vendorHash = "sha256-2adRLsTSd0vTGcis5FfOT5ZFgB420nvDqHkEEopmgec=";
-      meta = with pkgs.lib; {
-        description = "fzf based file picker for neovim";
-        license = licenses.mit;
-      };
-    };
   in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
@@ -55,8 +35,8 @@
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
               stateVersion = desktopStateVersion;
-              inherit proji;
-              inherit vimi;
+              inherit inputs;
+              inherit system;
             };
             home-manager.users.rasib = {
               imports = [
@@ -95,8 +75,8 @@
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
               stateVersion = laptopStateVersion;
-              inherit proji;
-              inherit vimi;
+              inherit inputs;
+              inherit system;
             };
             home-manager.users.rasib = {
               imports = [

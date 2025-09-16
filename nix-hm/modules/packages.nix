@@ -1,10 +1,31 @@
 {
   config,
   pkgs,
-  proji,
-  vimi,
+  inputs,
+  system,
   ...
-}: {
+}: let
+  proji = pkgs.buildGoModule {
+    pname = "proji";
+    version = "1.0.0";
+    src = ../../shared/scripts/golang/proji;
+    vendorHash = "sha256-2adRLsTSd0vTGcis5FfOT5ZFgB420nvDqHkEEopmgec=";
+    meta = with pkgs.lib; {
+      description = "Tmux session manager with directory selection";
+      license = licenses.mit;
+    };
+  };
+  vimi = pkgs.buildGoModule {
+    pname = "vimi";
+    version = "1.0.0";
+    src = ../../shared/scripts/golang/vimi;
+    vendorHash = "sha256-2adRLsTSd0vTGcis5FfOT5ZFgB420nvDqHkEEopmgec=";
+    meta = with pkgs.lib; {
+      description = "fzf based file picker for neovim";
+      license = licenses.mit;
+    };
+  };
+in {
   home.packages = with pkgs; [
     # Desktop utilities
     swaylock-effects
@@ -68,6 +89,8 @@
     air
     templ
 
+    zed-editor
+
     # Development - Rust
     rustup
 
@@ -102,5 +125,6 @@
     # Custom packages
     proji
     vimi
+    inputs.zen-browser.packages."${system}".default
   ];
 }
