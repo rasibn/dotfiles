@@ -69,6 +69,7 @@ in {
 
     # Development - Node/JS
     nodejs
+    biome
     pnpm
     bun
     typescript-language-server
@@ -88,6 +89,14 @@ in {
     gotools
     air
     templ
+
+    gleam
+    erlang_28
+    rebar3
+    inotify-tools
+
+    # git
+    jujutsu
 
     zed-editor
 
