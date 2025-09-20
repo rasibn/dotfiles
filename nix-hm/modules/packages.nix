@@ -89,6 +89,8 @@
     # Development - Lua
     stylua
 
+    lsof
+
     # Development tools
     vscode
     bruno
