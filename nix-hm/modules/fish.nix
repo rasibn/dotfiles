@@ -7,8 +7,7 @@
     enable = true;
     shellAliases = {
       vim = "nvim";
-      nvimi = "vimi --preview || echo 'vimi failed, run: go install github.com/rasibn/vimi@latest'";
-      cdpls = "cd (vimi --files) || echo 'vimi failed, run: go install github.com/rasibn/vimi@latest'";
+      cdpls = "cd (vimi --files)";
       flake-update = "nix flake update";
       nswitchu = "nswitchu_func";
       cls = "clear";
