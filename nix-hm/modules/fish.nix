@@ -48,6 +48,8 @@
     shellInit = ''
       set -g fish_key_bindings fish_vi_key_bindings
 
+      set -gx PATH $HOME/go/bin $PATH
+
       # Dynamic nswitchu function that detects current host
       function nswitchu_func
           # Check if device has a battery (laptop indicator)
