@@ -44,20 +44,30 @@ aws_export_credentials() {
     eval "export AWS_REGION=eu-west-1"
 }
 
-# export CERTIFI_PATH=$(python3 -m certifi)
-# export SSL_CERT_FILE=${CERTIFI_PATH}
-# export REQUESTS_CA_BUNDLE=${CERTIFI_PATH}
-# export PIP_CERT=${CERTIFI_PATH}
-# export HTTPLIB2_CA_CERTS=${CERTIFI_PATH}
-# export CURL_CA_BUNDLE=${CERTIFI_PATH}
-# export NODE_EXTRA_CA_CERTS=${CERTIFI_PATH}
-# export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+gwtb() {
+  local branch=$1
+  local repo_root
+  repo_root=$(git rev-parse --show-toplevel) || return 1
+  local worktree_dir="$repo_root/../$branch"
 
+  # if worktree already exists
+  if git worktree list --porcelain | grep -q "worktree $worktree_dir"; then
+    echo "Worktree for '$branch' already exists. Navigating..."
+    cd "$worktree_dir" || return 1
+    return
+  fi
 
-# BEGIN opam configuration
-# This is useful if you're using opam as it adds:
-#   - the correct directories to the PATH
-#   - auto-completion for the opam binary
-# This section can be safely removed at any time if needed.
-[[ ! -r '/home/rasib/.opam/opam-init/init.zsh' ]] || source '/home/rasib/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
-# END opam configuration
+  # if branch exists
+  if git show-ref --verify --quiet "refs/heads/$branch"; then
+    echo "Creating worktree for existing branch '$branch'..."
+    git worktree add "$worktree_dir" "$branch" || return 1
+  else
+    # branch does not exist, create it from current HEAD
+    local base_branch
+    base_branch=$(git branch --show-current)
+    echo "Branch '$branch' not found. Creating new branch from '$base_branch'..."
+    git worktree add -b "$branch" "$worktree_dir" "$base_branch" || return 1
+  fi
+
+  printf '%s\n' "$worktree_dir"
+}
