@@ -46,9 +46,10 @@ aws_export_credentials() {
 
 gwtb() {
   local branch=$1
-  local repo_root
+  local repo_root repo_name worktree_dir
   repo_root=$(git rev-parse --show-toplevel) || return 1
-  local worktree_dir="$repo_root/../$branch"
+  repo_name=$(basename "$repo_root")
+  worktree_dir="$repo_root/../${repo_name}.${branch}"
 
   # if worktree already exists
   if git worktree list --porcelain | grep -q "worktree $worktree_dir"; then
