@@ -69,5 +69,5 @@ gwtb() {
     git worktree add -b "$branch" "$worktree_dir" "$base_branch" || return 1
   fi
 
-  printf '%s\n' "$worktree_dir"
+  cd "$worktree_dir" || return 1
 }
