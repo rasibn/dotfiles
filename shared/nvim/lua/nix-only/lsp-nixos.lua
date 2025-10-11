@@ -71,6 +71,7 @@ return {
         ts_ls = {},
         templ = {},
         gleam = {},
+        ocamllsp = {},
       },
     },
   },
