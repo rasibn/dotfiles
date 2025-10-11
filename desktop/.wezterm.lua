@@ -24,6 +24,7 @@ config.color_scheme = "Kanagawa (Gogh)"
 
 if is_linux() then
 	config.font_size = 14.0
+	config.tab_bar_at_bottom = true
 end
 
 if is_darwin() then

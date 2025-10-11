@@ -47,12 +47,12 @@ in {
       enable = true;
       enableFishIntegration = true;
     };
-    zellij = {
-      enable = true;
-      settings = {
-        keybinds = "tmux";
-      };
-    };
+    # zellij = {
+    #   enable = true;
+    #   settings = {
+    #     keybinds = "tmux";
+    #   };
+    # };
   };
 
   # Terminal packages
