@@ -60,6 +60,8 @@
           sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/#$host_config
       end
 
+      set -gx PATH $HOME/.cargo/bin $PATH
+
       # if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
       #     dbus-run-session Hyprland
       # else

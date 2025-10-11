@@ -10,7 +10,8 @@
 
     zed-editor
 
-    xfce.thunar
+    kdePackages.dolphin
+
     mpv
     feh
 

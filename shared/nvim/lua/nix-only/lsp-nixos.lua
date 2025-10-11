@@ -94,6 +94,7 @@ return {
         templ = { "rustywind", "templ" },
         nix = { "alejandra" },
         gleam = { "gleam" },
+        ocaml = { "ocamlformat" },
       },
       formatters = {
         prettier = {

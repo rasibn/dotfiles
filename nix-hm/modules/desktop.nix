@@ -6,7 +6,7 @@
   mainTools = with pkgs; [
     hypridle
     waybar
-    rofi-wayland-unwrapped
+    rofi-unwrapped
     pavucontrol
     hyprshot
     swappy # A Wayland native snapshot and editor tool
