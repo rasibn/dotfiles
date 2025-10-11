@@ -11,6 +11,7 @@
     zed-editor
 
     kdePackages.dolphin
+    vesktop
 
     mpv
     feh
