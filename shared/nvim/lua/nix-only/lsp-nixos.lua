@@ -71,6 +71,7 @@ return {
         ts_ls = {},
         templ = {},
         gleam = {},
+        ocamllsp = {},
       },
     },
   },
@@ -94,6 +95,7 @@ return {
         templ = { "rustywind", "templ" },
         nix = { "alejandra" },
         gleam = { "gleam" },
+        ocaml = { "ocamlformat" },
       },
       formatters = {
         prettier = {

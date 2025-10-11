@@ -48,6 +48,7 @@
       set -g fish_key_bindings fish_vi_key_bindings
 
       set -gx PATH $HOME/go/bin $PATH
+      set -gx PATH $HOME/.cargo/bin $PATH
 
       # Dynamic nswitchu function that detects current host
       function nswitchu_func
