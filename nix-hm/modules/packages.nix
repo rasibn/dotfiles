@@ -82,8 +82,6 @@
     # Development - Rust
     rustup
 
-    kdePackages.dolphin
-
     # Development - Nix
     nil # nix lsp
     alejandra # nix formatter
