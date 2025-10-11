@@ -22,7 +22,7 @@
     # Wayland/Hyprland
     hyprpaper
     hypridle
-    rofi-unwrapped
+    rofi-wayland-unwrapped
     # nwg-displays
     waypaper
 
@@ -83,12 +83,6 @@
     rustup
 
     kdePackages.dolphin
-
-    ocaml
-    opam
-    dune_3
-    ocamlPackages.ocaml-lsp
-    ocamlformat_0_26_2
 
     # Development - Nix
     nil # nix lsp
