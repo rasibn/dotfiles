@@ -31,6 +31,8 @@
   tuiApps = with pkgs; [
     htop-vim
     slumber
+    helix
+    neovim
     zoxide
     opencode
     yazi
@@ -44,6 +46,12 @@ in {
     television = {
       enable = true;
       enableFishIntegration = true;
+    };
+    zellij = {
+      enable = true;
+      settings = {
+        keybinds = "tmux";
+      };
     };
   };
 

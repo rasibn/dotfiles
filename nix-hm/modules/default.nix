@@ -8,7 +8,7 @@
     ./terminal.nix
     ./terminal_fish.nix
     ./terminal_git.nix
-    ./terminal_languages.nix
+    ./languages.nix
     ./terminal_tmux.nix
   ];
 }

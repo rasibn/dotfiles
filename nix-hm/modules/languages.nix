@@ -42,6 +42,10 @@
     rebar3
   ];
 
+  crystalPackages = with pkgs; [
+    crystal_1_14
+  ];
+
   OCamlPackages = with pkgs; [
     ocaml
     opam
@@ -68,8 +72,9 @@ in {
     # ++ javaPackages
     ++ nodePackages
     # ++ pythonPackages
-    # ++ gleamPackages
+    ++ gleamPackages
     ++ rustPackages
+    # ++ crystalPackages
     ++ nixPackages
     ++ luaPackages
     # ++ OCamlPackages

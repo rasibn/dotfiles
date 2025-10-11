@@ -60,13 +60,13 @@
           sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/#$host_config
       end
 
-      if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
-          dbus-run-session Hyprland
-      else
-          if not set -q TMUX
-              tmux attach || tmux new -s base
-          end
-      end
+      # if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
+      #     dbus-run-session Hyprland
+      # else
+      #     if not set -q TMUX
+      #         tmux attach || tmux new -s base
+      #     end
+      # end
 
       zoxide init --cmd cd fish | source
     '';
