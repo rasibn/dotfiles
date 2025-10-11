@@ -15,10 +15,6 @@
     google-chrome
     udiskie
 
-    jdt-language-server
-    maven
-    jdk
-
     # Wayland/Hyprland
     hyprpaper
     hypridle
@@ -46,48 +42,16 @@
     gnome-keyring
     ghostty
 
-    # Development - Node/JS
-    nodejs
-    biome
-    pnpm
-    bun
-    typescript-language-server
-    svelte-language-server
-    tailwindcss-language-server
-    prettierd
-
-    # Development - Python
-    # uv
-    # python3
-    # ruff
-    # pyright
-
-    # Development - Go
-    gopls
-    gofumpt
-    gotools
-    air
-    templ
-
-    gleam
-    erlang_28
-    rebar3
     inotify-tools
 
-    # git
-    jujutsu
+    # git options
+    # jujutsu
 
     zed-editor
 
-    # Development - Rust
-    rustup
 
-    # Development - Nix
-    nil # nix lsp
-    alejandra # nix formatter
 
-    # Development - Lua
-    stylua
+    slumber
 
     lsof
 
