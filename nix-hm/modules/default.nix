@@ -1,16 +1,14 @@
 {
   imports = [
-    ./tmux.nix
-    ./fish.nix
-    ./mime.nix
-    ./utilities.nix
-    ./browsers.nix
-    ./languages.nix
-    ./terminal.nix
-    ./git.nix
-    ./packages.nix
+    ./desktop.nix
+    ./desktop_application.nix
+    ./desktop_mime.nix
     ./environment.nix
     ./services.nix
-    ./fonts.nix
+    ./terminal.nix
+    ./terminal_fish.nix
+    ./terminal_git.nix
+    ./terminal_languages.nix
+    ./terminal_tmux.nix
   ];
 }
