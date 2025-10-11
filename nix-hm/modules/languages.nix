@@ -42,6 +42,14 @@
     rebar3
   ];
 
+  OCamlPackages = with pkgs; [
+    ocaml
+    opam
+    dune_3
+    ocamlPackages.ocaml-lsp
+    ocamlformat_0_26_2
+  ];
+
   rustPackages = with pkgs; [
     rustup
   ];
@@ -63,5 +71,6 @@ in {
     ++ gleamPackages
     ++ rustPackages
     ++ nixPackages
-    ++ luaPackages;
+    ++ luaPackages
+    ++ OCamlPackages;
 }
