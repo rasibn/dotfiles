@@ -1,56 +1,67 @@
 {
-  config,
+  _config,
   pkgs,
   ...
-}: {
-  programs.go.enable = true;
-  programs.bun = {
-    enable = true;
-    enableGitIntegration = true;
-  };
-
-  home.packages = with pkgs; [
-    # Java
+}: let
+  javaPackages = with pkgs; [
     jdt-language-server
     maven
     jdk
+  ];
 
-    # Node/JS/TS
+  nodePackages = with pkgs; [
     nodejs
+    bun
     biome
     pnpm
-    # bun
     typescript-language-server
     svelte-language-server
     tailwindcss-language-server
     prettierd
+  ];
 
-    # Python (commented out but keeping for reference)
+  pythonPackages = with pkgs; [
     # uv
-    # python3
+    python3
     # ruff
     # pyright
+  ];
 
-    # Go
+  goPackages = with pkgs; [
+    go
     gopls
     gofumpt
     gotools
     air
     templ
+  ];
 
-    # Gleam/Erlang
+  gleamPackages = with pkgs; [
     gleam
     erlang_28
     rebar3
+  ];
 
-    # Rust
+  rustPackages = with pkgs; [
     rustup
+  ];
 
-    # Nix
+  nixPackages = with pkgs; [
     nil # nix lsp
     alejandra # nix formatter
+  ];
 
-    # Lua
+  luaPackages = with pkgs; [
     stylua
   ];
+in {
+  home.packages =
+    javaPackages
+    ++ nodePackages
+    ++ pythonPackages
+    ++ goPackages
+    ++ gleamPackages
+    ++ rustPackages
+    ++ nixPackages
+    ++ luaPackages;
 }
