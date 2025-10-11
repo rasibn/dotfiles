@@ -6,6 +6,7 @@
     ./utilities.nix
     ./browsers.nix
     ./languages.nix
+    ./terminal.nix
     ./git.nix
     ./packages.nix
     ./environment.nix

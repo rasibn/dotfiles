@@ -15,16 +15,16 @@
     biome
     pnpm
     typescript-language-server
-    svelte-language-server
+    # svelte-language-server
     tailwindcss-language-server
-    prettierd
+    # prettierd
   ];
 
   pythonPackages = with pkgs; [
-    # uv
+    uv
     python3
-    # ruff
-    # pyright
+    ruff
+    pyright
   ];
 
   goPackages = with pkgs; [
@@ -64,13 +64,14 @@
   ];
 in {
   home.packages =
-    javaPackages
+    goPackages
+    # ++ javaPackages
     ++ nodePackages
-    ++ pythonPackages
-    ++ goPackages
-    ++ gleamPackages
+    # ++ pythonPackages
+    # ++ gleamPackages
     ++ rustPackages
     ++ nixPackages
     ++ luaPackages
-    ++ OCamlPackages;
+    # ++ OCamlPackages
+    ++ nodePackages;
 }

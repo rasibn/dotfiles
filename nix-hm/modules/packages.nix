@@ -26,13 +26,6 @@
     hyprshot
     swappy
 
-    # System tools
-    unzip
-    htop-vim
-    ncdu
-    fd
-    bat
-
     # Development - Core
     direnv
     sqlite
@@ -40,20 +33,11 @@
     gcc
 
     gnome-keyring
-    ghostty
-
-    inotify-tools
 
     # git options
     # jujutsu
 
     zed-editor
-
-
-
-    slumber
-
-    lsof
 
     # Development tools
     vscode
@@ -70,7 +54,6 @@
 
     # AI tools
     opencode
-    lf # life manager
 
     # Fonts
     nerd-fonts.caskaydia-cove
