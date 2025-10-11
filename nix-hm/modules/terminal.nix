@@ -24,7 +24,7 @@
   ];
 
   emulatorsApps = with pkgs; [
-    ghostty
+    # ghostty
     wezterm
   ];
 

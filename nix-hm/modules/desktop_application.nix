@@ -25,6 +25,6 @@
     inputs.zen-browser.packages."${system}".default
   ];
 
-  programs.firefox.enable = true;
+  # programs.firefox.enable = true;
   programs.brave.enable = true;
 }

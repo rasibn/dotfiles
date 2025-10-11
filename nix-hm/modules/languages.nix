@@ -65,6 +65,7 @@
 
   luaPackages = with pkgs; [
     stylua
+    lua-language-server
   ];
 in {
   home.packages =
