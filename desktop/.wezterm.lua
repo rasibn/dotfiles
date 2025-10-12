@@ -17,163 +17,165 @@ local is_windows = function()
 	return wezterm.target_triple:find("windows") ~= nil
 end
 
--- This is where you actually apply your config choices
--- For example, changing the color scheme:
 -- config.color_scheme = "Catppuccin Mocha"
 config.color_scheme = "Kanagawa (Gogh)"
 
 if is_linux() then
 	config.font_size = 14.0
-	config.tab_bar_at_bottom = true
 end
 
 if is_darwin() then
 	config.font_size = 16
 end
 
+config.tab_bar_at_bottom = true
 config.window_close_confirmation = "NeverPrompt"
-config.window_background_opacity = 1.00
+config.window_background_opacity = 0.8
+
 config.window_padding = {
 	bottom = 0,
 }
+
+local act = wezterm.action
 
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 5000 }
 config.keys = {
 	{
 		mods = "LEADER",
 		key = "-",
-		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
 	},
 	{
 		mods = "LEADER|SHIFT",
 		key = "|",
-		action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }),
+		action = act({ SplitHorizontal = { domain = "CurrentPaneDomain" } }),
 	},
 	{
 		mods = "LEADER",
 		key = "m",
-		action = wezterm.action.TogglePaneZoomState,
-	},
-	{
-		key = "Enter",
-		mods = "LEADER",
-		action = wezterm.action.ActivateCopyMode,
+		action = act.TogglePaneZoomState,
 	},
 	{
 		mods = "LEADER",
-		key = "h",
-		action = wezterm.action.ActivatePaneDirection("Left"),
-	},
-	{
-		mods = "LEADER",
-		key = "j",
-		action = wezterm.action.ActivatePaneDirection("Down"),
-	},
-	{
-		mods = "LEADER",
-		key = "k",
-		action = wezterm.action.ActivatePaneDirection("Up"),
-	},
-	{
-		mods = "LEADER",
-		key = "l",
-		action = wezterm.action.ActivatePaneDirection("Right"),
+		key = "v",
+		action = act.ActivateCopyMode,
 	},
 	{
 		mods = "LEADER",
 		key = "h",
-		action = wezterm.action.ActivatePaneDirection("Left"),
+		action = act.ActivatePaneDirection("Left"),
 	},
 	{
 		mods = "LEADER",
 		key = "j",
-		action = wezterm.action.ActivatePaneDirection("Down"),
+		action = act.ActivatePaneDirection("Down"),
 	},
 	{
 		mods = "LEADER",
 		key = "k",
-		action = wezterm.action.ActivatePaneDirection("Up"),
+		action = act.ActivatePaneDirection("Up"),
 	},
 	{
 		mods = "LEADER",
 		key = "l",
-		action = wezterm.action.ActivatePaneDirection("Right"),
+		action = act.ActivatePaneDirection("Right"),
+	},
+	{
+		mods = "LEADER",
+		key = "h",
+		action = act.ActivatePaneDirection("Left"),
+	},
+	{
+		mods = "LEADER",
+		key = "j",
+		action = act.ActivatePaneDirection("Down"),
+	},
+	{
+		mods = "LEADER",
+		key = "k",
+		action = act.ActivatePaneDirection("Up"),
+	},
+	{
+		mods = "LEADER",
+		key = "l",
+		action = act.ActivatePaneDirection("Right"),
 	},
 	{
 		mods = "LEADER",
 		key = "c",
-		action = wezterm.action.SpawnTab("CurrentPaneDomain"),
+		action = act.SpawnTab("CurrentPaneDomain"),
 	},
 	{
 		mods = "LEADER",
 		key = "q",
-		action = wezterm.action.CloseCurrentPane({ confirm = false }),
+		action = act.CloseCurrentPane({ confirm = false }),
 	},
 	{
 		mods = "CTRL",
 		key = "w",
-		action = wezterm.action.CloseCurrentPane({ confirm = false }),
-	},
-	{
-		mods = "LEADER",
-		key = "r",
-		action = wezterm.action.ActivateKeyTable({
-			name = "resize_pane",
-			one_shot = false,
-		}),
+		action = act.CloseCurrentPane({ confirm = false }),
 	},
 	{
 		key = "[",
 		mods = "LEADER",
-		action = wezterm.action.ActivateTabRelative(-1),
+		action = act.ActivateTabRelative(-1),
 	},
 	{
 		mods = "LEADER",
 		key = "]",
-		action = wezterm.action.ActivateTabRelative(1),
+		action = act.ActivateTabRelative(1),
 	},
 	{
 		mods = "LEADER|SHIFT",
 		key = "{",
-		action = wezterm.action.MoveTabRelative(-1),
+		action = act.MoveTabRelative(-1),
 	},
 	{
 		mods = "LEADER|SHIFT",
 		key = "}",
-		action = wezterm.action.MoveTabRelative(1),
+		action = act.MoveTabRelative(1),
 	},
 	{
 		mods = "LEADER",
 		key = "1",
-		action = wezterm.action.ActivateTab(0),
+		action = act.ActivateTab(0),
 	},
 	{
 		mods = "LEADER",
 		key = "2",
-		action = wezterm.action.ActivateTab(1),
+		action = act.ActivateTab(1),
 	},
 	{
 		mods = "LEADER",
 		key = "3",
-		action = wezterm.action.ActivateTab(2),
+		action = act.ActivateTab(2),
 	},
 	{
 		mods = "LEADER",
 		key = "4",
-		action = wezterm.action.ActivateTab(3),
+		action = act.ActivateTab(3),
 	},
 	{
 		mods = "LEADER",
 		key = "5",
-		action = wezterm.action.ActivateTab(4),
+		action = act.ActivateTab(4),
+	},
+	{
+		mods = "LEADER",
+		key = "r",
+		action = act.ActivateKeyTable({
+			name = "resize_pane",
+			one_shot = false,
+		}),
 	},
 }
+
 config.key_tables = {
 	resize_pane = {
-		{ key = "h", action = wezterm.action.AdjustPaneSize({ "Left", 1 }) },
-		{ key = "j", action = wezterm.action.AdjustPaneSize({ "Down", 1 }) },
-		{ key = "k", action = wezterm.action.AdjustPaneSize({ "Up", 1 }) },
-		{ key = "l", action = wezterm.action.AdjustPaneSize({ "Right", 1 }) },
+		{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+		{ key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+		{ key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+		{ key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
 		{ key = "Escape", action = "PopKeyTable" },
 		{ key = "Enter", action = "PopKeyTable" },
 	},
