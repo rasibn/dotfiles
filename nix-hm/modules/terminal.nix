@@ -43,8 +43,6 @@ in {
     lazygit.enable = true;
     lazydocker.enable = true;
     gh.enable = true;
-    enable = true;
-    enableFishIntegration = true;
     # television = {
     #   enable = true;
     #   enableFishIntegration = true;
