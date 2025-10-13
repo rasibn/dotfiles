@@ -30,7 +30,7 @@ end
 
 config.tab_bar_at_bottom = true
 config.window_close_confirmation = "NeverPrompt"
-config.window_background_opacity = 0.8
+config.window_background_opacity = 0.95
 
 config.window_padding = {
 	bottom = 0,
@@ -159,6 +159,31 @@ config.keys = {
 		mods = "LEADER",
 		key = "5",
 		action = act.ActivateTab(4),
+	},
+	{
+		mods = "LEADER",
+		key = "6",
+		action = act.ActivateTab(5),
+	},
+	{
+		mods = "LEADER",
+		key = "7",
+		action = act.ActivateTab(6),
+	},
+	{
+		mods = "LEADER",
+		key = "8",
+		action = act.ActivateTab(7),
+	},
+	{
+		mods = "LEADER",
+		key = "9",
+		action = act.ActivateTab(8),
+	},
+	{
+		mods = "LEADER",
+		key = "0",
+		action = act.ActivateTab(9),
 	},
 	{
 		mods = "LEADER",
