@@ -195,6 +195,70 @@ config.keys = {
 	},
 }
 
+local workspace_keybinds = {
+	{
+		mods = "LEADER",
+		key = "s",
+		action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }),
+	},
+	{
+		mods = "LEADER",
+		key = "w",
+		action = act.PromptInputLine({
+			description = wezterm.format({
+				{ Attribute = { Intensity = "Bold" } },
+				{ Text = "Enter workspace name:" },
+			}),
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:perform_action(
+						act.SwitchToWorkspace({
+							name = line,
+						}),
+						pane
+					)
+				end
+			end),
+		}),
+	},
+	{
+		mods = "LEADER",
+		key = "n",
+		action = act.SwitchWorkspaceRelative(1),
+	},
+	{
+		mods = "LEADER",
+		key = "p",
+		action = act.SwitchWorkspaceRelative(-1),
+	},
+	{
+		mods = "LEADER",
+		key = "$",
+		action = act.PromptInputLine({
+			description = wezterm.format({
+				{ Attribute = { Intensity = "Bold" } },
+				{ Text = "Rename workspace:" },
+			}),
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
+				end
+			end),
+		}),
+	},
+}
+
+wezterm.on("update-right-status", function(window, pane)
+	local workspace = window:active_workspace()
+	window:set_right_status(wezterm.format({
+		{ Text = " " .. workspace .. "   " },
+	}))
+end)
+
+for _, key in ipairs(workspace_keybinds) do
+	table.insert(config.keys, key)
+end
+
 config.key_tables = {
 	resize_pane = {
 		{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
