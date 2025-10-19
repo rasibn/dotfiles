@@ -11,6 +11,7 @@
     ripgrep
     fd
     bat
+    tokei
     # jujutsu  # git alternative
   ];
 
