@@ -16,7 +16,7 @@
     mpv
     feh
 
-    maestral
+    maestral-gui
 
     # Development tools
     vscode
