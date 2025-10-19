@@ -70,6 +70,58 @@
           # end
       end
 
+      function git-wt
+          # Usage: git-wt [--path DIR]
+          set target_dir ".."
+
+          # Parse optional flag
+          if test (count $argv) -ge 2
+              if test $argv[1] = "--path"
+                  set target_dir $argv[2]
+              else
+                  echo "Usage: git-wt [--path DIR]"
+                  return 1
+              end
+          end
+
+          # Ensure we’re inside a repo
+          if not git rev-parse --is-inside-work-tree >/dev/null 2>&1
+              echo "❌ Not inside a Git repo."
+              return 1
+          end
+
+          set repo_name (basename (git rev-parse --show-toplevel))
+
+          # Get branches (local + remote, deduplicated)
+          set branches (git for-each-ref --format='%(refname:short)' refs/heads refs/remotes | sort | uniq | grep -vE '^HEAD$')
+          if test (count $branches) -eq 0
+              echo "No branches found."
+              return 1
+          end
+
+          # Pick branch with fzf
+          set branch (printf "%s\n" $branches | fzf --prompt="Select branch> ")
+          if test -z "$branch"
+              echo "Aborted."
+              return 0
+          end
+
+          # Prepare target path
+          set branch_sanitized (string replace -a '/' '-' $branch)
+          set final_dir "$target_dir/$repo_name.$branch_sanitized"
+
+          # If worktree already exists
+          if test -d "$final_dir"
+              echo "✅ Worktree already exists: $final_dir"
+          else
+              echo "🛠️  Creating worktree for '$branch'"
+              git worktree add "$final_dir" "$branch"
+          end
+
+          cd $final_dir
+          eval "$EDITOR ."
+      end
+
       zoxide init --cmd cd fish | source
     '';
   };

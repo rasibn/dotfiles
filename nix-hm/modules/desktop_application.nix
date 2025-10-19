@@ -16,6 +16,8 @@
     mpv
     feh
 
+    maestral
+
     # Development tools
     vscode
     bruno

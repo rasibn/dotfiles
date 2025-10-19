@@ -20,6 +20,9 @@
     sqlite
     gnumake
     docker-compose
+    tree-sitter
+    gh-dash
+    difftastic
     gcc
   ];
 
