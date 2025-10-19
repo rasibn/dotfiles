@@ -232,7 +232,7 @@ local workspace_keybinds = {
 		action = act.SwitchWorkspaceRelative(-1),
 	},
 	{
-		mods = "LEADER",
+		mods = "LEADER|SHIFT",
 		key = "$",
 		action = act.PromptInputLine({
 			description = wezterm.format({
