@@ -15,7 +15,7 @@
     biome
     pnpm
     typescript-language-server
-    # svelte-language-server
+    svelte-language-server
     tailwindcss-language-server
     yaml-language-server
     # prettierd

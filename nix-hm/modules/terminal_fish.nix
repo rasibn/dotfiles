@@ -6,7 +6,10 @@
   programs.fish = {
     enable = true;
     shellAliases = {
+      v = "nvim";
+      vi = "nvim";
       vim = "nvim";
+      vimc = "nvim --clean";
       cdpls = "cd (vimi --files)";
       flake-update = "nix flake update";
       nswitchu = "nswitchu_func";
@@ -20,7 +23,15 @@
       "dot.nvim" = "cd $DOTFILE_DIR/shared/nvim/";
       "dot.vim" = "cd $DOTFILE_DIR/shared/nvim/";
       "dot.fish" = "cd $DOTFILE_DIR/shared/fish/";
-      "dot.nix" = "cd $DOTFILE_DIR/nix-hm/";
+
+      ",," = "cd ..";
+      "..l" = "cd .. && ls";
+      ":q" = "exit";
+      "cd.." = "cd ..";
+      "mdkir" = "mkdir";
+      "dc" = "cd";
+      "sl" = "ls";
+      "sudp" = "sudo";
     };
     shellAbbrs = {
       # system aliases
@@ -122,7 +133,12 @@
           eval "$EDITOR ."
       end
 
-      zoxide init --cmd cd fish | source
+       function mkcd
+           mkdir -p "$argv[1]"
+           cd "$argv[1]"
+       end
+
+       zoxide init --cmd cd fish | source
     '';
   };
 }

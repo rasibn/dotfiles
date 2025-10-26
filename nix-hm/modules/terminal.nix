@@ -17,6 +17,8 @@
 
   devTools = with pkgs; [
     inotify-tools # for golang templ's hotreload
+    jujutsu
+    nix-direnv
     direnv
     sqlite
     gnumake

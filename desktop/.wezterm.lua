@@ -111,6 +111,11 @@ config.keys = {
 		action = act.CloseCurrentPane({ confirm = false }),
 	},
 	{
+		mods = "LEADER",
+		key = "x",
+		action = act.CloseCurrentPane({ confirm = false }),
+	},
+	{
 		mods = "CTRL",
 		key = "w",
 		action = act.CloseCurrentPane({ confirm = false }),

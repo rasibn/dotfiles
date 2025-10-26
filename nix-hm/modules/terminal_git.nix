@@ -5,11 +5,15 @@
 }: {
   programs.git = {
     enable = true;
-    userName = "Rasib Nadeem";
-    userEmail = "rasibnadeem101@gmail.com";
-    delta.enable = true;
-    extraConfig = {
+    settings = {
+      user.name = "Rasib Nadeem";
+      user.email = "rasibnadeem101@gmail.com";
       init.defaultBranch = "main";
     };
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
   };
 }
