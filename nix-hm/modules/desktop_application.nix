@@ -6,8 +6,6 @@
   ...
 }: {
   home.packages = with pkgs; [
-    google-chrome
-
     zed-editor
 
     kdePackages.dolphin
@@ -26,9 +24,10 @@
     # qbittorrent-enhanced
     transmission_4-gtk
 
-    inputs.zen-browser.packages."${system}".default
+    ungoogled-chromium
+    # inputs.zen-browser.packages."${system}".default
   ];
 
-  # programs.firefox.enable = true;
-  programs.brave.enable = true;
+  programs.firefox.enable = true;
+  # programs.brave.enable = true;
 }
