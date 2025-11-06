@@ -37,7 +37,6 @@
   tuiApps = with pkgs; [
     htop-vim
     slumber
-    man-db
     helix
     neovim
     zoxide
