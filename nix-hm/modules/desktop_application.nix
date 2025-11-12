@@ -19,12 +19,12 @@
     # Development tools
     vscode
     bruno
-    obsidian
+
     # stremio
     # qbittorrent-enhanced
     transmission_4-gtk
 
-    ungoogled-chromium
+    google-chrome
     # inputs.zen-browser.packages."${system}".default
   ];
 
