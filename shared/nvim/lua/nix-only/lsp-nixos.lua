@@ -71,6 +71,7 @@ return {
         ts_ls = {},
         templ = {},
         gleam = {},
+        clangd = {},
       },
     },
   },
@@ -94,6 +95,8 @@ return {
         templ = { "rustywind", "templ" },
         nix = { "alejandra" },
         gleam = { "gleam" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
         ocaml = { "ocamlformat" },
       },
       formatters = {

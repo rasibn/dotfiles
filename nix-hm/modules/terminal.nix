@@ -26,7 +26,6 @@
     tree-sitter
     gh-dash
     difftastic
-    gcc
   ];
 
   emulatorsApps = with pkgs; [

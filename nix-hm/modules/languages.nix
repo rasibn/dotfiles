@@ -64,6 +64,12 @@
     alejandra # nix formatter
   ];
 
+  cppPackages = with pkgs; [
+    clang
+    clang-tools
+    gdb
+  ];
+
   luaPackages = with pkgs; [
     stylua
     lua-language-server
@@ -79,6 +85,7 @@ in {
     # ++ crystalPackages
     ++ nixPackages
     ++ luaPackages
+    ++ cppPackages
     # ++ OCamlPackages
     ++ nodePackages;
 }
