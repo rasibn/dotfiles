@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  firefoxDesktop = "zen-beta.desktop";
+  firefoxDesktop = "firefox.desktop";
   transmissionDesktop = "transmission-gtk.desktop";
   nvimDesktop = "nvim.desktop";
   fehDesktop = "feh.desktop";
