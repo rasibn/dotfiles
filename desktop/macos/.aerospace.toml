@@ -95,7 +95,7 @@ PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
 # 'main' binding mode must be always presented
 [mode.main.binding]
 alt-q = 'close'
-cmd-q = 'close'
+# cmd-q = 'close'
 # All possible keys:
 # - Letters.        a, b, c, ..., z
 # - Numbers.        0, 1, 2, ..., 9
