@@ -9,6 +9,7 @@ return {
         height = 0,
       },
     },
+    image = { enabled = true },
     picker = {
       sources = {
         explorer = {
