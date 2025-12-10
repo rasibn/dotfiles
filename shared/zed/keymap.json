@@ -47,7 +47,6 @@
       "%": "project_panel::NewFile",
       "/": "project_panel::NewSearchInDirectory",
       "enter": "project_panel::OpenPermanent",
-      "escape": "project_panel::ToggleFocus",
       "h": "project_panel::CollapseSelectedEntry",
       "j": "menu::SelectNext",
       "k": "menu::SelectPrevious",
@@ -157,7 +156,7 @@
       "space e": "workspace::ToggleLeftDock",
       // Telescope
       "space f f": "file_finder::Toggle",
-      "space o": "workspace::ToggleRightDock",
+      "space o": "project_panel::ToggleFocus",
       "space space": "file_finder::Toggle",
       // Quit zed
       "space q q": "zed::Quit",
