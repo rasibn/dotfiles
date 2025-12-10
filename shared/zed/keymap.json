@@ -27,27 +27,20 @@
       "d": "project_panel::Delete",
       "x": "project_panel::Cut",
       "c": "project_panel::Copy",
+      "y": "project_panel::Copy",
       "p": "project_panel::Paste",
       // Close project panel as project file panel on the right
       "q": "workspace::ToggleRightDock",
       "space e": "workspace::ToggleLeftDock",
-      ":": "command_palette::Toggle",
-      "%": "project_panel::NewFile",
       "/": "project_panel::NewSearchInDirectory",
       "enter": "project_panel::OpenPermanent",
       "h": "project_panel::CollapseSelectedEntry",
       "j": "menu::SelectNext",
       "k": "menu::SelectPrevious",
       "l": "project_panel::ExpandSelectedEntry",
-      "o": "project_panel::OpenPermanent",
-      "shift-d": "project_panel::Delete",
-      "shift-r": "project_panel::Rename",
-      "t": "project_panel::OpenPermanent",
-      "v": "project_panel::OpenPermanent",
       "shift-g": "menu::SelectLast",
       "g g": "menu::SelectFirst",
       "-": "project_panel::SelectParent",
-      "ctrl-6": "pane::AlternateFile"
     }
   },
   // Empty pane, set of keybindings that are available when there is no active editor
@@ -56,14 +49,8 @@
     "bindings": {
       // Open file finder
       "space space": "file_finder::Toggle",
-      // New file
-      "space f n": "workspace::NewFile",
       // Open recent project
       "space f p": "projects::OpenRecent",
-      // Search in all the files
-      "space s g": "workspace::NewSearch",
-      // Quit zed
-      "space q q": "zed::Quit"
     }
   },
   {
