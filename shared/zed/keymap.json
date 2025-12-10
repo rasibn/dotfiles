@@ -18,16 +18,15 @@
     }
   },
   {
-    "context": "GitPanel",
+    "context": "Workspace && right_dock",
     "bindings": {
-      "q": "git_panel::Close"
+      "escape": "workspace::ToggleRightDock"
     }
   },
   {
-    "context": "AgentPanel",
+    "context": "Workspace && bottom_dock",
     "bindings": {
-      "ctrl-\\": "workspace::ToggleRightDock",
-      "cmd-k": "workspace::ToggleRightDock"
+      "escape": "workspace::ToggleBottomDock"
     }
   },
   // File panel (netrw)
