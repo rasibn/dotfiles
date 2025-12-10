@@ -19,6 +19,7 @@
     # Development tools
     vscode
     bruno
+    brave
 
     # stremio
     # qbittorrent-enhanced
@@ -29,5 +30,4 @@
   ];
 
   programs.firefox.enable = true;
-  # programs.brave.enable = true;
 }

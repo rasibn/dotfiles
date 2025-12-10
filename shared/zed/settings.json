@@ -62,12 +62,10 @@
     },
     "enabled_in_text_threads": false
   },
-  "icon_theme": "Catppuccin Mocha",
-  "notification_panel": {
-    "enabled": false,
-    "button": false
-  },
-
+  // "notification_panel": {
+  //   "enabled": false,
+  //   "button": false
+  // },
   "agent": {
     "play_sound_when_agent_done": true,
     "default_profile": "write",
@@ -82,10 +80,10 @@
       "language_servers": ["ruff", "basedpyright", "!pyright"],
       "formatter": [
         {
-          "code_actions": {
-            "source.organizeImports.ruff": true,
-            "source.fixAll.ruff": true
-          }
+          "code_action": "source.organizeImports.ruff"
+        },
+        {
+          "code_action": "source.fixAll.ruff"
         },
         {
           "language_server": {
@@ -110,7 +108,6 @@
       }
     },
     "gopls": {
-      "gofumpt": true,
       "initialization_options": {
         "gofumpt": true
       }
@@ -217,7 +214,6 @@
       "EDITOR": "zed --wait"
     },
     "font_size": 16,
-    "font_family": "BlexMono Nerd Font Mono",
     "detect_venv": {
       "on": {
         // Default directories to search for virtual environments, relative
@@ -286,13 +282,13 @@
     "dock": "right",
     "button": false
   },
-  "chat_panel": {
-    "dock": "right"
-  },
+  // "chat_panel": {
+  //   "dock": "right"
+  // },
   "ui_font_size": 16,
   "buffer_font_size": 20,
-  "buffer_font_family": "Zed Plex Mono",
-  "ui_font_family": "Zed Plex Mono",
+  // "buffer_font_family": "Zed Plex Mono",
+  // "ui_font_family": "Zed Plex Mono",
   "autosave": "on_focus_change",
   "theme": {
     "mode": "dark",

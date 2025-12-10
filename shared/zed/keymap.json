@@ -5,40 +5,7 @@
 //
 // To see the default key bindings run `zed: open default keymap`
 // from the command palette.
-// [
-//   {
-//     "context": "Editor || Workspace",
-//     "bindings": {
-//       "shift shift": "file_finder::Toggle",
-//       "ctrl-/": "file_finder::Toggle"
-//     }
-//   },
-//   {
-//     "context": "vim_mode == normal",
-//     "bindings": {
-//       "ctrl-h": "tab_switcher::Toggle",
-//       "ctrl-l": "panel::NextPanelTab"
-//       // "j k": "vim::NormalBefore"
-//     }
-//   },
-//   {
-//     "context": "Editor",
-//     "bindings": {
-//       "] e": "editor::GoToDiagnostic",
-//       "[ e": "editor::GoToPreviousDiagnostic"
-//       // "j k": "vim::NormalBefore"
-//     }
-//   }
-// ]
-
 [
-  // Terminal
-  {
-    "context": "Workspace",
-    "bindings": {
-      "ctrl-/": "workspace::ToggleBottomDock"
-    }
-  },
   // Window's navigation
   {
     "context": "Dock || Terminal || Editor",
@@ -75,7 +42,7 @@
       "c": "project_panel::Copy",
       "p": "project_panel::Paste",
       // Close project panel as project file panel on the right
-      "q": "workspace::ToggleLeftDock",
+      "q": "workspace::ToggleRightDock",
       "space e": "workspace::ToggleLeftDock",
       ":": "command_palette::Toggle",
       "%": "project_panel::NewFile",
@@ -162,19 +129,20 @@
       "space 0": "pane::ActivateLastItem",
       "] b": "pane::ActivateNextItem",
       "[ b": "pane::ActivatePreviousItem",
-      "space ,": "tab_switcher::Toggle",
+      "shift-h": "pane::ActivateNextItem",
+      "shift-l": "pane::ActivatePreviousItem",
+
       // Jump to the previous location
       "space b b": "pane::AlternateFile",
       // Close buffer
       "space b d": "pane::CloseActiveItem",
       // Close inactive buffers
-      "space b q": "pane::CloseInactiveItems",
+      "space b q": "pane::CloseOtherItems",
       // New file
       "space b n": "workspace::NewFile",
       // Search in the current buffer
       "space s b": "vim::Search",
       // Search in all the files
-      "space s g": "workspace::NewSearch",
       "space f n": "workspace::NewFile",
       // Search
       "space /": "workspace::NewSearch",
@@ -190,6 +158,7 @@
       "space e": "workspace::ToggleLeftDock",
       // Telescope
       "space f f": "file_finder::Toggle",
+      "space o": "workspace::ToggleRightDock",
       "space space": "file_finder::Toggle",
       // Quit zed
       "space q q": "zed::Quit",
