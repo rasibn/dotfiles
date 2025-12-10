@@ -128,3 +128,7 @@ gwtb() {
 # PROFILING OUTPUT (comment out after benchmarking)
 # ============================================
 # zprof
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/rasib.nadeem/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

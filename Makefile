@@ -11,7 +11,7 @@ config_nvim:
 	rm ~/.config/nvim; ln -s $(DIR)/shared/nvim ~/.config/nvim
 
 config_nix_hm:
-	# add flakes instruction to /etc/configuration.nix nix.settings.experatklj
+	# add flakes instruction to /etc/configuration.nix nix.settings.experimental
 	# rm ~/hardware-config
 	# copy from /etc/
 	# nixos-rebuilt switch flake run .
@@ -25,6 +25,11 @@ config_zellij:
 
 config_helix:
 	rm -rf ~/.config/helix; ln -s $(DIR)/shared/helix ~/.config/helix
+
+config_zed:
+	mkdir -p ~/.config/zed
+	rm -f ~/.config/zed/settings.json; ln -s $(DIR)/shared/zed/settings.json ~/.config/zed/settings.json
+	rm -f ~/.config/zed/keymap.json; ln -s $(DIR)/shared/zed/keymap.json ~/.config/zed/keymap.json
 	
 
 config_delta:
