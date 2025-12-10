@@ -19,15 +19,6 @@
 //     "dark": "One Dark"
 //   }
 // }
-//
-// Zed settings
-//
-// For information on how to configure Zed, see the Zed
-// documentation: https://zed.dev/docs/configuring-zed
-//
-// To see all of Zed's default settings without changing your
-// custom settings, run `zed: open default settings` from the
-// command palette
 {
   "git_panel": {
     "dock": "right"
@@ -191,7 +182,7 @@
     "metrics": false
   },
   "vim_mode": true,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "scrollbar": {
     "show": "never"
   },
@@ -213,7 +204,7 @@
     "env": {
       "EDITOR": "zed --wait"
     },
-    "font_size": 16,
+    "font_size": 14,
     "detect_venv": {
       "on": {
         // Default directories to search for virtual environments, relative
@@ -286,7 +277,7 @@
   //   "dock": "right"
   // },
   "ui_font_size": 16,
-  "buffer_font_size": 20,
+  "buffer_font_size": 16,
   // "buffer_font_family": "Zed Plex Mono",
   // "ui_font_family": "Zed Plex Mono",
   "autosave": "on_focus_change",

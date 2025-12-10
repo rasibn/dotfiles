@@ -17,18 +17,6 @@
       "ctrl-j": "workspace::ActivatePaneDown"
     }
   },
-  {
-    "context": "Workspace && right_dock",
-    "bindings": {
-      "escape": "workspace::ToggleRightDock"
-    }
-  },
-  {
-    "context": "Workspace && bottom_dock",
-    "bindings": {
-      "escape": "workspace::ToggleBottomDock"
-    }
-  },
   // File panel (netrw)
   {
     "context": "ProjectPanel && not_editing",
