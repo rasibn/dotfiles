@@ -124,6 +124,26 @@ gwtb() {
   cd "$worktree_dir" || return 1
 }
 
+# Kill process on port
+# Usage: kill-port 3000
+kill-port() {
+  local port=$1
+  if [ -z "$port" ]; then
+    echo "Usage: kill-port <port>"
+    return 1
+  fi
+  
+  local pid=$(lsof -ti:$port)
+  if [ -z "$pid" ]; then
+    echo "No process found on port $port"
+    return 1
+  fi
+  
+  echo "Killing process $pid on port $port..."
+  kill -9 $pid
+  echo "Process killed successfully"
+}
+
 # ============================================
 # PROFILING OUTPUT (comment out after benchmarking)
 # ============================================
