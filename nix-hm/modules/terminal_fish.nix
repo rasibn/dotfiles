@@ -138,6 +138,25 @@
            cd "$argv[1]"
        end
 
+       function kill-port
+           if test (count $argv) -eq 0
+               echo "Usage: kill-port <port-number>"
+               return 1
+           end
+
+           set port $argv[1]
+           set pid (lsof -ti :$port)
+
+           if test -z "$pid"
+               echo "No process found listening on port $port"
+               return 1
+           end
+
+           echo "Killing process $pid on port $port"
+           kill -9 $pid
+           echo "Process killed successfully"
+       end
+
        zoxide init --cmd cd fish | source
     '';
   };
