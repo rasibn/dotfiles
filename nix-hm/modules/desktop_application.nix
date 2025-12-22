@@ -18,6 +18,7 @@
 
     # Development tools
     vscode
+    # jetbrains.idea-community # or jetbrains.idea-ultimate
     bruno
     brave
 

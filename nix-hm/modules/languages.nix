@@ -5,6 +5,7 @@
 }: let
   javaPackages = with pkgs; [
     jdt-language-server
+    spring-boot-cli
     maven
     jdk
   ];
@@ -77,7 +78,7 @@
 in {
   home.packages =
     goPackages
-    # ++ javaPackages
+    ++ javaPackages
     ++ nodePackages
     # ++ pythonPackages
     ++ gleamPackages

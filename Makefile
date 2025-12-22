@@ -42,6 +42,10 @@ config_delta:
 config_idea_vim:
 	rm ~/.ideavimrc; ln -s $(DIR)/shared/.ideavimrc ~/.ideavimrc
 
+
+config_idea:
+	rm ~/.ideavimrc; ln -s $(DIR)/shared/.ideavimrc ~/.ideavimrc
+
 config_zsh:
 	rm -rf ~/.oh-my-zsh;
 	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
