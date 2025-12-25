@@ -50,7 +50,7 @@
       // Open file finder
       "space space": "file_finder::Toggle",
       // Open recent project
-      "space f p": "projects::OpenRecent",
+      "space f p": "projects::OpenRecent"
     }
   },
   {
@@ -60,7 +60,6 @@
       "space c r ": "editor::Rename",
       // Chat with AI
       "ctrl-\\": "workspace::ToggleRightDock",
-      "cmd-k": "workspace::ToggleRightDock",
       "space a e": "assistant::InlineAssist",
       "cmd-l": "assistant::InlineAssist",
       "space a t": "workspace::ToggleRightDock",
@@ -105,14 +104,10 @@
       "shift-h": "pane::ActivateNextItem",
       "shift-l": "pane::ActivatePreviousItem",
 
-      // Jump to the previous location
-      "space b b": "pane::AlternateFile",
       // Close buffer
       "space b d": "pane::CloseActiveItem",
       // Close inactive buffers
       "space b q": "pane::CloseOtherItems",
-      // New file
-      "space b n": "workspace::NewFile",
       // Search in the current buffer
       "space s b": "vim::Search",
       // Search in all the files
@@ -131,8 +126,6 @@
       "space e": "workspace::ToggleLeftDock",
       // Telescope
       "space f f": "file_finder::Toggle",
-      "space o": "project_panel::ToggleFocus",
-      "space space": "file_finder::Toggle",
       // Quit zed
       "space q q": "zed::Quit",
       // Terminal

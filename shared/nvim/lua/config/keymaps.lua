@@ -38,3 +38,45 @@ vim.keymap.set("n", "<leader>dd", function()
     vim.cmd("DiffviewClose")
   end
 end, { desc = "Diffview" })
+
+-- VSCode-neovim specific keybindings
+if vim.g.vscode then
+  -- LSP Navigation
+  vim.keymap.set("n", "gi", function()
+    vim.fn.VSCodeNotify("editor.action.goToImplementation")
+  end, { silent = true, desc = "Go to Implementation" })
+
+  vim.keymap.set("n", "gd", function()
+    vim.fn.VSCodeNotify("editor.action.revealDefinition")
+  end, { silent = true, desc = "Go to Definition" })
+
+  vim.keymap.set("n", "gr", function()
+    vim.fn.VSCodeNotify("editor.action.referenceSearch.trigger")
+  end, { silent = true, desc = "Go to References" })
+
+  vim.keymap.set("n", "gD", function()
+    vim.fn.VSCodeNotify("editor.action.goToTypeDefinition")
+  end, { silent = true, desc = "Go to Type Definition" })
+
+  -- Peek variants (opens in peek view)
+  -- vim.keymap.set("n", "gpi", function()
+  --   vim.fn.VSCodeNotify("editor.action.peekImplementation")
+  -- end, { silent = true, desc = "Peek Implementation" })
+  --
+  -- vim.keymap.set("n", "gpd", function()
+  --   vim.fn.VSCodeNotify("editor.action.peekDefinition")
+  -- end, { silent = true, desc = "Peek Definition" })
+  --
+  -- Code actions and formatting
+  vim.keymap.set("n", "<leader>cr", function()
+    vim.fn.VSCodeNotify("editor.action.rename")
+  end, { silent = true, desc = "Rename Symbol" })
+
+  vim.keymap.set({ "n", "v" }, "<leader>ca", function()
+    vim.fn.VSCodeNotify("editor.action.codeAction")
+  end, { silent = true, desc = "Code Action" })
+
+  vim.keymap.set({ "n", "v" }, "<leader>cf", function()
+    vim.fn.VSCodeNotify("editor.action.formatDocument")
+  end, { silent = true, desc = "Format Document" })
+end
