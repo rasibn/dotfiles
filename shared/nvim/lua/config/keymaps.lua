@@ -43,6 +43,10 @@ end, { desc = "Diffview" })
 if vim.g.vscode then
   -- LSP Navigation
   vim.keymap.set("n", "gi", function()
+    vim.fn.VSCodeNotify("editor.action.showHover")
+  end, { silent = true, desc = "Show Type Hint/Hover" })
+
+  vim.keymap.set("n", "gI", function()
     vim.fn.VSCodeNotify("editor.action.goToImplementation")
   end, { silent = true, desc = "Go to Implementation" })
 
@@ -79,4 +83,8 @@ if vim.g.vscode then
   vim.keymap.set({ "n", "v" }, "<leader>cf", function()
     vim.fn.VSCodeNotify("editor.action.formatDocument")
   end, { silent = true, desc = "Format Document" })
+
+  vim.keymap.set("n", "<leader>fr", function()
+    vim.fn.VSCodeNotify("workbench.action.quickOpenRecent")
+  end, { silent = true, desc = "Open Recent Files" })
 end
