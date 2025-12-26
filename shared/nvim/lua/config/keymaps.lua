@@ -87,4 +87,39 @@ if vim.g.vscode then
   vim.keymap.set("n", "<leader>fr", function()
     vim.fn.VSCodeNotify("workbench.action.quickOpenRecent")
   end, { silent = true, desc = "Open Recent Files" })
+
+  -- Error/Diagnostic Navigation
+  vim.keymap.set("n", "]e", function()
+    vim.fn.VSCodeNotify("editor.action.marker.next")
+  end, { silent = true, desc = "Next Error (all files)" })
+
+  vim.keymap.set("n", "[e", function()
+    vim.fn.VSCodeNotify("editor.action.marker.prev")
+  end, { silent = true, desc = "Previous Error (all files)" })
+
+  vim.keymap.set("n", "]d", function()
+    vim.fn.VSCodeNotify("editor.action.marker.nextInFiles")
+  end, { silent = true, desc = "Next Diagnostic (current file)" })
+
+  vim.keymap.set("n", "[d", function()
+    vim.fn.VSCodeNotify("editor.action.marker.prevInFiles")
+  end, { silent = true, desc = "Previous Diagnostic (current file)" })
+
+  -- Git Change Navigation
+  vim.keymap.set("n", "]c", function()
+    vim.fn.VSCodeNotify("workbench.action.editor.nextChange")
+  end, { silent = true, desc = "Next Git Change" })
+
+  vim.keymap.set("n", "[c", function()
+    vim.fn.VSCodeNotify("workbench.action.editor.previousChange")
+  end, { silent = true, desc = "Previous Git Change" })
+
+  -- -- Search Result Navigation
+  -- vim.keymap.set("n", "]q", function()
+  --   vim.fn.VSCodeNotify("search.action.focusNextSearchResult")
+  -- end, { silent = true, desc = "Next Search Result" })
+  --
+  -- vim.keymap.set("n", "[q", function()
+  --   vim.fn.VSCodeNotify("search.action.focusPreviousSearchResult")
+  -- end, { silent = true, desc = "Previous Search Result" })
 end
