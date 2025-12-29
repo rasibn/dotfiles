@@ -57,6 +57,8 @@ if vim.g.vscode then
   vim.keymap.set("n", "gr", function()
     vim.fn.VSCodeNotify("editor.action.referenceSearch.trigger")
   end, { silent = true, desc = "Go to References" })
+  --   vim.fn.VSCodeNotify("editor.action.revealDefinition")
+  -- end, { silent = true, desc = "Go to Definition" })
 
   vim.keymap.set("n", "gD", function()
     vim.fn.VSCodeNotify("editor.action.goToTypeDefinition")
