@@ -12,7 +12,8 @@
     fd
     bat
     tokei
-    # jujutsu  # git alternative
+    railway
+    jujutsu # git alternative
   ];
 
   devTools = with pkgs; [

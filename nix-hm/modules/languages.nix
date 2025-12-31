@@ -80,7 +80,7 @@ in {
     goPackages
     ++ javaPackages
     ++ nodePackages
-    # ++ pythonPackages
+    ++ pythonPackages
     ++ gleamPackages
     ++ rustPackages
     # ++ crystalPackages
