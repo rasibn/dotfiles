@@ -1,69 +1,54 @@
-local opts = {
-  {
-    "epwalsh/obsidian.nvim",
-    version = "*",
-    lazy = true,
-    ft = "markdown",
-    -- event = { -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-    --   --  "BufReadPre /home/Projects/Vault/**.md",
-    --   -- "BufNewFile /home/Projects/Vault/**.md",
-    --   "BufReadPre "
-    --     .. vim.fn.expand("~")
-    --     .. "/Projects/Vault/**.md",
-    --   "BufNewFile " .. vim.fn.expand("~") .. "/Projects/Vault/**.md",
-    -- },
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {
-      dir = "~/Projects/Vault", -- no need to call 'vim.fn.expand' here
-
-      follow_url_func = function(url)
-        -- Open the URL in the default web browser.
-        -- vim.fn.jobstart({ "open", url }) -- Mac OS
-        vim.fn.jobstart({ "xdg-open", url }) -- linux
-      end,
-
-      daily_notes = {
-        -- Optional, if you keep daily notes in a separate directory.
-        folder = "notes/dailies",
-        -- Optional, if you want to change the date format for the ID of daily notes.
-        -- date_format = "%Y-%m-%d",
-        -- Optional, if you want to change the date format of the default alias of daily notes.
-        -- alias_format = "%B %-d, %Y"
-        -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-        -- template = nil
+return {
+  "obsidian-nvim/obsidian.nvim",
+  version = "*", -- recommended, use latest release instead of latest commit
+  lazy = true,
+  ft = "markdown",
+  -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+  -- event = {
+  --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+  --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+  --   -- refer to `:h file-pattern` for more examples
+  --   "BufReadPre path/to/my-vault/*.md",
+  --   "BufNewFile path/to/my-vault/*.md", },
+  ---@module 'obsidian'
+  ---@type obsidian.config
+  opts = {
+    workspaces = {
+      {
+        name = "personal",
+        path = "~/Documents/main-vault/",
       },
+    },
 
-      -- Optional, completion.
-      completion = {
-        -- If using nvim-cmp, otherwise set to false
-        nvim_cmp = true,
-        -- Trigger completion at 1 chars
-        min_chars = 1,
+    -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
+    completion = {
+      -- Enables completion using nvim_cmp
+      nvim_cmp = false,
+      -- Enables completion using blink.cmp
+      blink = true,
+      -- Trigger completion at 2 chars.
+      min_chars = 1,
+    },
+
+    picker = {
+      -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.pick'.
+      name = "snacks.pick",
+      -- Optional, configure key mappings for the picker. These are the defaults.
+      -- Not all pickers support all mappings.
+      note_mappings = {
+        -- Create a new note from your query.
+        new = "<C-x>",
+        -- Insert a link to the selected note.
+        insert_link = "<C-l>",
       },
-
-      -- Optional, key mappings.
-      mappings = {
-        -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-        ["gf"] = {
-          action = function()
-            return require("obsidian").util.gf_passthrough()
-          end,
-          opts = {
-            noremap = false,
-            expr = true,
-            buffer = true,
-          },
-        },
+      tag_mappings = {
+        -- Add tag(s) to current note.
+        tag_note = "<C-x>",
+        -- Insert a tag at the current location.
+        insert_tag = "<C-l>",
       },
     },
   },
+
+  -- see below for full list of options 👇
 }
-
-local os_name = vim.uv.os_uname().sysname
-
-if os_name ~= "Darwin" then
-  return opts
-else
-  return {}
-end
