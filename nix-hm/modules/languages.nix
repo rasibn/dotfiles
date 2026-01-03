@@ -19,7 +19,7 @@
     svelte-language-server
     tailwindcss-language-server
     yaml-language-server
-    # prettierd
+    prettierd
   ];
 
   pythonPackages = with pkgs; [
