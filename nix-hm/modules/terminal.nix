@@ -55,7 +55,7 @@ in {
     yazi = {
       enable = true;
       settings = {
-        manager = {
+        mgr = {
           layout = "auto";
         };
         preview = {

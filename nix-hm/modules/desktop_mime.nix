@@ -8,6 +8,8 @@
   nvimDesktop = "nvim.desktop";
   fehDesktop = "feh.desktop";
   mpvDesktop = "mpv.desktop";
+  foliateDesktop = "com.github.johnfactotum.Foliate.desktop";
+  zathuraDesktop = "org.pwmt.zathura.desktop";
 in {
   xdg.desktopEntries.nvim = {
     name = "Neovim";
@@ -54,8 +56,11 @@ in {
       "audio/mpeg" = [mpvDesktop];
       "audio/flac" = [mpvDesktop];
 
-      # PDF → Firefox
-      "application/pdf" = [firefoxDesktop];
+      # PDF → Zathura (fallback to Firefox)
+      "application/pdf" = [zathuraDesktop firefoxDesktop];
+
+      # EPUB → Foliate
+      "application/epub+zip" = [foliateDesktop];
 
       # Text / code → Neovim
       "text/plain" = [nvimDesktop];

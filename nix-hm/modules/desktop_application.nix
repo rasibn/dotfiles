@@ -8,11 +8,17 @@
   home.packages = with pkgs; [
     zed-editor
 
-    kdePackages.dolphin
+    xfce.thunar
+    xfce.thunar-volman # for removable drives
+    xfce.tumbler # for thumbnails
     vesktop
 
     mpv
     feh
+    
+    # E-book readers
+    foliate
+    zathura
 
     maestral-gui
 
