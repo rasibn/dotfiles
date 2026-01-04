@@ -32,6 +32,56 @@ config.tab_bar_at_bottom = true
 config.window_close_confirmation = "NeverPrompt"
 config.window_background_opacity = 0.95
 
+-- Tmux-style tab bar
+config.use_fancy_tab_bar = false
+config.tab_max_width = 30
+config.colors = {
+	tab_bar = {
+		background = "#16161d",
+		active_tab = {
+			bg_color = "#d27e99",
+			fg_color = "#16161d",
+			intensity = "Bold",
+		},
+		inactive_tab = {
+			bg_color = "#2a2a37",
+			fg_color = "#d27e99",
+		},
+		inactive_tab_hover = {
+			bg_color = "#54546d",
+			fg_color = "#dcd7ba",
+		},
+	},
+}
+
+-- Tmux-style tab formatting with box separators
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+	local title = tab.active_pane.title
+	if #title > max_width - 6 then
+		title = title:sub(1, max_width - 9) .. "..."
+	end
+
+	local background = "#2a2a37"
+	local foreground = "#d27e99"
+
+	if tab.is_active then
+		background = "#d27e99"
+		foreground = "#16161d"
+	elseif hover then
+		background = "#54546d"
+		foreground = "#dcd7ba"
+	end
+
+	return {
+		{ Background = { Color = background } },
+		{ Foreground = { Color = foreground } },
+		{ Text = " " .. (tab.tab_index + 1) .. ":" .. title .. " " },
+		{ Background = { Color = "#16161d" } },
+		{ Foreground = { Color = "#727169" } },
+		{ Text = "│" },
+	}
+end)
+
 config.window_padding = {
 	bottom = 0,
 }
