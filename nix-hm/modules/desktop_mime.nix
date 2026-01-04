@@ -54,6 +54,9 @@ in {
       "audio/mpeg" = [mpvDesktop];
       "audio/flac" = [mpvDesktop];
 
+      # PDF → Firefox
+      "application/pdf" = [firefoxDesktop];
+
       # Text / code → Neovim
       "text/plain" = [nvimDesktop];
       "text/markdown" = [nvimDesktop];
