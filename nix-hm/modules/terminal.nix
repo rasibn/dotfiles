@@ -42,10 +42,6 @@
     zoxide
     opencode
     # lf # file manager in golang
-
-    # these two were added just to try lumen using cargo install
-    openssl
-    pkg-config
   ];
 in {
   programs = {
