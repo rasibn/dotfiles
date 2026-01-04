@@ -30,7 +30,7 @@
   ];
 
   emulatorsApps = with pkgs; [
-    # ghostty
+    ghostty
     wezterm
   ];
 
@@ -41,14 +41,28 @@
     neovim
     zoxide
     opencode
-    yazi
     # lf # file manager in golang
+
+    # these two were added just to try lumen using cargo install
+    openssl
+    pkg-config
   ];
 in {
   programs = {
     lazygit.enable = true;
     lazydocker.enable = true;
     gh.enable = true;
+    yazi = {
+      enable = true;
+      settings = {
+        manager = {
+          layout = "auto";
+        };
+        preview = {
+          max_width = 0;
+        };
+      };
+    };
     # television = {
     #   enable = true;
     #   enableFishIntegration = true;

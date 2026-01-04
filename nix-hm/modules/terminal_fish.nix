@@ -17,6 +17,7 @@
       ngc = "sudo nix-collect-garbage -d";
       ngc7 = "sudo nix-collect-garbage --delete-older-than 7d";
       ngc14 = "sudo nix-collect-garbage --delete-older-than 14d";
+      yz = "yazi";
 
       "dot.zsh" = "$EDITOR $DOTFILE_DIR/shared/.zshrc";
       "dot.tmux" = "$EDITOR $DOTFILE_DIR/shared/.tmux.conf";
