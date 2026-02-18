@@ -301,6 +301,50 @@ local workspace_keybinds = {
 			end),
 		}),
 	},
+	{
+		mods = "LEADER|SHIFT",
+		key = "M",
+		action = wezterm.action_callback(function(window, pane)
+			local workspaces = wezterm.mux.get_workspace_names()
+			local current = wezterm.mux.get_active_workspace()
+			local choices = {}
+
+			for _, ws in ipairs(workspaces) do
+				if ws ~= current then
+					table.insert(choices, { label = ws })
+				end
+			end
+			table.insert(choices, { label = "[New workspace]" })
+
+			window:perform_action(
+				act.InputSelector({
+					title = "Move tab to workspace",
+					choices = choices,
+					fuzzy = true,
+					action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
+						if label == "[New workspace]" then
+							inner_window:perform_action(
+								act.PromptInputLine({
+									description = "Enter new workspace name:",
+									action = wezterm.action_callback(function(win, p, line)
+										if line and line ~= "" then
+											local mux_pane = wezterm.mux.get_pane(p:pane_id())
+											mux_pane:move_to_new_window(line)
+										end
+									end),
+								}),
+								inner_pane
+							)
+						elseif label then
+							local mux_pane = wezterm.mux.get_pane(inner_pane:pane_id())
+							mux_pane:move_to_new_window(label)
+						end
+					end),
+				}),
+				pane
+			)
+		end),
+	},
 }
 
 wezterm.on("update-right-status", function(window, pane)
