@@ -67,6 +67,9 @@ config_tmux:
 config_wezterm:
 	rm ~/.wezterm.lua; ln -s $(DIR)/desktop/.wezterm.lua ~/.wezterm.lua
 
+config_ghostty:
+	rm -rf ~/.config/ghostty; ln -s $(DIR)/desktop/ghostty ~/.config/ghostty
+
 # ------------------------------ I3WM ------------------------------
 
 config_i3_desktop: config_xprofile config_i3 config_rofi config_i3status_rust config_picom config_xresources
@@ -181,9 +184,9 @@ install_go_development:
 
 # ----------------------------- PUBLIC COMMANDS -------------------
 
-setup_macos: config_nvim config_tmux config_zsh config_aerospace config_wezterm git_config_work install_macos 
+setup_macos: config_nvim config_tmux config_zsh config_aerospace config_wezterm config_ghostty git_config_work install_macos 
 
-resetup_macos: config_nvim config_tmux config_aerospace config_wezterm
+resetup_macos: config_nvim config_tmux config_aerospace config_wezterm config_ghostty
 
 setup_i3_pc: config_nvim config_tmux config_zsh git_config_home config_fish config_wezterm install_i3_pc config_i3_desktop
 
