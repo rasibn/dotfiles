@@ -67,9 +67,8 @@ export BUN_INSTALL="$HOME/.bun"
 # TOOL INITIALIZATIONS
 # ============================================
 # Zoxide (fast cd replacement)
-if command -v zoxide &> /dev/null; then
-    eval "$(zoxide init --cmd 'cd' zsh)"
-fi
+# Only load in interactive shells and when DISABLE_ZOXIDE is not set
+[[ $- == *i* ]] && [ -z "$DISABLE_ZOXIDE" ] && eval "$(zoxide init --cmd cd zsh)"
 
 # ============================================
 # OPTIONAL TOOLS
