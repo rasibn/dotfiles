@@ -1,4 +1,6 @@
 -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/eslint.lua
+local lombok_jar = vim.fn.expand("~/.local/share/nvim/mason/share/jdtls/lombok.jar")
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -12,6 +14,11 @@ return {
         sourcekit = {},
         tailwindcss = {},
         gleam = {},
+        jdtls = {
+          cmd = {
+            "/opt/homebrew/bin/jdtls",
+            "--jvm-arg=-javaagent:" .. lombok_jar,
+          },
         templ = {},
         volar = {}, -- vue-language-server
         -- ts_ls = {},
