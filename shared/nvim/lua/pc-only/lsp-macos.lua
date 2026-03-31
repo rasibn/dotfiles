@@ -19,6 +19,12 @@ return {
             "/opt/homebrew/bin/jdtls",
             "--jvm-arg=-javaagent:" .. lombok_jar,
           },
+          settings = {
+            java = {
+              format = { enabled = false },
+            },
+          },
+        },
         templ = {},
         volar = {}, -- vue-language-server
         -- ts_ls = {},
