@@ -10,6 +10,7 @@ alias git_config_home_global="$DOTFILE_DIR/shared/scripts/git_config_home_global
 alias git_config_work_global="$DOTFILE_DIR/shared/scripts/git_config_work_global.sh"
 alias tmux_session_init_code="$DOTFILE_DIR/shared/scripts/tmux/tmux_session_init_code.sh"
 alias tmux_session_init_config="$DOTFILE_DIR/shared/scripts/tmux/tmux_session_init_config.sh"
+alias prtui="bun run $DOTFILE_DIR/shared/scripts/pr-tui/src/cli.tsx"
 
 alias git-undo="git reset --soft HEAD^"
 alias cls="clear"
@@ -76,6 +77,7 @@ alias config.picom="$EDITOR $HOME/.config/picom.conf"
 alias xrandrscaleup="xrandr --output eDP-1 --scale 0.95x0.95"
 alias xrandrscalereset="xrandr --output eDP-1 --scale 1x1"
 
+alias clauded="claude --dangerously-skip-permissions"
 alias gcmsg='git commit --message'
 # alias reader="zathura"
 # alias fdupes="rmlint"

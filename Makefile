@@ -62,6 +62,9 @@ config_tmux:
 	rm -rf ~/.tmux/plugins/tpm;
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+config_pr_tui:
+	cd $(DIR)/shared/scripts/pr-tui && bun install
+
 # ------------------------------ Terminal Emulator -----------------
 
 config_wezterm:
@@ -184,7 +187,7 @@ install_go_development:
 
 # ----------------------------- PUBLIC COMMANDS -------------------
 
-setup_macos: config_nvim config_tmux config_zsh config_aerospace config_wezterm config_ghostty git_config_work install_macos 
+setup_macos: config_nvim config_tmux config_zsh config_aerospace config_wezterm config_ghostty config_pr_tui git_config_work install_macos
 
 resetup_macos: config_nvim config_tmux config_aerospace config_wezterm config_ghostty
 

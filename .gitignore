@@ -8,3 +8,5 @@ desktop/linux/hypr/hypridle.conf
 shared/scripts/golang/proji/proji
 shared/scripts/golang/vimi/vimi
 desktop/linux/hypr/*.png
+shared/nvim/lua/plugins/dadbod.lua
+shared/scripts/pr-tui/node_modules/

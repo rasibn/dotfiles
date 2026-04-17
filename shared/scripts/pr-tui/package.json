@@ -1,0 +1,18 @@
+{
+  "name": "pr-tui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/cli.tsx",
+    "dev": "bun --watch run src/cli.tsx"
+  },
+  "dependencies": {
+    "ink": "^5.2.0",
+    "react": "^18.3.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.12",
+    "@types/react": "^18.3.0",
+    "typescript": "^5.7.0"
+  }
+}
