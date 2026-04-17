@@ -143,6 +143,17 @@ kill-port() {
   echo "Process killed successfully"
 }
 
+prtui() {
+  local cmd="bun run $DOTFILE_DIR/shared/scripts/pr-tui/src/cli.tsx"
+  if [ -n "$TMUX" ]; then
+    eval "$cmd"
+  elif tmux has-session -t manager 2>/dev/null; then
+    tmux attach-session -t manager
+  else
+    tmux new-session -s manager "$cmd"
+  fi
+}
+
 # ============================================
 # PROFILING OUTPUT (comment out after benchmarking)
 # ============================================
