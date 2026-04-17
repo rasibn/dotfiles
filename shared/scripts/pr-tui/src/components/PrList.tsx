@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
-import { useVimNav } from "../hooks/useVimNav.js";
+import { SelectList } from "./SelectList.js";
 import { exec } from "../lib/exec.js";
 import { safeName, addWorktree, getRepoRoot } from "../lib/git.js";
 import { openWorktreeSession } from "../lib/tmux.js";
@@ -17,27 +17,25 @@ export function PrList({ cwd, active }: PrListProps) {
   const [error, setError] = useState("");
   const [status, setStatus] = useState("");
 
-  const { cursor, viewportStart, viewportEnd } = useVimNav({
-    length: prs.length,
-    active,
-  });
-
   const refresh = async () => {
     setLoading(true);
     setError("");
     setStatus("");
 
-    const result = await exec([
-      "gh",
-      "pr",
-      "list",
-      "--limit",
-      "50",
-      "--json",
-      "number,title,headRefName,author",
-      "--jq",
-      ".",
-    ], { cwd });
+    const result = await exec(
+      [
+        "gh",
+        "pr",
+        "list",
+        "--limit",
+        "50",
+        "--json",
+        "number,title,headRefName,author",
+        "--jq",
+        ".",
+      ],
+      { cwd },
+    );
 
     if (result.exitCode !== 0) {
       setError("Failed to fetch PRs (is gh authenticated?)");
@@ -67,13 +65,8 @@ export function PrList({ cwd, active }: PrListProps) {
   }, [cwd]);
 
   useInput(
-    (input, key) => {
-      if (input === "r") {
-        refresh();
-      }
-      if (key.return && cursor >= 0 && cursor < prs.length) {
-        handleSelect(prs[cursor]!);
-      }
+    (input) => {
+      if (input === "r") refresh();
     },
     { isActive: active },
   );
@@ -114,44 +107,36 @@ export function PrList({ cwd, active }: PrListProps) {
     );
   }
 
-  const visible = prs.slice(viewportStart, viewportEnd);
-
   return (
     <Box flexDirection="column">
-      {prs.length === 0 ? (
-        <Text dimColor>No open PRs found</Text>
-      ) : (
-        visible.map((pr, i) => {
-          const realIndex = viewportStart + i;
-          const isCursor = realIndex === cursor;
-          return (
-            <Box key={pr.number}>
-              <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
-                {isCursor ? ">" : " "}{" "}
-              </Text>
-              <Text color="green">#{pr.number}</Text>
-              <Text> </Text>
-              <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
-                {pr.title}
-              </Text>
-              <Text dimColor>
-                {" "}
-                ({pr.headRefName}) @{pr.author}
-              </Text>
-            </Box>
-          );
-        })
-      )}
-      {prs.length > viewportEnd - viewportStart && (
-        <Text dimColor>
-          [{viewportStart + 1}-{viewportEnd} of {prs.length}]
-        </Text>
-      )}
-      {status ? (
+      <SelectList
+        items={prs}
+        active={active}
+        searchValue={(pr) => `${pr.number} ${pr.title} ${pr.headRefName} ${pr.author}`}
+        onSelect={handleSelect}
+        emptyText="No open PRs found"
+        renderItem={(pr, { isCursor }) => (
+          <>
+            <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
+              {isCursor ? "> " : "  "}
+            </Text>
+            <Text color="green">#{pr.number}</Text>
+            <Text> </Text>
+            <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
+              {pr.title}
+            </Text>
+            <Text dimColor>
+              {" "}
+              ({pr.headRefName}) @{pr.author}
+            </Text>
+          </>
+        )}
+      />
+      {status && (
         <Box marginTop={1}>
           <Text color="yellow">{status}</Text>
         </Box>
-      ) : null}
+      )}
     </Box>
   );
 }

@@ -4,10 +4,7 @@ export interface ExecResult {
   exitCode: number;
 }
 
-export async function exec(
-  cmd: string[],
-  opts?: { cwd?: string },
-): Promise<ExecResult> {
+export async function exec(cmd: string[], opts?: { cwd?: string }): Promise<ExecResult> {
   const proc = Bun.spawn(cmd, {
     cwd: opts?.cwd,
     stdout: "pipe",
@@ -21,10 +18,7 @@ export async function exec(
   return { stdout: stdout.trim(), stderr: stderr.trim(), exitCode };
 }
 
-export function execSync(
-  cmd: string[],
-  opts?: { cwd?: string },
-): ExecResult {
+export function execSync(cmd: string[], opts?: { cwd?: string }): ExecResult {
   const proc = Bun.spawnSync(cmd, {
     cwd: opts?.cwd,
     stdout: "pipe",

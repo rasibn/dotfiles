@@ -22,7 +22,7 @@ export function Tabs({ activeIndex }: TabsProps) {
         </Box>
       ))}
       <Box flexGrow={1} />
-      <Text dimColor>{"h/l tabs  j/k nav  q quit"}</Text>
+      <Text dimColor>{"h/l tabs  j/k nav  / search  q quit"}</Text>
     </Box>
   );
 }

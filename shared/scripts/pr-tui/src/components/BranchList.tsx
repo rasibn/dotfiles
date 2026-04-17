@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
-import { useVimNav } from "../hooks/useVimNav.js";
+import { SelectList } from "./SelectList.js";
 import { listBranches, safeName, addWorktree, getRepoRoot } from "../lib/git.js";
 import { openWorktreeSession } from "../lib/tmux.js";
 import type { Branch } from "../lib/types.js";
@@ -15,11 +15,6 @@ export function BranchList({ cwd, active }: BranchListProps) {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
 
-  const { cursor, viewportStart, viewportEnd } = useVimNav({
-    length: branches.length,
-    active,
-  });
-
   const refresh = async () => {
     setLoading(true);
     setStatus("");
@@ -33,13 +28,8 @@ export function BranchList({ cwd, active }: BranchListProps) {
   }, [cwd]);
 
   useInput(
-    (input, key) => {
-      if (input === "r") {
-        refresh();
-      }
-      if (key.return && cursor >= 0 && cursor < branches.length) {
-        handleSelect(branches[cursor]!);
-      }
+    (input) => {
+      if (input === "r") refresh();
     },
     { isActive: active },
   );
@@ -61,7 +51,6 @@ export function BranchList({ cwd, active }: BranchListProps) {
 
     setStatus(`Setting up ${branch.name}...`);
 
-    // Only create worktree if it doesn't exist
     if (!branch.hasWorktree) {
       const result = await addWorktree(repoRoot, branch.name, wtDir);
       if (!result.ok) {
@@ -79,50 +68,42 @@ export function BranchList({ cwd, active }: BranchListProps) {
     return <Text color="yellow">Loading branches...</Text>;
   }
 
-  const visible = branches.slice(viewportStart, viewportEnd);
-
   return (
     <Box flexDirection="column">
-      {branches.length === 0 ? (
-        <Text dimColor>No branches found</Text>
-      ) : (
-        visible.map((branch, i) => {
-          const realIndex = viewportStart + i;
-          const isCursor = realIndex === cursor;
-          return (
-            <Box key={branch.name}>
-              <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
-                {isCursor ? ">" : " "}{" "}
+      <SelectList
+        items={branches}
+        active={active}
+        searchValue={(b) => b.name}
+        onSelect={handleSelect}
+        emptyText="No branches found"
+        renderItem={(branch, { isCursor }) => (
+          <>
+            <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
+              {isCursor ? "> " : "  "}
+            </Text>
+            <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
+              {branch.name}
+            </Text>
+            {branch.isCurrent && (
+              <Text color="green" dimColor>
+                {" "}
+                (current)
               </Text>
-              <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
-                {branch.name}
+            )}
+            {branch.hasWorktree && !branch.isCurrent && (
+              <Text color="yellow" dimColor>
+                {" "}
+                (worktree)
               </Text>
-              {branch.isCurrent && (
-                <Text color="green" dimColor>
-                  {" "}
-                  (current)
-                </Text>
-              )}
-              {branch.hasWorktree && !branch.isCurrent && (
-                <Text color="yellow" dimColor>
-                  {" "}
-                  (worktree)
-                </Text>
-              )}
-            </Box>
-          );
-        })
-      )}
-      {branches.length > viewportEnd - viewportStart && (
-        <Text dimColor>
-          [{viewportStart + 1}-{viewportEnd} of {branches.length}]
-        </Text>
-      )}
-      {status ? (
+            )}
+          </>
+        )}
+      />
+      {status && (
         <Box marginTop={1}>
           <Text color="yellow">{status}</Text>
         </Box>
-      ) : null}
+      )}
     </Box>
   );
 }

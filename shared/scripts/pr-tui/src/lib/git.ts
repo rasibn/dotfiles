@@ -2,7 +2,7 @@ import { exec } from "./exec.js";
 import type { Branch, Worktree } from "./types.js";
 
 export function safeName(branch: string): string {
-  return branch.replace(/[\/\.:\s]/g, "-");
+  return branch.replace(/[/.:\s]/g, "-");
 }
 
 export async function getRepoRoot(cwd: string): Promise<string | null> {
@@ -47,7 +47,7 @@ export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
   for (const line of lines) {
     const parts = line.split(/\s+/);
     const path = parts[0]!;
-    const branch = (parts[2] || "").replace(/[\[\]]/g, "");
+    const branch = (parts[2] || "").replace(/[[\]]/g, "");
     const sName = path.split("/").pop() || branch;
 
     const statusResult = await exec(["git", "-C", path, "status", "--porcelain"], {
@@ -58,7 +58,9 @@ export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
     const vvResult = await exec(["git", "branch", "-vv"], { cwd: repoRoot });
     const branchLine = vvResult.stdout
       .split("\n")
-      .find((l) => l.match(new RegExp(`^[* ] ${branch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s`)));
+      .find((l) =>
+        l.match(new RegExp(`^[* ] ${branch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s`)),
+      );
     const isRemoteGone = branchLine ? branchLine.includes("[gone]") : false;
 
     worktrees.push({ path, branch, safeName: sName, isDirty, isRemoteGone });
