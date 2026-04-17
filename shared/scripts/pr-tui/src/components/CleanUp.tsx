@@ -62,11 +62,12 @@ export function CleanUp({ cwd, active }: CleanUpProps) {
       const wtResult = await removeWorktree(repoRoot, wt.path);
       if (wtResult.ok) {
         messages.push(`Removed worktree: ${wt.branch}`);
-        const brResult = await deleteBranch(repoRoot, wt.branch);
+        // Force delete if remote is gone (squash-merged PRs), safe delete otherwise
+        const brResult = await deleteBranch(repoRoot, wt.branch, wt.isRemoteGone);
         if (brResult.ok) {
           messages.push(`Deleted branch: ${wt.branch}`);
         } else {
-          messages.push(`Kept branch ${wt.branch} (unmerged commits)`);
+          messages.push(`Kept branch ${wt.branch}: ${brResult.error}`);
         }
       } else {
         messages.push(`Failed to remove ${wt.branch}: ${wtResult.error}`);

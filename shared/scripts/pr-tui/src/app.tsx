@@ -37,9 +37,9 @@ export function App({ cwd: initialCwd }: AppProps) {
     (input, key) => {
       if (picking || mode === "search") return;
 
-      if (input === "h") {
+      if (input === "h" || key.leftArrow) {
         setActiveTab((t) => Math.max(0, t - 1));
-      } else if (input === "l") {
+      } else if (input === "l" || key.rightArrow) {
         setActiveTab((t) => Math.min(TAB_COUNT - 1, t + 1));
       } else if (input === "q") {
         exit();

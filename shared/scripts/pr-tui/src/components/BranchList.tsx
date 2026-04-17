@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import { SelectList } from "./SelectList.js";
-import { listBranches, safeName, addWorktree, getRepoRoot } from "../lib/git.js";
+import { listBranches, safeName, addWorktree, createBranch, getRepoRoot } from "../lib/git.js";
 import { openWorktreeSession } from "../lib/tmux.js";
 import type { Branch } from "../lib/types.js";
 
@@ -14,6 +14,7 @@ export function BranchList({ cwd, active }: BranchListProps) {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
+  const [busy, setBusy] = useState(false);
 
   const refresh = async () => {
     setLoading(true);
@@ -49,18 +50,52 @@ export function BranchList({ cwd, active }: BranchListProps) {
     const sName = safeName(branch.name);
     const wtDir = `${repoRoot}/.worktrees/${sName}`;
 
+    setBusy(true);
     setStatus(`Setting up ${branch.name}...`);
 
     if (!branch.hasWorktree) {
       const result = await addWorktree(repoRoot, branch.name, wtDir);
       if (!result.ok) {
         setStatus(`Error: ${result.error}`);
+        setBusy(false);
         return;
       }
     }
 
     setStatus(`Switching to ${sName}...`);
     await openWorktreeSession(sName, wtDir);
+    setBusy(false);
+    await refresh();
+  };
+
+  const handleCreate = async (name: string) => {
+    const repoRoot = await getRepoRoot(cwd);
+    if (!repoRoot) {
+      setStatus("Not in a git repository");
+      return;
+    }
+
+    setBusy(true);
+    setStatus(`Creating branch ${name}...`);
+    const result = await createBranch(repoRoot, name);
+    if (!result.ok) {
+      setStatus(`Error: ${result.error}`);
+      setBusy(false);
+      return;
+    }
+
+    const sName = safeName(name);
+    const wtDir = `${repoRoot}/.worktrees/${sName}`;
+    const wtResult = await addWorktree(repoRoot, name, wtDir);
+    if (!wtResult.ok) {
+      setStatus(`Error: ${wtResult.error}`);
+      setBusy(false);
+      return;
+    }
+
+    setStatus(`Switching to ${sName}...`);
+    await openWorktreeSession(sName, wtDir);
+    setBusy(false);
     await refresh();
   };
 
@@ -72,9 +107,10 @@ export function BranchList({ cwd, active }: BranchListProps) {
     <Box flexDirection="column">
       <SelectList
         items={branches}
-        active={active}
+        active={active && !busy}
         searchValue={(b) => b.name}
         onSelect={handleSelect}
+        onCreate={handleCreate}
         emptyText="No branches found"
         renderItem={(branch, { isCursor }) => (
           <>

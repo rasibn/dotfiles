@@ -9,6 +9,8 @@ interface SelectListProps<T> {
   renderItem: (item: T, opts: { isCursor: boolean; isSelected: boolean }) => ReactNode;
   onSelect?: (item: T) => void;
   onConfirm?: (items: T[]) => void;
+  /** Called on Enter when search has no matches — receives the query */
+  onCreate?: (query: string) => void;
   multiSelect?: boolean;
   emptyText?: string;
   viewportSize?: number;
@@ -21,6 +23,7 @@ export function SelectList<T>({
   renderItem,
   onSelect,
   onConfirm,
+  onCreate,
   multiSelect = false,
   emptyText = "No items",
   viewportSize = 20,
@@ -95,9 +98,9 @@ export function SelectList<T>({
         return;
       }
 
-      if (input === "j") {
+      if (input === "j" || key.downArrow) {
         moveTo(clampedCursor + 1);
-      } else if (input === "k") {
+      } else if (input === "k" || key.upArrow) {
         moveTo(clampedCursor - 1);
       } else if (input === "g") {
         moveTo(0);
@@ -112,14 +115,19 @@ export function SelectList<T>({
         toggleSelect(clampedCursor);
       } else if (input === " " && multiSelect && clampedCursor >= 0) {
         toggleSelect(clampedCursor);
-      } else if (key.return && clampedCursor >= 0) {
-        if (multiSelect && onConfirm) {
-          const selectedItems = [...selected].map((i) => items[i]!).filter(Boolean);
-          if (selectedItems.length > 0) {
-            onConfirm(selectedItems);
+      } else if (key.return) {
+        if (clampedCursor >= 0) {
+          if (multiSelect && onConfirm) {
+            const selectedItems = [...selected].map((i) => items[i]!).filter(Boolean);
+            if (selectedItems.length > 0) {
+              onConfirm(selectedItems);
+            }
+          } else if (onSelect) {
+            onSelect(filtered[clampedCursor]!);
           }
-        } else if (onSelect) {
-          onSelect(filtered[clampedCursor]!);
+        } else if (query && onCreate) {
+          onCreate(query);
+          setQuery("");
         }
       }
     },
@@ -146,7 +154,9 @@ export function SelectList<T>({
       )}
 
       {filtered.length === 0 ? (
-        <Text dimColor>{query ? `No matches for "${query}"` : emptyText}</Text>
+        <Text dimColor>
+          {query && onCreate ? `Press Enter to create "${query}"` : query ? `No matches for "${query}"` : emptyText}
+        </Text>
       ) : (
         visible.map((item, i) => {
           const realIndex = viewportStart + i;

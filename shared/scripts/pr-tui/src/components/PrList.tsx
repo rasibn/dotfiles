@@ -15,6 +15,7 @@ export function PrList({ cwd, active }: PrListProps) {
   const [prs, setPrs] = useState<PR[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
 
   const refresh = async () => {
@@ -81,16 +82,19 @@ export function PrList({ cwd, active }: PrListProps) {
     const sName = safeName(pr.headRefName);
     const wtDir = `${repoRoot}/.worktrees/${sName}`;
 
+    setBusy(true);
     setStatus(`Setting up PR #${pr.number} (${pr.headRefName})...`);
 
     const result = await addWorktree(repoRoot, pr.headRefName, wtDir);
     if (!result.ok && !result.error?.includes("already exists")) {
       setStatus(`Error: ${result.error}`);
+      setBusy(false);
       return;
     }
 
     setStatus(`Switching to ${sName}...`);
     await openWorktreeSession(sName, wtDir);
+    setBusy(false);
     await refresh();
   };
 
@@ -111,7 +115,7 @@ export function PrList({ cwd, active }: PrListProps) {
     <Box flexDirection="column">
       <SelectList
         items={prs}
-        active={active}
+        active={active && !busy}
         searchValue={(pr) => `${pr.number} ${pr.title} ${pr.headRefName} ${pr.author}`}
         onSelect={handleSelect}
         emptyText="No open PRs found"

@@ -91,6 +91,10 @@ export async function addWorktree(
   if (result.exitCode !== 0) {
     return { ok: false, error: result.stderr };
   }
+
+  // Set upstream tracking so push/pull work
+  await exec(["git", "-C", targetDir, "branch", "--set-upstream-to", `origin/${branch}`]);
+
   return { ok: true };
 }
 
@@ -108,8 +112,21 @@ export async function removeWorktree(
 export async function deleteBranch(
   cwd: string,
   branch: string,
+  force = false,
 ): Promise<{ ok: boolean; error?: string }> {
-  const result = await exec(["git", "branch", "-d", branch], { cwd });
+  const flag = force ? "-D" : "-d";
+  const result = await exec(["git", "branch", flag, branch], { cwd });
+  if (result.exitCode !== 0) {
+    return { ok: false, error: result.stderr };
+  }
+  return { ok: true };
+}
+
+export async function createBranch(
+  cwd: string,
+  branch: string,
+): Promise<{ ok: boolean; error?: string }> {
+  const result = await exec(["git", "branch", branch], { cwd });
   if (result.exitCode !== 0) {
     return { ok: false, error: result.stderr };
   }
