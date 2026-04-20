@@ -12,8 +12,17 @@ if (!isInsideTmux()) {
 
 const cwd = process.argv[2] || process.cwd();
 
-render(
+// Enter alternate screen buffer (like vim/htop)
+process.stdout.write("\x1b[?1049h");
+process.stdout.write("\x1b[H");
+
+const { unmount, waitUntilExit } = render(
   <InputModeProvider>
     <App cwd={cwd} />
   </InputModeProvider>,
 );
+
+waitUntilExit().then(() => {
+  // Restore original screen buffer
+  process.stdout.write("\x1b[?1049l");
+});
