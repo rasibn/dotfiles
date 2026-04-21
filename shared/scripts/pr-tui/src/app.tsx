@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, useInput, useApp } from "ink";
 import { Tabs } from "./components/Tabs.js";
-import { BranchList } from "./components/BranchList.js";
+import { Sessions } from "./components/Sessions.js";
 import { PrList } from "./components/PrList.js";
-import { CleanUp } from "./components/CleanUp.js";
+import { BranchList } from "./components/BranchList.js";
 import { RepoPicker } from "./components/RepoPicker.js";
 import { getRepoRoot } from "./lib/git.js";
 import { useInputMode } from "./lib/input-mode.js";
@@ -90,9 +90,9 @@ export function App({ cwd: initialCwd }: AppProps) {
         <Text dimColor> (Ctrl+o to switch)</Text>
       </Box>
       <Tabs activeIndex={activeTab} />
-      {activeTab === 0 && <BranchList cwd={repoCwd} active={activeTab === 0} />}
+      {activeTab === 0 && <Sessions cwd={repoCwd} active={activeTab === 0} />}
       {activeTab === 1 && <PrList cwd={repoCwd} active={activeTab === 1} />}
-      {activeTab === 2 && <CleanUp cwd={repoCwd} active={activeTab === 2} />}
+      {activeTab === 2 && <BranchList cwd={repoCwd} active={activeTab === 2} />}
     </Box>
   );
 }

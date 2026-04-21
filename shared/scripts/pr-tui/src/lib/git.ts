@@ -5,6 +5,11 @@ export function safeName(branch: string): string {
   return branch.replace(/[/.:\s]/g, "-");
 }
 
+export function sessionName(repoRoot: string, branch: string): string {
+  const repo = repoRoot.split("/").pop() || "repo";
+  return `${repo}_${safeName(branch)}`;
+}
+
 export async function getRepoRoot(cwd: string): Promise<string | null> {
   const result = await exec(["git", "rev-parse", "--show-toplevel"], { cwd });
   return result.exitCode === 0 ? result.stdout : null;
@@ -36,35 +41,38 @@ export async function listBranches(cwd: string): Promise<Branch[]> {
 }
 
 export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
-  const wtResult = await exec(["git", "worktree", "list"], { cwd: repoRoot });
+  const [wtResult, vvResult] = await Promise.all([
+    exec(["git", "worktree", "list"], { cwd: repoRoot }),
+    exec(["git", "branch", "-vv"], { cwd: repoRoot }),
+  ]);
   if (!wtResult.stdout) return [];
 
   const worktreeDir = `${repoRoot}/.worktrees/`;
   const lines = wtResult.stdout.split("\n").filter((l) => l.includes(worktreeDir));
 
-  const worktrees: Worktree[] = [];
-
-  for (const line of lines) {
+  const entries = lines.map((line) => {
     const parts = line.split(/\s+/);
     const path = parts[0]!;
     const branch = (parts[2] || "").replace(/[[\]]/g, "");
     const sName = path.split("/").pop() || branch;
-
-    const statusResult = await exec(["git", "-C", path, "status", "--porcelain"], {
-      cwd: repoRoot,
-    });
-    const isDirty = statusResult.stdout.length > 0;
-
-    const vvResult = await exec(["git", "branch", "-vv"], { cwd: repoRoot });
     const branchLine = vvResult.stdout
       .split("\n")
-      .find((l) =>
-        l.match(new RegExp(`^[* ] ${branch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s`)),
-      );
+      .find((l) => l.match(new RegExp(`^[* ] ${branch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s`)));
     const isRemoteGone = branchLine ? branchLine.includes("[gone]") : false;
+    return { path, branch, sName, isRemoteGone };
+  });
 
-    worktrees.push({ path, branch, safeName: sName, isDirty, isRemoteGone });
-  }
+  const statusResults = await Promise.all(
+    entries.map(({ path }) => exec(["git", "-C", path, "status", "--porcelain"], { cwd: repoRoot })),
+  );
+
+  const worktrees: Worktree[] = entries.map((e, i) => ({
+    path: e.path,
+    branch: e.branch,
+    safeName: e.sName,
+    isDirty: statusResults[i]!.stdout.length > 0,
+    isRemoteGone: e.isRemoteGone,
+  }));
 
   return worktrees;
 }

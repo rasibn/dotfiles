@@ -1,4 +1,5 @@
 import { exec } from "./exec.js";
+import type { Session } from "./types.js";
 
 export function isInsideTmux(): boolean {
   return !!process.env.TMUX;
@@ -31,4 +32,69 @@ export async function openWorktreeSession(sessionName: string, worktreeDir: stri
     await createSession(sessionName, worktreeDir);
   }
   await switchClient(sessionName);
+}
+
+export async function listSessions(repoRoot: string): Promise<Session[]> {
+  const [sessResult, wtResult] = await Promise.all([
+    exec(["tmux", "list-sessions", "-F", "#{session_name}"]),
+    exec(["git", "worktree", "list", "--porcelain"], { cwd: repoRoot }),
+  ]);
+
+  if (sessResult.exitCode !== 0) return [];
+
+  const worktreeDir = `${repoRoot}/.worktrees/`;
+
+  // Parse porcelain worktree output into blocks
+  const wtBlocks = wtResult.stdout.split("\n\n").filter((b) => b.includes(worktreeDir));
+  const wtEntries = wtBlocks.map((block) => {
+    const lines = block.split("\n");
+    const path = lines.find((l) => l.startsWith("worktree "))?.slice(9) ?? "";
+    const branch = lines.find((l) => l.startsWith("branch refs/heads/"))?.slice(18) ?? null;
+    return { path, branch };
+  });
+
+  const dirtyResults = await Promise.all(
+    wtEntries.map(({ path }) => exec(["git", "-C", path, "status", "--porcelain"], { cwd: repoRoot })),
+  );
+
+  const worktreeMap = new Map<string, { path: string; branch: string | null; isDirty: boolean }>();
+  for (let i = 0; i < wtEntries.length; i++) {
+    const { path, branch } = wtEntries[i]!;
+    worktreeMap.set(path.split("/").pop()!, { path, branch, isDirty: dirtyResults[i]!.stdout.length > 0 });
+  }
+
+  const sessionNames = sessResult.stdout.split("\n").filter(Boolean);
+  const repoName = repoRoot.split("/").pop()!;
+
+  const toSessionSet = (glob: string, prefix: string) =>
+    new Set(
+      Array.from(new Bun.Glob(glob).scanSync()).map((f) =>
+        (f as string).replace(prefix, "").replace(/-\d+$/, ""),
+      ),
+    );
+
+  const stopFlags = toSessionSet("/tmp/claude-stop-*", "/tmp/claude-stop-");
+  const notifyFlags = toSessionSet("/tmp/claude-notify-*", "/tmp/claude-notify-");
+
+  return sessionNames.map((name) => {
+    const wt = worktreeMap.get(name);
+    const isRepoSession = name.startsWith(`${repoName}_`);
+    return {
+      name,
+      branch: wt?.branch ?? null,
+      worktreePath: wt?.path ?? null,
+      isDirty: wt?.isDirty ?? false,
+      isOrphan: isRepoSession && !wt,
+      claudeStop: stopFlags.has(name),
+      claudeNotify: notifyFlags.has(name),
+    };
+  });
+}
+
+export async function openWorktreePane(sessionName: string, worktreeDir: string): Promise<void> {
+  const exists = await sessionExists(sessionName);
+  if (!exists) {
+    await createSession(sessionName, worktreeDir);
+  }
+  await exec(["tmux", "split-window", "-h", "-c", worktreeDir]);
 }

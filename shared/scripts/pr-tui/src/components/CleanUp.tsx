@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import { SelectList } from "./SelectList.js";
 import { listWorktrees, removeWorktree, deleteBranch, getRepoRoot } from "../lib/git.js";
-import { killSession, sessionExists } from "../lib/tmux.js";
+import { killSession, sessionExists, openWorktreeSession, openWorktreePane } from "../lib/tmux.js";
 import { exec } from "../lib/exec.js";
 import type { Worktree } from "../lib/types.js";
 
@@ -46,6 +46,18 @@ export function CleanUp({ cwd, active }: CleanUpProps) {
     { isActive: active },
   );
 
+  const handleKeyAction = async (key: string, wt: Worktree) => {
+    if (key === "o") {
+      setStatus(`Opening ${wt.branch}...`);
+      await openWorktreeSession(wt.safeName, wt.path);
+      setStatus("");
+    } else if (key === "p") {
+      setStatus(`Opening pane for ${wt.branch}...`);
+      await openWorktreePane(wt.safeName, wt.path);
+      setStatus("");
+    }
+  };
+
   const handleCleanup = async (toClean: Worktree[]) => {
     const repoRoot = await getRepoRoot(cwd);
     if (!repoRoot) return;
@@ -54,14 +66,15 @@ export function CleanUp({ cwd, active }: CleanUpProps) {
     const messages: string[] = [];
 
     for (const wt of toClean) {
-      if (await sessionExists(wt.safeName)) {
-        await killSession(wt.safeName);
-        messages.push(`Killed session: ${wt.safeName}`);
-      }
-
       const wtResult = await removeWorktree(repoRoot, wt.path);
       if (wtResult.ok) {
         messages.push(`Removed worktree: ${wt.branch}`);
+
+        if (await sessionExists(wt.safeName)) {
+          await killSession(wt.safeName);
+          messages.push(`Killed session: ${wt.safeName}`);
+        }
+
         // Force delete if remote is gone (squash-merged PRs), safe delete otherwise
         const brResult = await deleteBranch(repoRoot, wt.branch, wt.isRemoteGone);
         if (brResult.ok) {
@@ -90,6 +103,7 @@ export function CleanUp({ cwd, active }: CleanUpProps) {
         multiSelect
         searchValue={(wt) => wt.branch}
         onConfirm={handleCleanup}
+        onKeyAction={handleKeyAction}
         emptyText="No worktrees to clean up"
         renderItem={(wt, { isCursor, isSelected }) => (
           <>

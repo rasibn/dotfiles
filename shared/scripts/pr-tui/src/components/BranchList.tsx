@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import { SelectList } from "./SelectList.js";
-import { listBranches, safeName, addWorktree, createBranch, getRepoRoot } from "../lib/git.js";
+import { listBranches, sessionName, addWorktree, createBranch, getRepoRoot } from "../lib/git.js";
 import { openWorktreeSession } from "../lib/tmux.js";
 import type { Branch } from "../lib/types.js";
 
@@ -36,24 +36,19 @@ export function BranchList({ cwd, active }: BranchListProps) {
   );
 
   const handleSelect = async (branch: Branch) => {
-    if (branch.isCurrent) {
-      setStatus("Already on this branch in main worktree");
-      return;
-    }
-
     const repoRoot = await getRepoRoot(cwd);
     if (!repoRoot) {
       setStatus("Not in a git repository");
       return;
     }
 
-    const sName = safeName(branch.name);
-    const wtDir = `${repoRoot}/.worktrees/${sName}`;
+    const sName = sessionName(repoRoot, branch.name);
+    const wtDir = branch.isCurrent ? repoRoot : `${repoRoot}/.worktrees/${sName}`;
 
     setBusy(true);
     setStatus(`Setting up ${branch.name}...`);
 
-    if (!branch.hasWorktree) {
+    if (!branch.isCurrent && !branch.hasWorktree) {
       const result = await addWorktree(repoRoot, branch.name, wtDir);
       if (!result.ok) {
         setStatus(`Error: ${result.error}`);
@@ -84,7 +79,7 @@ export function BranchList({ cwd, active }: BranchListProps) {
       return;
     }
 
-    const sName = safeName(name);
+    const sName = sessionName(repoRoot, name);
     const wtDir = `${repoRoot}/.worktrees/${sName}`;
     const wtResult = await addWorktree(repoRoot, name, wtDir);
     if (!wtResult.ok) {
@@ -123,7 +118,7 @@ export function BranchList({ cwd, active }: BranchListProps) {
             {branch.isCurrent && (
               <Text color="green" dimColor>
                 {" "}
-                (current)
+                (main worktree)
               </Text>
             )}
             {branch.hasWorktree && !branch.isCurrent && (

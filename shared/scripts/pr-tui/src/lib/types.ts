@@ -18,3 +18,13 @@ export interface Worktree {
   isDirty: boolean;
   isRemoteGone: boolean;
 }
+
+export interface Session {
+  name: string;
+  branch: string | null;
+  worktreePath: string | null;
+  isDirty: boolean;
+  isOrphan: boolean;
+  claudeStop: boolean;
+  claudeNotify: boolean;
+}

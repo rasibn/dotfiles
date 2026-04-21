@@ -11,6 +11,8 @@ interface SelectListProps<T> {
   onConfirm?: (items: T[]) => void;
   /** Called on Enter when search has no matches — receives the query */
   onCreate?: (query: string) => void;
+  /** Called for unhandled keypresses in normal mode with a cursor item */
+  onKeyAction?: (key: string, item: T) => void;
   multiSelect?: boolean;
   emptyText?: string;
   viewportSize?: number;
@@ -24,6 +26,7 @@ export function SelectList<T>({
   onSelect,
   onConfirm,
   onCreate,
+  onKeyAction,
   multiSelect = false,
   emptyText = "No items",
   viewportSize = 20,
@@ -129,6 +132,8 @@ export function SelectList<T>({
           onCreate(query);
           setQuery("");
         }
+      } else if (input && onKeyAction && clampedCursor >= 0) {
+        onKeyAction(input, filtered[clampedCursor]!);
       }
     },
     { isActive: active },

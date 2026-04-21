@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Text } from "ink";
 
-const TAB_LABELS = ["Local Branches", "PRs", "Clean Up"];
+const TAB_LABELS = ["Active Sessions", "Open PRs", "Open Local"];
 
 interface TabsProps {
   activeIndex: number;
@@ -22,7 +22,7 @@ export function Tabs({ activeIndex }: TabsProps) {
         </Box>
       ))}
       <Box flexGrow={1} />
-      <Text dimColor>{"h/l tabs  j/k nav  / search  C-o repo  q quit"}</Text>
+      <Text dimColor>{"h/l tabs  j/k nav  / search  o open  p pane  C-o repo  q quit"}</Text>
     </Box>
   );
 }

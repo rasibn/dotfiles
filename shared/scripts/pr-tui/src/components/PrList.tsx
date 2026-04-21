@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
 import { SelectList } from "./SelectList.js";
 import { exec } from "../lib/exec.js";
-import { safeName, addWorktree, getRepoRoot } from "../lib/git.js";
+import { sessionName, addWorktree, getRepoRoot } from "../lib/git.js";
 import { openWorktreeSession } from "../lib/tmux.js";
 import type { PR } from "../lib/types.js";
 
@@ -79,14 +79,14 @@ export function PrList({ cwd, active }: PrListProps) {
       return;
     }
 
-    const sName = safeName(pr.headRefName);
+    const sName = sessionName(repoRoot, pr.headRefName);
     const wtDir = `${repoRoot}/.worktrees/${sName}`;
 
     setBusy(true);
     setStatus(`Setting up PR #${pr.number} (${pr.headRefName})...`);
 
     const result = await addWorktree(repoRoot, pr.headRefName, wtDir);
-    if (!result.ok && !result.error?.includes("already exists")) {
+    if (!result.ok && !result.error?.includes("already used by worktree") && !result.error?.includes("already exists")) {
       setStatus(`Error: ${result.error}`);
       setBusy(false);
       return;
