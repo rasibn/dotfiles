@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "ink";
+import { Provider } from "jotai";
 import { App } from "./app.js";
-import { InputModeProvider } from "./lib/input-mode.js";
 import { isInsideTmux } from "./lib/tmux.js";
 
 if (!isInsideTmux()) {
@@ -12,17 +12,15 @@ if (!isInsideTmux()) {
 
 const cwd = process.argv[2] || process.cwd();
 
-// Enter alternate screen buffer (like vim/htop)
 process.stdout.write("\x1b[?1049h");
 process.stdout.write("\x1b[H");
 
-const { unmount, waitUntilExit } = render(
-  <InputModeProvider>
+const { waitUntilExit } = render(
+  <Provider>
     <App cwd={cwd} />
-  </InputModeProvider>,
+  </Provider>,
 );
 
 waitUntilExit().then(() => {
-  // Restore original screen buffer
   process.stdout.write("\x1b[?1049l");
 });

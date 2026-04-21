@@ -34,17 +34,37 @@ export async function openWorktreeSession(sessionName: string, worktreeDir: stri
   await switchClient(sessionName);
 }
 
-export async function listSessions(repoRoot: string): Promise<Session[]> {
-  const [sessResult, wtResult] = await Promise.all([
-    exec(["tmux", "list-sessions", "-F", "#{session_name}"]),
-    exec(["git", "worktree", "list", "--porcelain"], { cwd: repoRoot }),
-  ]);
-
+export async function listSessions(repoRoot: string | null): Promise<Session[]> {
+  const sessResult = await exec(["tmux", "list-sessions", "-F", "#{session_name}"]);
   if (sessResult.exitCode !== 0) return [];
 
-  const worktreeDir = `${repoRoot}/.worktrees/`;
+  const sessionNames = sessResult.stdout.split("\n").filter(Boolean);
 
-  // Parse porcelain worktree output into blocks
+  const toSessionSet = (glob: string, prefix: string) =>
+    new Set(
+      Array.from(new Bun.Glob(glob).scanSync()).map((f) =>
+        (f as string).replace(prefix, "").replace(/-\d+$/, ""),
+      ),
+    );
+
+  const stopFlags = toSessionSet("/tmp/claude-stop-*", "/tmp/claude-stop-");
+  const notifyFlags = toSessionSet("/tmp/claude-notify-*", "/tmp/claude-notify-");
+
+  if (!repoRoot) {
+    return sessionNames.map((name) => ({
+      name,
+      branch: null,
+      worktreePath: null,
+      isDirty: false,
+      isOrphan: false,
+      claudeStop: stopFlags.has(name),
+      claudeNotify: notifyFlags.has(name),
+    }));
+  }
+
+  const worktreeDir = `${repoRoot}/.worktrees/`;
+  const wtResult = await exec(["git", "worktree", "list", "--porcelain"], { cwd: repoRoot });
+
   const wtBlocks = wtResult.stdout.split("\n\n").filter((b) => b.includes(worktreeDir));
   const wtEntries = wtBlocks.map((block) => {
     const lines = block.split("\n");
@@ -63,18 +83,7 @@ export async function listSessions(repoRoot: string): Promise<Session[]> {
     worktreeMap.set(path.split("/").pop()!, { path, branch, isDirty: dirtyResults[i]!.stdout.length > 0 });
   }
 
-  const sessionNames = sessResult.stdout.split("\n").filter(Boolean);
   const repoName = repoRoot.split("/").pop()!;
-
-  const toSessionSet = (glob: string, prefix: string) =>
-    new Set(
-      Array.from(new Bun.Glob(glob).scanSync()).map((f) =>
-        (f as string).replace(prefix, "").replace(/-\d+$/, ""),
-      ),
-    );
-
-  const stopFlags = toSessionSet("/tmp/claude-stop-*", "/tmp/claude-stop-");
-  const notifyFlags = toSessionSet("/tmp/claude-notify-*", "/tmp/claude-notify-");
 
   return sessionNames.map((name) => {
     const wt = worktreeMap.get(name);

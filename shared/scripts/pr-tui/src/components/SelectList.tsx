@@ -1,143 +1,84 @@
 import React, { useState, useEffect, type ReactNode } from "react";
 import { Box, Text, useInput } from "ink";
-import { useInputMode } from "../lib/input-mode.js";
+import { useAtom, useAtomValue } from "jotai";
+import { focusAtom, mainSearchingAtom, sidebarSearchingAtom, type Focus } from "../lib/atoms.js";
 
 interface SelectListProps<T> {
+  panel: Focus | "picker";
   items: T[];
-  active: boolean;
   searchValue: (item: T) => string;
-  renderItem: (item: T, opts: { isCursor: boolean; isSelected: boolean }) => ReactNode;
+  renderItem: (item: T, opts: { isCursor: boolean }) => ReactNode;
   onSelect?: (item: T) => void;
-  onConfirm?: (items: T[]) => void;
-  /** Called on Enter when search has no matches — receives the query */
   onCreate?: (query: string) => void;
-  /** Called for unhandled keypresses in normal mode with a cursor item */
   onKeyAction?: (key: string, item: T) => void;
-  multiSelect?: boolean;
   emptyText?: string;
   viewportSize?: number;
 }
 
 export function SelectList<T>({
+  panel,
   items,
-  active,
   searchValue,
   renderItem,
   onSelect,
-  onConfirm,
   onCreate,
   onKeyAction,
-  multiSelect = false,
   emptyText = "No items",
   viewportSize = 20,
 }: SelectListProps<T>) {
-  const { mode, setMode } = useInputMode();
-  const searching = mode === "search";
-
+  const focus = useAtomValue(focusAtom);
+  const searchAtom = panel === "sidebar" ? sidebarSearchingAtom : mainSearchingAtom;
+  const [searching, setSearching] = useAtom(searchAtom);
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
   const [viewportStart, setViewportStart] = useState(0);
-  const [selected, setSelected] = useState<Set<number>>(new Set());
+
+  const isActive =
+    panel === "picker" ? true :
+    panel === "sidebar" ? focus === "sidebar" :
+    focus === "main";
+
+  const enterSearch = () => { setSearching(true); setQuery(""); };
+  const exitSearch = () => { setSearching(false); };
+
+  useEffect(() => {
+    if (!isActive && searching) { setSearching(false); setQuery(""); }
+  }, [isActive]);
+
+  useEffect(() => { setCursor(0); setViewportStart(0); }, [query]);
+  useEffect(() => { setQuery(""); setCursor(0); setViewportStart(0); setSearching(false); }, [items]);
 
   const filtered = query
     ? items.filter((item) => searchValue(item).toLowerCase().includes(query.toLowerCase()))
     : items;
-
-  useEffect(() => {
-    setCursor(0);
-    setViewportStart(0);
-  }, [query]);
-
-  useEffect(() => {
-    setQuery("");
-    setSelected(new Set());
-    setCursor(0);
-    setViewportStart(0);
-  }, [items]);
 
   const clampedCursor = filtered.length === 0 ? -1 : Math.min(cursor, filtered.length - 1);
 
   const moveTo = (index: number) => {
     const clamped = Math.max(0, Math.min(filtered.length - 1, index));
     setCursor(clamped);
-    if (clamped < viewportStart) {
-      setViewportStart(clamped);
-    } else if (clamped >= viewportStart + viewportSize) {
-      setViewportStart(clamped - viewportSize + 1);
+    if (clamped < viewportStart) setViewportStart(clamped);
+    else if (clamped >= viewportStart + viewportSize) setViewportStart(clamped - viewportSize + 1);
+  };
+
+  useInput((input, key) => {
+    if (searching) {
+      if (key.escape || key.return) { exitSearch(); return; }
+      if (key.backspace || key.delete) { setQuery((q) => q.slice(0, -1)); return; }
+      if (input && !key.ctrl && !key.meta) { setQuery((q) => q + input); }
+      return;
     }
-  };
 
-  const toggleSelect = (index: number) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      const originalIndex = items.indexOf(filtered[index]!);
-      if (next.has(originalIndex)) {
-        next.delete(originalIndex);
-      } else {
-        next.add(originalIndex);
-      }
-      return next;
-    });
-  };
-
-  useInput(
-    (input, key) => {
-      if (searching) {
-        if (key.escape) {
-          setMode("normal");
-          return;
-        }
-        if (key.return) {
-          setMode("normal");
-          return;
-        }
-        if (key.backspace || key.delete) {
-          setQuery((q) => q.slice(0, -1));
-          return;
-        }
-        if (input && !key.ctrl && !key.meta) {
-          setQuery((q) => q + input);
-        }
-        return;
-      }
-
-      if (input === "j" || key.downArrow) {
-        moveTo(clampedCursor + 1);
-      } else if (input === "k" || key.upArrow) {
-        moveTo(clampedCursor - 1);
-      } else if (input === "g") {
-        moveTo(0);
-      } else if (input === "G") {
-        moveTo(filtered.length - 1);
-      } else if (input === "/") {
-        setMode("search");
-        setQuery("");
-      } else if (key.escape) {
-        setQuery("");
-      } else if (key.tab && multiSelect && clampedCursor >= 0) {
-        toggleSelect(clampedCursor);
-      } else if (input === " " && multiSelect && clampedCursor >= 0) {
-        toggleSelect(clampedCursor);
-      } else if (key.return) {
-        if (clampedCursor >= 0) {
-          if (multiSelect && onConfirm) {
-            const selectedItems = [...selected].map((i) => items[i]!).filter(Boolean);
-            if (selectedItems.length > 0) {
-              onConfirm(selectedItems);
-            }
-          } else if (onSelect) {
-            onSelect(filtered[clampedCursor]!);
-          }
-        } else if (query && onCreate) {
-          onCreate(query);
-          setQuery("");
-        }
-      } else if (input && onKeyAction && clampedCursor >= 0) {
-        onKeyAction(input, filtered[clampedCursor]!);
-      }
-    },
-    { isActive: active },
-  );
+    if (input === "j" || key.downArrow) { moveTo(clampedCursor + 1); return; }
+    if (input === "k" || key.upArrow) { moveTo(clampedCursor - 1); return; }
+    if (input === "g") { moveTo(0); return; }
+    if (input === "G") { moveTo(filtered.length - 1); return; }
+    if (input === "/") { enterSearch(); return; }
+    if (key.escape) { setQuery(""); return; }
+    if (key.return && clampedCursor >= 0 && onSelect) { onSelect(filtered[clampedCursor]!); return; }
+    if (key.return && query && onCreate) { onCreate(query); setQuery(""); return; }
+    if (input && onKeyAction && clampedCursor >= 0) { onKeyAction(input, filtered[clampedCursor]!); }
+  }, { isActive });
 
   const visible = filtered.slice(viewportStart, viewportStart + viewportSize);
 
@@ -145,19 +86,18 @@ export function SelectList<T>({
     <Box flexDirection="column">
       {searching && (
         <Box marginBottom={1}>
-          <Text color="yellow">{"find: "}</Text>
+          <Text color="yellow">find: </Text>
           <Text color="cyan">{query}</Text>
           <Text color="yellow">_</Text>
         </Box>
       )}
       {!searching && query && (
         <Box marginBottom={1}>
-          <Text color="yellow">{"find: "}</Text>
+          <Text color="yellow">find: </Text>
           <Text color="cyan">{query}</Text>
           <Text dimColor> (Esc to clear)</Text>
         </Box>
       )}
-
       {filtered.length === 0 ? (
         <Text dimColor>
           {query && onCreate ? `Press Enter to create "${query}"` : query ? `No matches for "${query}"` : emptyText}
@@ -166,16 +106,12 @@ export function SelectList<T>({
         visible.map((item, i) => {
           const realIndex = viewportStart + i;
           const isCursor = realIndex === clampedCursor;
-          const originalIndex = items.indexOf(item);
-          const isSelected = selected.has(originalIndex);
-          return <Box key={realIndex}>{renderItem(item, { isCursor, isSelected })}</Box>;
+          return <Box key={realIndex}>{renderItem(item, { isCursor })}</Box>;
         })
       )}
-
       {filtered.length > viewportSize && (
         <Text dimColor>
-          [{viewportStart + 1}-{Math.min(viewportStart + viewportSize, filtered.length)} of{" "}
-          {filtered.length}]
+          [{viewportStart + 1}-{Math.min(viewportStart + viewportSize, filtered.length)} of {filtered.length}]
         </Text>
       )}
     </Box>

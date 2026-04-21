@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, useInput } from "ink";
+import { useAtomValue } from "jotai";
+import { focusAtom } from "../lib/atoms.js";
 import { SelectList } from "./SelectList.js";
-import { listBranches, sessionName, addWorktree, createBranch, getRepoRoot } from "../lib/git.js";
-import { openWorktreeSession } from "../lib/tmux.js";
+import { listBranches, sessionName, addWorktree, createBranch, getRepoRoot, openBranchSession } from "../lib/git.js";
 import type { Branch } from "../lib/types.js";
 
 interface BranchListProps {
   cwd: string;
-  active: boolean;
 }
 
-export function BranchList({ cwd, active }: BranchListProps) {
+export function BranchList({ cwd }: BranchListProps) {
+  const focus = useAtomValue(focusAtom);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
@@ -19,122 +20,69 @@ export function BranchList({ cwd, active }: BranchListProps) {
   const refresh = async () => {
     setLoading(true);
     setStatus("");
-    const result = await listBranches(cwd);
-    setBranches(result);
+    setBranches(await listBranches(cwd));
     setLoading(false);
   };
 
-  useEffect(() => {
-    refresh();
-  }, [cwd]);
+  useEffect(() => { refresh(); }, [cwd]);
 
-  useInput(
-    (input) => {
-      if (input === "r") refresh();
-    },
-    { isActive: active },
-  );
+  useInput((input) => {
+    if (input === "r") refresh();
+  }, { isActive: focus === "main" && !busy });
 
   const handleSelect = async (branch: Branch) => {
     const repoRoot = await getRepoRoot(cwd);
-    if (!repoRoot) {
-      setStatus("Not in a git repository");
-      return;
-    }
+    if (!repoRoot) { setStatus("Not in a git repository"); return; }
 
     const sName = sessionName(repoRoot, branch.name);
     const wtDir = branch.isCurrent ? repoRoot : `${repoRoot}/.worktrees/${sName}`;
 
     setBusy(true);
     setStatus(`Setting up ${branch.name}...`);
-
-    if (!branch.isCurrent && !branch.hasWorktree) {
-      const result = await addWorktree(repoRoot, branch.name, wtDir);
-      if (!result.ok) {
-        setStatus(`Error: ${result.error}`);
-        setBusy(false);
-        return;
-      }
-    }
-
-    setStatus(`Switching to ${sName}...`);
-    await openWorktreeSession(sName, wtDir);
+    const result = await openBranchSession(repoRoot, branch.name, wtDir, branch.hasWorktree || branch.isCurrent);
+    if (!result.ok) { setStatus(`Error: ${result.error}`); setBusy(false); return; }
     setBusy(false);
     await refresh();
   };
 
   const handleCreate = async (name: string) => {
     const repoRoot = await getRepoRoot(cwd);
-    if (!repoRoot) {
-      setStatus("Not in a git repository");
-      return;
-    }
+    if (!repoRoot) { setStatus("Not in a git repository"); return; }
 
     setBusy(true);
     setStatus(`Creating branch ${name}...`);
     const result = await createBranch(repoRoot, name);
-    if (!result.ok) {
-      setStatus(`Error: ${result.error}`);
-      setBusy(false);
-      return;
-    }
+    if (!result.ok) { setStatus(`Error: ${result.error}`); setBusy(false); return; }
 
     const sName = sessionName(repoRoot, name);
     const wtDir = `${repoRoot}/.worktrees/${sName}`;
-    const wtResult = await addWorktree(repoRoot, name, wtDir);
-    if (!wtResult.ok) {
-      setStatus(`Error: ${wtResult.error}`);
-      setBusy(false);
-      return;
-    }
-
-    setStatus(`Switching to ${sName}...`);
-    await openWorktreeSession(sName, wtDir);
+    const wtResult = await openBranchSession(repoRoot, name, wtDir, false);
+    if (!wtResult.ok) { setStatus(`Error: ${wtResult.error}`); setBusy(false); return; }
     setBusy(false);
     await refresh();
   };
 
-  if (loading) {
-    return <Text color="yellow">Loading branches...</Text>;
-  }
+  if (loading) return <Text color="yellow">Loading branches...</Text>;
 
   return (
     <Box flexDirection="column">
       <SelectList
+        panel="main"
         items={branches}
-        active={active && !busy}
         searchValue={(b) => b.name}
         onSelect={handleSelect}
         onCreate={handleCreate}
         emptyText="No branches found"
         renderItem={(branch, { isCursor }) => (
           <>
-            <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
-              {isCursor ? "> " : "  "}
-            </Text>
-            <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>
-              {branch.name}
-            </Text>
-            {branch.isCurrent && (
-              <Text color="green" dimColor>
-                {" "}
-                (main worktree)
-              </Text>
-            )}
-            {branch.hasWorktree && !branch.isCurrent && (
-              <Text color="yellow" dimColor>
-                {" "}
-                (worktree)
-              </Text>
-            )}
+            <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>{isCursor ? "> " : "  "}</Text>
+            <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>{branch.name}</Text>
+            {branch.isCurrent && <Text color="green" dimColor> (main worktree)</Text>}
+            {branch.hasWorktree && !branch.isCurrent && <Text color="yellow" dimColor> (worktree)</Text>}
           </>
         )}
       />
-      {status && (
-        <Box marginTop={1}>
-          <Text color="yellow">{status}</Text>
-        </Box>
-      )}
+      {status && <Box marginTop={1}><Text color="yellow">{status}</Text></Box>}
     </Box>
   );
 }

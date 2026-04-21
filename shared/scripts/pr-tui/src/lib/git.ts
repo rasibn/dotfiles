@@ -1,4 +1,5 @@
 import { exec } from "./exec.js";
+import { openWorktreeSession } from "./tmux.js";
 import type { Branch, Worktree } from "./types.js";
 
 export function safeName(branch: string): string {
@@ -127,6 +128,24 @@ export async function deleteBranch(
   if (result.exitCode !== 0) {
     return { ok: false, error: result.stderr };
   }
+  return { ok: true };
+}
+
+/** Ensure a worktree exists for `branch` then switch to its tmux session. */
+export async function openBranchSession(
+  repoRoot: string,
+  branch: string,
+  wtDir: string,
+  allowExisting = false,
+): Promise<{ ok: boolean; error?: string }> {
+  const result = await addWorktree(repoRoot, branch, wtDir);
+  if (!result.ok) {
+    const isExisting =
+      result.error?.includes("already used by worktree") ||
+      result.error?.includes("already exists");
+    if (!allowExisting || !isExisting) return result;
+  }
+  await openWorktreeSession(sessionName(repoRoot, branch), wtDir);
   return { ok: true };
 }
 
