@@ -42,39 +42,41 @@ export function Sessions({ cwd, active }: SessionsProps) {
   );
 
   const handleSelect = async (sess: Session) => {
-    const repoRoot = await getRepoRoot(cwd);
-    if (!repoRoot) return;
-
-    setStatus(`Cleaning ${sess.name}...`);
-    await killSession(sess.name);
-    const messages = [`Killed session: ${sess.name}`];
-
-    if (sess.worktreePath && sess.branch) {
-      const wtResult = await removeWorktree(repoRoot, sess.worktreePath);
-      if (wtResult.ok) {
-        messages.push(`Removed worktree: ${sess.branch}`);
-        const brResult = await deleteBranch(repoRoot, sess.branch, false);
-        if (!brResult.ok) await deleteBranch(repoRoot, sess.branch, true);
-      } else {
-        messages.push(`Could not remove worktree: ${wtResult.error}`);
-      }
-    }
-
-    setStatus(messages.join("\n"));
-    await refresh();
+    const dir = sess.worktreePath ?? process.env.HOME ?? "/";
+    setStatus(`Opening ${sess.name}...`);
+    await openWorktreeSession(sess.name, dir);
+    setStatus("");
   };
 
   const handleKeyAction = async (key: string, sess: Session) => {
     const dir = sess.worktreePath ?? process.env.HOME ?? "/";
-    if (key === "o") {
-      setStatus(`Opening ${sess.name}...`);
-      await openWorktreeSession(sess.name, dir);
-      setStatus("");
-    } else if (key === "p") {
+    if (key === "p") {
       setStatus(`Opening pane for ${sess.name}...`);
       await openWorktreePane(sess.name, dir);
       setStatus("");
     } else if (key === "x") {
+      const repoRoot = await getRepoRoot(cwd);
+      if (!repoRoot) return;
+
+      setStatus(`Deleting ${sess.name}...`);
+      await killSession(sess.name);
+      const messages = [`Killed session: ${sess.name}`];
+
+      if (sess.worktreePath && sess.branch) {
+        const wtResult = await removeWorktree(repoRoot, sess.worktreePath);
+        if (wtResult.ok) {
+          messages.push(`Removed worktree: ${sess.branch}`);
+          const brResult = await deleteBranch(repoRoot, sess.branch, false);
+          if (!brResult.ok) await deleteBranch(repoRoot, sess.branch, true);
+        } else {
+          messages.push(`Could not remove worktree: ${wtResult.error}`);
+        }
+      }
+
+      await exec(["bash", "-c", `rm -f /tmp/claude-stop-${sess.name}-* /tmp/claude-notify-${sess.name}-*`]);
+      setStatus(messages.join("\n"));
+      await refresh();
+    } else if (key === "c") {
       await exec(["bash", "-c", `rm -f /tmp/claude-stop-${sess.name}-* /tmp/claude-notify-${sess.name}-*`]);
       await refresh();
     }
@@ -107,7 +109,7 @@ export function Sessions({ cwd, active }: SessionsProps) {
         )}
       />
       <Box marginTop={1}>
-        <Text dimColor>{"Enter delete  o open  p pane  x clear notify"}</Text>
+        <Text dimColor>{"Enter open  p pane  x delete  c clear notify"}</Text>
       </Box>
       {status && (
         <Box marginTop={1}>
