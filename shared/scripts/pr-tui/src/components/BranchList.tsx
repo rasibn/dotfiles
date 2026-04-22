@@ -3,7 +3,7 @@ import { Box, Text, useInput } from "ink";
 import { useAtomValue } from "jotai";
 import { focusAtom } from "../lib/atoms.js";
 import { SelectList } from "./SelectList.js";
-import { listBranches, sessionName, addWorktree, createBranch, getRepoRoot, openBranchSession } from "../lib/git.js";
+import { listBranches, sessionName, addWorktree, createBranch, getRepoRoot, openBranchSession, worktreesDir } from "../lib/git.js";
 import type { Branch } from "../lib/types.js";
 
 interface BranchListProps {
@@ -35,7 +35,7 @@ export function BranchList({ cwd }: BranchListProps) {
     if (!repoRoot) { setStatus("Not in a git repository"); return; }
 
     const sName = sessionName(repoRoot, branch.name);
-    const wtDir = branch.isCurrent ? repoRoot : `${repoRoot}/.worktrees/${sName}`;
+    const wtDir = branch.isCurrent ? repoRoot : `${worktreesDir(repoRoot)}/${sName}`;
 
     setBusy(true);
     setStatus(`Setting up ${branch.name}...`);
@@ -55,7 +55,7 @@ export function BranchList({ cwd }: BranchListProps) {
     if (!result.ok) { setStatus(`Error: ${result.error}`); setBusy(false); return; }
 
     const sName = sessionName(repoRoot, name);
-    const wtDir = `${repoRoot}/.worktrees/${sName}`;
+    const wtDir = `${worktreesDir(repoRoot)}/${sName}`;
     const wtResult = await openBranchSession(repoRoot, name, wtDir, false);
     if (!wtResult.ok) { setStatus(`Error: ${wtResult.error}`); setBusy(false); return; }
     setBusy(false);

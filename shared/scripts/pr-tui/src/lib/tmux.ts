@@ -1,4 +1,5 @@
 import { exec } from "./exec.js";
+import { worktreesDir, getMainWorktreeBranch, safeName, sessionName } from "./git.js";
 import type { Session } from "./types.js";
 
 export function isInsideTmux(): boolean {
@@ -62,7 +63,7 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
     }));
   }
 
-  const worktreeDir = `${repoRoot}/.worktrees/`;
+  const worktreeDir = `${worktreesDir(repoRoot)}/`;
   const wtResult = await exec(["git", "worktree", "list", "--porcelain"], { cwd: repoRoot });
 
   const wtBlocks = wtResult.stdout.split("\n\n").filter((b) => b.includes(worktreeDir));
@@ -84,16 +85,19 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
   }
 
   const repoName = repoRoot.split("/").pop()!;
+  const rootBranch = await getMainWorktreeBranch(repoRoot);
+  const rootSessionName = rootBranch ? sessionName(repoRoot, rootBranch) : null;
 
   return sessionNames.map((name) => {
     const wt = worktreeMap.get(name);
+    const isRootSession = name === rootSessionName;
     const isRepoSession = name.startsWith(`${repoName}_`);
     return {
       name,
-      branch: wt?.branch ?? null,
-      worktreePath: wt?.path ?? null,
+      branch: wt?.branch ?? (isRootSession ? rootBranch : null),
+      worktreePath: wt?.path ?? (isRootSession ? repoRoot : null),
       isDirty: wt?.isDirty ?? false,
-      isOrphan: isRepoSession && !wt,
+      isOrphan: isRepoSession && !wt && !isRootSession,
       claudeStop: stopFlags.has(name),
       claudeNotify: notifyFlags.has(name),
     };

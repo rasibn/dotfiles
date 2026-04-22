@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai";
 import { focusAtom } from "../lib/atoms.js";
 import { SelectList } from "./SelectList.js";
 import { exec } from "../lib/exec.js";
-import { sessionName, getRepoRoot, openBranchSession } from "../lib/git.js";
+import { sessionName, getRepoRoot, openBranchSession, worktreesDir } from "../lib/git.js";
 import type { PR } from "../lib/types.js";
 
 interface PrListProps {
@@ -51,7 +51,7 @@ export function PrList({ cwd }: PrListProps) {
     if (!repoRoot) { setStatus("Not in a git repository"); return; }
 
     const sName = sessionName(repoRoot, pr.headRefName);
-    const wtDir = `${repoRoot}/.worktrees/${sName}`;
+    const wtDir = `${worktreesDir(repoRoot)}/${sName}`;
 
     setBusy(true);
     setStatus(`Setting up PR #${pr.number} (${pr.headRefName})...`);

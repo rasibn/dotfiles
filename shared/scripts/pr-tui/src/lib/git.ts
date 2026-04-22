@@ -2,6 +2,12 @@ import { exec } from "./exec.js";
 import { openWorktreeSession } from "./tmux.js";
 import type { Branch, Worktree } from "./types.js";
 
+export const WORKTREES_SUBDIR = ".claude/worktrees";
+
+export function worktreesDir(repoRoot: string): string {
+  return `${repoRoot}/${WORKTREES_SUBDIR}`;
+}
+
 export function safeName(branch: string): string {
   return branch.replace(/[/.:\s]/g, "-");
 }
@@ -48,7 +54,7 @@ export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
   ]);
   if (!wtResult.stdout) return [];
 
-  const worktreeDir = `${repoRoot}/.worktrees/`;
+  const worktreeDir = `${worktreesDir(repoRoot)}/`;
   const lines = wtResult.stdout.split("\n").filter((l) => l.includes(worktreeDir));
 
   const entries = lines.map((line) => {
@@ -78,6 +84,11 @@ export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
   return worktrees;
 }
 
+export async function getMainWorktreeBranch(repoRoot: string): Promise<string | null> {
+  const result = await exec(["git", "symbolic-ref", "--short", "HEAD"], { cwd: repoRoot });
+  return result.exitCode === 0 ? result.stdout.trim() : null;
+}
+
 export async function fetchBranch(cwd: string, branch: string): Promise<void> {
   await exec(["git", "fetch", "origin", `${branch}:${branch}`], { cwd });
 }
@@ -87,8 +98,8 @@ export async function addWorktree(
   branch: string,
   targetDir: string,
 ): Promise<{ ok: boolean; error?: string }> {
-  // Ensure .worktrees directory exists
-  await exec(["mkdir", "-p", `${repoRoot}/.worktrees`]);
+  // Ensure worktrees directory exists
+  await exec(["mkdir", "-p", worktreesDir(repoRoot)]);
 
   // Try to fetch the branch (ignore errors for local-only branches)
   await fetchBranch(repoRoot, branch);
