@@ -3,6 +3,7 @@ import { Box, Text, useInput } from "ink";
 import { useAtomValue } from "jotai";
 import { focusAtom } from "../lib/atoms.js";
 import { SelectList } from "./SelectList.js";
+import { Confirm } from "./Confirm.js";
 import { listSessions, killSession, openWorktreeSession, openWorktreePane } from "../lib/tmux.js";
 import { removeWorktree, deleteBranch, getRepoRoot } from "../lib/git.js";
 import { exec } from "../lib/exec.js";
@@ -17,20 +18,56 @@ export function Sessions({ cwd }: SessionsProps) {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
+  const [confirming, setConfirming] = useState<Session | null>(null);
 
-  const refresh = async () => {
-    setLoading(true);
+  const refresh = async (showLoading = false) => {
+    if (showLoading) setLoading(true);
     setStatus("");
     const repoRoot = cwd ? await getRepoRoot(cwd) : null;
-    setSessions(await listSessions(repoRoot));
+    const next = await listSessions(repoRoot);
+    setSessions((prev) => {
+      const same =
+        prev.length === next.length &&
+        prev.every((s, i) => {
+          const n = next[i]!;
+          return s.name === n.name && s.isDirty === n.isDirty && s.isOrphan === n.isOrphan &&
+            s.claudeStop === n.claudeStop && s.claudeNotify === n.claudeNotify;
+        });
+      return same ? prev : next;
+    });
     setLoading(false);
   };
 
-  useEffect(() => { refresh(); }, [cwd]);
+  useEffect(() => { refresh(true); }, [cwd]);
+
+  useEffect(() => {
+    const id = setInterval(refresh, 2000);
+    return () => clearInterval(id);
+  }, [cwd]);
 
   useInput((input) => {
     if (input === "r") refresh();
-  }, { isActive: focus === "sidebar" });
+  }, { isActive: focus === "sidebar" && !confirming });
+
+  const doDelete = async (sess: Session) => {
+    const repoRoot = cwd ? await getRepoRoot(cwd) : null;
+    setStatus(`Deleting ${sess.name}...`);
+    await killSession(sess.name);
+    const messages = [`Killed session: ${sess.name}`];
+    if (repoRoot && sess.worktreePath && sess.branch) {
+      const wtResult = await removeWorktree(repoRoot, sess.worktreePath);
+      if (wtResult.ok) {
+        messages.push(`Removed worktree: ${sess.branch}`);
+        const brResult = await deleteBranch(repoRoot, sess.branch, false);
+        if (!brResult.ok) await deleteBranch(repoRoot, sess.branch, true);
+      } else {
+        messages.push(`Could not remove worktree: ${wtResult.error}`);
+      }
+    }
+    await exec(["bash", "-c", `rm -f /tmp/claude-stop-${sess.name}-* /tmp/claude-notify-${sess.name}-*`]);
+    setStatus(messages.join("\n"));
+    await refresh();
+  };
 
   const handleSelect = async (sess: Session) => {
     const dir = sess.worktreePath ?? process.env.HOME ?? "/";
@@ -40,30 +77,15 @@ export function Sessions({ cwd }: SessionsProps) {
   };
 
   const handleKeyAction = async (key: string, sess: Session) => {
-    const dir = sess.worktreePath ?? process.env.HOME ?? "/";
+    if (confirming) return;
     if (key === "p") {
+      const dir = sess.worktreePath ?? process.env.HOME ?? "/";
       setStatus(`Opening pane for ${sess.name}...`);
       await openWorktreePane(sess.name, dir);
       setStatus("");
+    } else if (key === "d") {
+      setConfirming(sess);
     } else if (key === "x") {
-      const repoRoot = cwd ? await getRepoRoot(cwd) : null;
-      setStatus(`Deleting ${sess.name}...`);
-      await killSession(sess.name);
-      const messages = [`Killed session: ${sess.name}`];
-      if (repoRoot && sess.worktreePath && sess.branch) {
-        const wtResult = await removeWorktree(repoRoot, sess.worktreePath);
-        if (wtResult.ok) {
-          messages.push(`Removed worktree: ${sess.branch}`);
-          const brResult = await deleteBranch(repoRoot, sess.branch, false);
-          if (!brResult.ok) await deleteBranch(repoRoot, sess.branch, true);
-        } else {
-          messages.push(`Could not remove worktree: ${wtResult.error}`);
-        }
-      }
-      await exec(["bash", "-c", `rm -f /tmp/claude-stop-${sess.name}-* /tmp/claude-notify-${sess.name}-*`]);
-      setStatus(messages.join("\n"));
-      await refresh();
-    } else if (key === "c") {
       await exec(["bash", "-c", `rm -f /tmp/claude-stop-${sess.name}-* /tmp/claude-notify-${sess.name}-*`]);
       await refresh();
     }
@@ -75,6 +97,7 @@ export function Sessions({ cwd }: SessionsProps) {
     <Box flexDirection="column">
       <SelectList
         panel="sidebar"
+        disabled={!!confirming}
         items={sessions}
         searchValue={(s) => s.name}
         onSelect={handleSelect}
@@ -100,9 +123,18 @@ export function Sessions({ cwd }: SessionsProps) {
           );
         }}
       />
-      <Box marginTop={1}>
-        <Text dimColor>↵ open  p pane  x del  c clear</Text>
-      </Box>
+      {confirming ? (
+        <Confirm
+          message={`Delete ${confirming.name}?`}
+          panel="sidebar"
+          onConfirm={() => { doDelete(confirming); setConfirming(null); }}
+          onCancel={() => setConfirming(null)}
+        />
+      ) : (
+        <Box marginTop={1}>
+          <Text dimColor>↵ open  p pane  d del  x clear</Text>
+        </Box>
+      )}
       {status && <Box marginTop={1}><Text color="yellow">{status}</Text></Box>}
     </Box>
   );

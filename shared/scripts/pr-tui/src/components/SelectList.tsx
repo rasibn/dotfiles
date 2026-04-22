@@ -11,6 +11,7 @@ interface SelectListProps<T> {
   onSelect?: (item: T) => void;
   onCreate?: (query: string) => void;
   onKeyAction?: (key: string, item: T) => void;
+  disabled?: boolean;
   emptyText?: string;
   viewportSize?: number;
 }
@@ -23,6 +24,7 @@ export function SelectList<T>({
   onSelect,
   onCreate,
   onKeyAction,
+  disabled = false,
   emptyText = "No items",
   viewportSize = 20,
 }: SelectListProps<T>) {
@@ -34,9 +36,11 @@ export function SelectList<T>({
   const [viewportStart, setViewportStart] = useState(0);
 
   const isActive =
-    panel === "picker" ? true :
-    panel === "sidebar" ? focus === "sidebar" :
-    focus === "main";
+    !disabled && (
+      panel === "picker" ? true :
+      panel === "sidebar" ? focus === "sidebar" :
+      focus === "main"
+    );
 
   const enterSearch = () => { setSearching(true); setQuery(""); };
   const exitSearch = () => { setSearching(false); };
@@ -62,6 +66,8 @@ export function SelectList<T>({
   };
 
   useInput((input, key) => {
+    if (!isActive) return;
+
     if (searching) {
       if (key.escape || key.return) { exitSearch(); return; }
       if (key.backspace || key.delete) { setQuery((q) => q.slice(0, -1)); return; }
@@ -78,7 +84,7 @@ export function SelectList<T>({
     if (key.return && clampedCursor >= 0 && onSelect) { onSelect(filtered[clampedCursor]!); return; }
     if (key.return && query && onCreate) { onCreate(query); setQuery(""); return; }
     if (input && onKeyAction && clampedCursor >= 0) { onKeyAction(input, filtered[clampedCursor]!); }
-  }, { isActive });
+  });
 
   const visible = filtered.slice(viewportStart, viewportStart + viewportSize);
 
