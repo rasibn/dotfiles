@@ -1,6 +1,7 @@
 import { exec } from "./exec.js";
-import { worktreesDir, getMainWorktreeBranch, safeName, sessionName } from "./git.js";
-import type { Session } from "./types.js";
+import { worktreesDir, getMainWorktreeBranch, sessionName } from "./git.js";
+import { getSessionNotifications, getAllNotificationFlags } from "./notifications.js";
+import type { Session, TmuxWindow } from "./types.js";
 
 export function isInsideTmux(): boolean {
   return !!process.env.TMUX;
@@ -35,31 +36,54 @@ export async function openWorktreeSession(sessionName: string, worktreeDir: stri
   await switchClient(sessionName);
 }
 
+async function fetchAllWindows(): Promise<{
+  sessionNames: string[];
+  windowsBySession: Map<string, TmuxWindow[]>;
+}> {
+  const result = await exec([
+    "tmux",
+    "list-windows",
+    "-a",
+    "-F",
+    "#{session_name}\t#{window_index}\t#{window_name}\t#{pane_title}",
+  ]);
+  const windowsBySession = new Map<string, TmuxWindow[]>();
+  if (result.exitCode !== 0) return { sessionNames: [], windowsBySession };
+  for (const line of result.stdout.split("\n").filter(Boolean)) {
+    const [sess, idxStr, name, paneTitle] = line.split("\t");
+    if (!sess) continue;
+    const idx = parseInt(idxStr!);
+    const window: TmuxWindow = {
+      index: idx,
+      name: name ?? `window ${idx}`,
+      paneTitle: paneTitle || null,
+    };
+    const existing = windowsBySession.get(sess);
+    if (existing) existing.push(window);
+    else windowsBySession.set(sess, [window]);
+  }
+  return { sessionNames: Array.from(windowsBySession.keys()), windowsBySession };
+}
+
 export async function listSessions(repoRoot: string | null): Promise<Session[]> {
-  const sessResult = await exec(["tmux", "list-sessions", "-F", "#{session_name}"]);
-  if (sessResult.exitCode !== 0) return [];
+  const { sessionNames, windowsBySession } = await fetchAllWindows();
+  const notifFlags = getAllNotificationFlags();
+  if (sessionNames.length === 0) return [];
 
-  const sessionNames = sessResult.stdout.split("\n").filter(Boolean);
-
-  const toSessionSet = (glob: string, prefix: string) =>
-    new Set(
-      Array.from(new Bun.Glob(glob).scanSync()).map((f) =>
-        (f as string).replace(prefix, "").replace(/-\d+$/, ""),
-      ),
-    );
-
-  const stopFlags = toSessionSet("/tmp/claude-stop-*", "/tmp/claude-stop-");
-  const notifyFlags = toSessionSet("/tmp/claude-notify-*", "/tmp/claude-notify-");
+  const notificationResults = sessionNames.map((name) => {
+    const windows = windowsBySession.get(name) ?? [];
+    return notifFlags.has(name) ? getSessionNotifications(name, windows) : [];
+  });
 
   if (!repoRoot) {
-    return sessionNames.map((name) => ({
+    return sessionNames.map((name, i) => ({
       name,
       branch: null,
       worktreePath: null,
       isDirty: false,
       isOrphan: false,
-      claudeStop: stopFlags.has(name),
-      claudeNotify: notifyFlags.has(name),
+      windows: windowsBySession.get(name) ?? [],
+      notifications: notificationResults[i]!,
     }));
   }
 
@@ -75,20 +99,26 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
   });
 
   const dirtyResults = await Promise.all(
-    wtEntries.map(({ path }) => exec(["git", "-C", path, "status", "--porcelain"], { cwd: repoRoot })),
+    wtEntries.map(({ path }) =>
+      exec(["git", "-C", path, "status", "--porcelain"], { cwd: repoRoot }),
+    ),
   );
 
   const worktreeMap = new Map<string, { path: string; branch: string | null; isDirty: boolean }>();
   for (let i = 0; i < wtEntries.length; i++) {
     const { path, branch } = wtEntries[i]!;
-    worktreeMap.set(path.split("/").pop()!, { path, branch, isDirty: dirtyResults[i]!.stdout.length > 0 });
+    worktreeMap.set(path.split("/").pop()!, {
+      path,
+      branch,
+      isDirty: dirtyResults[i]!.stdout.length > 0,
+    });
   }
 
   const repoName = repoRoot.split("/").pop()!;
   const rootBranch = await getMainWorktreeBranch(repoRoot);
   const rootSessionName = rootBranch ? sessionName(repoRoot, rootBranch) : null;
 
-  return sessionNames.map((name) => {
+  return sessionNames.map((name, i) => {
     const wt = worktreeMap.get(name);
     const isRootSession = name === rootSessionName;
     const isRepoSession = name.startsWith(`${repoName}_`);
@@ -98,10 +128,15 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
       worktreePath: wt?.path ?? (isRootSession ? repoRoot : null),
       isDirty: wt?.isDirty ?? false,
       isOrphan: isRepoSession && !wt && !isRootSession,
-      claudeStop: stopFlags.has(name),
-      claudeNotify: notifyFlags.has(name),
+      windows: windowsBySession.get(name) ?? [],
+      notifications: notificationResults[i]!,
     };
   });
+}
+
+export async function openWindow(sessionName: string, windowIndex: number): Promise<void> {
+  await switchClient(sessionName);
+  await exec(["tmux", "select-window", "-t", `${sessionName}:${windowIndex}`]);
 }
 
 export async function openWorktreePane(sessionName: string, worktreeDir: string): Promise<void> {

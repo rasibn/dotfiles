@@ -1,3 +1,4 @@
+import { ok, err, type Result } from "neverthrow";
 import { exec } from "./exec.js";
 import { openWorktreeSession } from "./tmux.js";
 import type { Branch, Worktree } from "./types.js";
@@ -64,13 +65,17 @@ export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
     const sName = path.split("/").pop() || branch;
     const branchLine = vvResult.stdout
       .split("\n")
-      .find((l) => l.match(new RegExp(`^[* ] ${branch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s`)));
+      .find((l) =>
+        l.match(new RegExp(`^[* ] ${branch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s`)),
+      );
     const isRemoteGone = branchLine ? branchLine.includes("[gone]") : false;
     return { path, branch, sName, isRemoteGone };
   });
 
   const statusResults = await Promise.all(
-    entries.map(({ path }) => exec(["git", "-C", path, "status", "--porcelain"], { cwd: repoRoot })),
+    entries.map(({ path }) =>
+      exec(["git", "-C", path, "status", "--porcelain"], { cwd: repoRoot }),
+    ),
   );
 
   const worktrees: Worktree[] = entries.map((e, i) => ({
@@ -97,49 +102,41 @@ export async function addWorktree(
   repoRoot: string,
   branch: string,
   targetDir: string,
-): Promise<{ ok: boolean; error?: string }> {
-  // Ensure worktrees directory exists
+): Promise<Result<void, string>> {
   await exec(["mkdir", "-p", worktreesDir(repoRoot)]);
-
-  // Try to fetch the branch (ignore errors for local-only branches)
   await fetchBranch(repoRoot, branch);
 
-  const result = await exec(["git", "worktree", "add", targetDir, branch], {
-    cwd: repoRoot,
-  });
+  const result = await exec(["git", "worktree", "add", targetDir, branch], { cwd: repoRoot });
+  if (result.exitCode !== 0) return err(result.stderr);
 
-  if (result.exitCode !== 0) {
-    return { ok: false, error: result.stderr };
-  }
-
-  // Set upstream tracking so push/pull work
   await exec(["git", "-C", targetDir, "branch", "--set-upstream-to", `origin/${branch}`]);
-
-  return { ok: true };
+  return ok(undefined);
 }
 
 export async function removeWorktree(
   repoRoot: string,
   path: string,
-): Promise<{ ok: boolean; error?: string }> {
+): Promise<Result<void, string>> {
   const result = await exec(["git", "worktree", "remove", path], { cwd: repoRoot });
-  if (result.exitCode !== 0) {
-    return { ok: false, error: result.stderr };
-  }
-  return { ok: true };
+  if (result.exitCode !== 0) return err(result.stderr);
+  return ok(undefined);
 }
 
 export async function deleteBranch(
   cwd: string,
   branch: string,
   force = false,
-): Promise<{ ok: boolean; error?: string }> {
+): Promise<Result<void, string>> {
   const flag = force ? "-D" : "-d";
   const result = await exec(["git", "branch", flag, branch], { cwd });
-  if (result.exitCode !== 0) {
-    return { ok: false, error: result.stderr };
-  }
-  return { ok: true };
+  if (result.exitCode !== 0) return err(result.stderr);
+  return ok(undefined);
+}
+
+export async function createBranch(cwd: string, branch: string): Promise<Result<void, string>> {
+  const result = await exec(["git", "branch", branch], { cwd });
+  if (result.exitCode !== 0) return err(result.stderr);
+  return ok(undefined);
 }
 
 /** Ensure a worktree exists for `branch` then switch to its tmux session. */
@@ -148,25 +145,13 @@ export async function openBranchSession(
   branch: string,
   wtDir: string,
   allowExisting = false,
-): Promise<{ ok: boolean; error?: string }> {
+): Promise<Result<void, string>> {
   const result = await addWorktree(repoRoot, branch, wtDir);
-  if (!result.ok) {
+  if (result.isErr()) {
     const isExisting =
-      result.error?.includes("already used by worktree") ||
-      result.error?.includes("already exists");
+      result.error.includes("already used by worktree") || result.error.includes("already exists");
     if (!allowExisting || !isExisting) return result;
   }
   await openWorktreeSession(sessionName(repoRoot, branch), wtDir);
-  return { ok: true };
-}
-
-export async function createBranch(
-  cwd: string,
-  branch: string,
-): Promise<{ ok: boolean; error?: string }> {
-  const result = await exec(["git", "branch", branch], { cwd });
-  if (result.exitCode !== 0) {
-    return { ok: false, error: result.stderr };
-  }
-  return { ok: true };
+  return ok(undefined);
 }

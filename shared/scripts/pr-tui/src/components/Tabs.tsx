@@ -14,15 +14,13 @@ export function Tabs({ activeIndex }: TabsProps) {
         <Box key={label} marginRight={1}>
           <Text
             bold={i === activeIndex}
-            color={i === activeIndex ? "cyan" : "gray"}
+            color={i === activeIndex ? "magenta" : "gray"}
             inverse={i === activeIndex}
           >
             {` ${label} `}
           </Text>
         </Box>
       ))}
-      <Box flexGrow={1} />
-      <Text dimColor>{"h/l tabs  j/k nav  / search  Tab sidebar  C-o repo  q quit"}</Text>
     </Box>
   );
 }

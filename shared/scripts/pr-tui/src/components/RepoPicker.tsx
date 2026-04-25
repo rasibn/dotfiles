@@ -19,17 +19,23 @@ export function RepoPicker({ onSelect }: RepoPickerProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    discoverRepos().then((r) => { setRepos(r); setLoading(false); });
+    discoverRepos().then((r) => {
+      setRepos(r);
+      setLoading(false);
+    });
   }, []);
 
   if (loading) return <Text color="yellow">Scanning for repositories...</Text>;
 
-  if (repos.length === 0) return (
-    <Box flexDirection="column">
-      <Text color="red">No git repos found.</Text>
-      <Text dimColor>Set $PROJECT_DIR, $WORK_DIR, or $ASSET_DIR, or pass a repo path: prtui /path/to/repo</Text>
-    </Box>
-  );
+  if (repos.length === 0)
+    return (
+      <Box flexDirection="column">
+        <Text color="red">No git repos found.</Text>
+        <Text dimColor>
+          Set $PROJECT_DIR, $WORK_DIR, or $ASSET_DIR, or pass a repo path: prtui /path/to/repo
+        </Text>
+      </Box>
+    );
 
   return (
     <Box flexDirection="column">
@@ -49,8 +55,12 @@ export function RepoPicker({ onSelect }: RepoPickerProps) {
           const path = truncatePath(repo.path, Math.max(10, maxPath));
           return (
             <>
-              <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>{isCursor ? "> " : "  "}</Text>
-              <Text color={isCursor ? "cyan" : undefined} bold={isCursor}>{repo.name}</Text>
+              <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
+                {isCursor ? "> " : "  "}
+              </Text>
+              <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
+                {repo.name}
+              </Text>
               <Text dimColor> {path}</Text>
             </>
           );

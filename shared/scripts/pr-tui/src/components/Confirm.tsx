@@ -13,10 +13,13 @@ interface ConfirmProps {
 export function Confirm({ message, panel, onConfirm, onCancel }: ConfirmProps) {
   const focus = useAtomValue(focusAtom);
 
-  useInput((input) => {
-    if (input === "y") onConfirm();
-    else onCancel();
-  }, { isActive: focus === panel });
+  useInput(
+    (input) => {
+      if (input === "y") onConfirm();
+      else onCancel();
+    },
+    { isActive: focus === panel },
+  );
 
   return (
     <Box marginTop={1}>

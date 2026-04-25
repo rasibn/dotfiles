@@ -19,12 +19,25 @@ export interface Worktree {
   isRemoteGone: boolean;
 }
 
+export interface TmuxWindow {
+  index: number;
+  name: string;
+  paneTitle: string | null;
+}
+
+export interface ClaudeNotification {
+  windowIndex: number;
+  windowName: string;
+  paneTitle: string | null;
+  type: "stop" | "notify";
+}
+
 export interface Session {
   name: string;
   branch: string | null;
   worktreePath: string | null;
   isDirty: boolean;
   isOrphan: boolean;
-  claudeStop: boolean;
-  claudeNotify: boolean;
+  windows: TmuxWindow[];
+  notifications: ClaudeNotification[];
 }

@@ -14,6 +14,7 @@ interface SelectListProps<T> {
   disabled?: boolean;
   emptyText?: string;
   viewportSize?: number;
+  scrollToTopSignal?: number;
 }
 
 export function SelectList<T>({
@@ -27,6 +28,7 @@ export function SelectList<T>({
   disabled = false,
   emptyText = "No items",
   viewportSize = 20,
+  scrollToTopSignal = 0,
 }: SelectListProps<T>) {
   const focus = useAtomValue(focusAtom);
   const searchAtom = panel === "sidebar" ? sidebarSearchingAtom : mainSearchingAtom;
@@ -36,21 +38,32 @@ export function SelectList<T>({
   const [viewportStart, setViewportStart] = useState(0);
 
   const isActive =
-    !disabled && (
-      panel === "picker" ? true :
-      panel === "sidebar" ? focus === "sidebar" :
-      focus === "main"
-    );
+    !disabled &&
+    (panel === "picker" ? true : panel === "sidebar" ? focus === "sidebar" : focus === "main");
 
-  const enterSearch = () => { setSearching(true); setQuery(""); };
-  const exitSearch = () => { setSearching(false); };
+  const enterSearch = () => {
+    setSearching(true);
+    setQuery("");
+  };
+  const exitSearch = () => {
+    setSearching(false);
+  };
 
   useEffect(() => {
-    if (!isActive && searching) { setSearching(false); setQuery(""); }
+    if (!isActive && searching) {
+      setSearching(false);
+      setQuery("");
+    }
   }, [isActive]);
 
-  useEffect(() => { setCursor(0); setViewportStart(0); }, [query]);
-  useEffect(() => { setQuery(""); setCursor(0); setViewportStart(0); setSearching(false); }, [items]);
+  useEffect(() => {
+    setCursor(0);
+    setViewportStart(0);
+  }, [query]);
+  useEffect(() => {
+    setCursor(0);
+    setViewportStart(0);
+  }, [scrollToTopSignal]);
 
   const filtered = query
     ? items.filter((item) => searchValue(item).toLowerCase().includes(query.toLowerCase()))
@@ -69,21 +82,56 @@ export function SelectList<T>({
     if (!isActive) return;
 
     if (searching) {
-      if (key.escape || key.return) { exitSearch(); return; }
-      if (key.backspace || key.delete) { setQuery((q) => q.slice(0, -1)); return; }
-      if (input && !key.ctrl && !key.meta) { setQuery((q) => q + input); }
+      if (key.escape || key.return) {
+        exitSearch();
+        return;
+      }
+      if (key.backspace || key.delete) {
+        setQuery((q) => q.slice(0, -1));
+        return;
+      }
+      if (input && !key.ctrl && !key.meta) {
+        setQuery((q) => q + input);
+      }
       return;
     }
 
-    if (input === "j" || key.downArrow) { moveTo(clampedCursor + 1); return; }
-    if (input === "k" || key.upArrow) { moveTo(clampedCursor - 1); return; }
-    if (input === "g") { moveTo(0); return; }
-    if (input === "G") { moveTo(filtered.length - 1); return; }
-    if (input === "/") { enterSearch(); return; }
-    if (key.escape) { setQuery(""); return; }
-    if (key.return && clampedCursor >= 0 && onSelect) { onSelect(filtered[clampedCursor]!); return; }
-    if (key.return && query && onCreate) { onCreate(query); setQuery(""); return; }
-    if (input && onKeyAction && clampedCursor >= 0) { onKeyAction(input, filtered[clampedCursor]!); }
+    if (input === "j" || key.downArrow) {
+      moveTo(clampedCursor + 1);
+      return;
+    }
+    if (input === "k" || key.upArrow) {
+      moveTo(clampedCursor - 1);
+      return;
+    }
+    if (input === "g") {
+      moveTo(0);
+      return;
+    }
+    if (input === "G") {
+      moveTo(filtered.length - 1);
+      return;
+    }
+    if (input === "/") {
+      enterSearch();
+      return;
+    }
+    if (key.escape) {
+      setQuery("");
+      return;
+    }
+    if (key.return && clampedCursor >= 0 && onSelect) {
+      onSelect(filtered[clampedCursor]!);
+      return;
+    }
+    if (key.return && query && onCreate) {
+      onCreate(query);
+      setQuery("");
+      return;
+    }
+    if (input && onKeyAction && clampedCursor >= 0) {
+      onKeyAction(input, filtered[clampedCursor]!);
+    }
   });
 
   const visible = filtered.slice(viewportStart, viewportStart + viewportSize);
@@ -93,20 +141,24 @@ export function SelectList<T>({
       {searching && (
         <Box marginBottom={1}>
           <Text color="yellow">find: </Text>
-          <Text color="cyan">{query}</Text>
+          <Text color="magenta">{query}</Text>
           <Text color="yellow">_</Text>
         </Box>
       )}
       {!searching && query && (
         <Box marginBottom={1}>
           <Text color="yellow">find: </Text>
-          <Text color="cyan">{query}</Text>
+          <Text color="magenta">{query}</Text>
           <Text dimColor> (Esc to clear)</Text>
         </Box>
       )}
       {filtered.length === 0 ? (
         <Text dimColor>
-          {query && onCreate ? `Press Enter to create "${query}"` : query ? `No matches for "${query}"` : emptyText}
+          {query && onCreate
+            ? `Press Enter to create "${query}"`
+            : query
+              ? `No matches for "${query}"`
+              : emptyText}
         </Text>
       ) : (
         visible.map((item, i) => {
@@ -117,7 +169,8 @@ export function SelectList<T>({
       )}
       {filtered.length > viewportSize && (
         <Text dimColor>
-          [{viewportStart + 1}-{Math.min(viewportStart + viewportSize, filtered.length)} of {filtered.length}]
+          [{viewportStart + 1}-{Math.min(viewportStart + viewportSize, filtered.length)} of{" "}
+          {filtered.length}]
         </Text>
       )}
     </Box>

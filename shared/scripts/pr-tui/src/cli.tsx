@@ -3,7 +3,6 @@ import { render } from "ink";
 import { Provider } from "jotai";
 import { App } from "./app.js";
 import { isInsideTmux } from "./lib/tmux.js";
-
 if (!isInsideTmux()) {
   console.error("prtui must be run inside tmux.");
   console.error("Start a tmux session first: tmux new -s manager 'prtui'");
