@@ -150,7 +150,11 @@ export function App({ cwd: initialCwd }: AppProps) {
               {renderMain()}
             </Box>
             <Box paddingX={1}>
-              <Text dimColor>h/l tabs j/k nav / search Tab sidebar C-o repo f expand q quit</Text>
+              <Text dimColor>
+                {picking
+                  ? "j/k nav / search ↵ select q quit"
+                  : "h/l tabs j/k nav / search ↵ open Tab sidebar C-o repo f expand q quit"}
+              </Text>
             </Box>
           </Box>
         )}

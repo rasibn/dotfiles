@@ -31,7 +31,6 @@ export function RepoPicker({ onSelect }: RepoPickerProps) {
     <Box flexDirection="column">
       <Box marginBottom={1}>
         <Text bold>Select a repository</Text>
-        <Text dimColor> j/k nav / search Enter select</Text>
       </Box>
       <SelectList
         panel="main"
