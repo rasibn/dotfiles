@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync } from "fs";
 import { join } from "path";
 import { ok, err, type Result } from "neverthrow";
 import { exec } from "./exec.js";
-import { openWorktreeSession } from "./tmux.js";
+import { killSession, openWorktreeSession } from "./tmux.js";
 import type { Branch, Worktree } from "./types.js";
 
 export const WORKTREES_SUBDIR = ".claude/worktrees";
@@ -149,6 +149,31 @@ export async function createBranch(cwd: string, branch: string): Promise<Result<
   const result = await exec(["git", "branch", branch], { cwd });
   if (result.exitCode !== 0) return err(result.stderr);
   return ok(undefined);
+}
+
+/** Kill session, remove worktree, delete branch. Returns status messages. */
+export async function cleanupBranch(
+  repoRoot: string,
+  branch: string,
+  sName: string,
+  worktreePath: string | null,
+): Promise<string[]> {
+  const messages: string[] = [];
+
+  await killSession(sName);
+  messages.push(`Killed session: ${sName}`);
+
+  if (worktreePath) {
+    const wtResult = await removeWorktree(repoRoot, worktreePath);
+    if (wtResult.isOk()) messages.push(`Removed worktree: ${branch}`);
+    else messages.push(`Could not remove worktree: ${wtResult.error}`);
+  }
+
+  const brResult = await deleteBranch(repoRoot, branch, false);
+  if (brResult.isErr()) await deleteBranch(repoRoot, branch, true);
+  messages.push(`Deleted branch: ${branch}`);
+
+  return messages;
 }
 
 /** Ensure a worktree exists for `branch` then switch to its tmux session. */

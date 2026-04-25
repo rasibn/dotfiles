@@ -3,10 +3,12 @@ import { Box, Text, useInput } from "ink";
 import { useAtomValue } from "jotai";
 import { focusAtom } from "../lib/atoms.js";
 import { SelectList } from "./SelectList.js";
+import { Confirm } from "./Confirm.js";
 import {
   listBranches,
   sessionName,
   createBranch,
+  cleanupBranch,
   getRepoRoot,
   openBranchSession,
   worktreesDir,
@@ -23,6 +25,7 @@ export function BranchList({ cwd }: BranchListProps) {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
+  const [confirming, setConfirming] = useState<Branch | null>(null);
 
   const refresh = async () => {
     setLoading(true);
@@ -97,16 +100,37 @@ export function BranchList({ cwd }: BranchListProps) {
     await refresh();
   };
 
+  const doDelete = async (branch: Branch) => {
+    const repoRoot = getRepoRoot(cwd);
+    if (!repoRoot) return;
+
+    const sName = sessionName(repoRoot, branch.name);
+    const wtDir = branch.hasWorktree ? `${worktreesDir(repoRoot)}/${sName}` : null;
+    setStatus(`Deleting ${branch.name}...`);
+    const messages = await cleanupBranch(repoRoot, branch.name, sName, wtDir);
+    setStatus(messages.join("\n"));
+    await refresh();
+  };
+
+  const handleKeyAction = (key: string, branch: Branch) => {
+    if (confirming) return;
+    if (key === "d" && !branch.isCurrent) {
+      setConfirming(branch);
+    }
+  };
+
   if (loading) return <Text color="yellow">Loading branches...</Text>;
 
   return (
     <Box flexDirection="column">
       <SelectList
         panel="main"
+        disabled={!!confirming}
         items={branches}
         searchValue={(b) => b.name}
         onSelect={handleSelect}
         onCreate={handleCreate}
+        onKeyAction={handleKeyAction}
         emptyText="No branches found"
         renderItem={(branch, { isCursor }) => (
           <>
@@ -131,6 +155,17 @@ export function BranchList({ cwd }: BranchListProps) {
           </>
         )}
       />
+      {confirming && (
+        <Confirm
+          message={`Delete ${confirming.name}?`}
+          panel="main"
+          onConfirm={() => {
+            doDelete(confirming);
+            setConfirming(null);
+          }}
+          onCancel={() => setConfirming(null)}
+        />
+      )}
       {status && (
         <Box marginTop={1}>
           <Text color="yellow">{status}</Text>

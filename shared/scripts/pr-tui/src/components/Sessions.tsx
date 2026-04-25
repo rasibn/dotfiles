@@ -12,7 +12,7 @@ import {
   openWindow,
 } from "../lib/tmux.js";
 import { clearWindowNotification, clearAllNotifications } from "../lib/notifications.js";
-import { removeWorktree, deleteBranch, getRepoRoot } from "../lib/git.js";
+import { cleanupBranch, getRepoRoot } from "../lib/git.js";
 import { config } from "../lib/config.js";
 import type { Session, ClaudeNotification, TmuxWindow } from "../lib/types.js";
 
@@ -89,20 +89,14 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
   const doDelete = async (sess: Session) => {
     const repoRoot = cwd ? getRepoRoot(cwd) : null;
     setStatus(`Deleting ${sess.name}...`);
-    await killSession(sess.name);
-    const messages = [`Killed session: ${sess.name}`];
-    if (repoRoot && sess.worktreePath && sess.branch) {
-      const wtResult = await removeWorktree(repoRoot, sess.worktreePath);
-      if (wtResult.isOk()) {
-        messages.push(`Removed worktree: ${sess.branch}`);
-        const brResult = await deleteBranch(repoRoot, sess.branch, false);
-        if (brResult.isErr()) await deleteBranch(repoRoot, sess.branch, true);
-      } else {
-        messages.push(`Could not remove worktree: ${wtResult.error}`);
-      }
+    if (repoRoot && sess.branch) {
+      const messages = await cleanupBranch(repoRoot, sess.branch, sess.name, sess.worktreePath);
+      setStatus(messages.join("\n"));
+    } else {
+      await killSession(sess.name);
+      setStatus(`Killed session: ${sess.name}`);
     }
     clearAllNotifications(sess.name);
-    setStatus(messages.join("\n"));
     await refresh();
   };
 
