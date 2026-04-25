@@ -38,7 +38,7 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
   const refresh = async (showLoading = false) => {
     if (showLoading) setLoading(true);
     setStatus("");
-    const repoRoot = cwd ? await getRepoRoot(cwd) : null;
+    const repoRoot = cwd ? getRepoRoot(cwd) : null;
     const next = await listSessions(repoRoot);
     setSessions((prev) => {
       const same =
@@ -87,7 +87,7 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
   );
 
   const doDelete = async (sess: Session) => {
-    const repoRoot = cwd ? await getRepoRoot(cwd) : null;
+    const repoRoot = cwd ? getRepoRoot(cwd) : null;
     setStatus(`Deleting ${sess.name}...`);
     await killSession(sess.name);
     const messages = [`Killed session: ${sess.name}`];
@@ -101,7 +101,7 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
         messages.push(`Could not remove worktree: ${wtResult.error}`);
       }
     }
-    await clearAllNotifications(sess.name);
+    clearAllNotifications(sess.name);
     setStatus(messages.join("\n"));
     await refresh();
   };
@@ -110,7 +110,7 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
     const sess = item.session;
     if (item.kind === "notif") {
       setStatus(`Opening ${sess.name}:${item.notif.windowName}...`);
-      await clearWindowNotification(sess.name, item.notif.windowIndex, item.notif.type);
+      clearWindowNotification(sess.name, item.notif.windowIndex, item.notif.type);
       await openWindow(sess.name, item.notif.windowIndex);
       setStatus("");
       await refresh();
@@ -134,7 +134,7 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
 
     if (item.kind === "notif") {
       if (key === "x") {
-        await clearWindowNotification(sess.name, item.notif.windowIndex, item.notif.type);
+        clearWindowNotification(sess.name, item.notif.windowIndex, item.notif.type);
         await refresh();
       }
       return;
@@ -158,7 +158,7 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
     } else if (key === "d") {
       setConfirming(sess);
     } else if (key === "x") {
-      await clearAllNotifications(sess.name);
+      clearAllNotifications(sess.name);
       await refresh();
     }
   };

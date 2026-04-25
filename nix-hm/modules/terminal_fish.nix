@@ -158,6 +158,10 @@
            echo "Process killed successfully"
        end
 
+       function prtui
+           $DOTFILE_DIR/shared/scripts/tmux/prtui-open.sh (pwd)
+       end
+
        zoxide init --cmd cd fish | source
     '';
   };

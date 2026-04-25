@@ -4,7 +4,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { focusAtom, mainSearchingAtom, sidebarSearchingAtom, type Focus } from "../lib/atoms.js";
 
 interface SelectListProps<T> {
-  panel: Focus | "picker";
+  panel: Focus;
   items: T[];
   searchValue: (item: T) => string;
   renderItem: (item: T, opts: { isCursor: boolean }) => ReactNode;
@@ -39,9 +39,7 @@ export function SelectList<T>({
   const [cursor, setCursor] = useState(0);
   const [viewportStart, setViewportStart] = useState(0);
 
-  const isActive =
-    !disabled &&
-    (panel === "picker" ? true : panel === "sidebar" ? focus === "sidebar" : focus === "main");
+  const isActive = !disabled && focus === panel;
 
   const enterSearch = () => {
     setSearching(true);
@@ -83,61 +81,64 @@ export function SelectList<T>({
       setViewportStart(clamped - itemsPerViewport + 1);
   };
 
-  useInput((input, key) => {
-    if (!isActive) return;
+  useInput(
+    (input, key) => {
+      if (!isActive) return;
 
-    if (searching) {
-      if (key.escape || key.return) {
-        exitSearch();
+      if (searching) {
+        if (key.escape || key.return) {
+          exitSearch();
+          return;
+        }
+        if (key.backspace || key.delete) {
+          setQuery((q) => q.slice(0, -1));
+          return;
+        }
+        if (input && !key.ctrl && !key.meta) {
+          setQuery((q) => q + input);
+        }
         return;
       }
-      if (key.backspace || key.delete) {
-        setQuery((q) => q.slice(0, -1));
+
+      if (input === "j" || key.downArrow) {
+        moveTo(clampedCursor + 1);
         return;
       }
-      if (input && !key.ctrl && !key.meta) {
-        setQuery((q) => q + input);
+      if (input === "k" || key.upArrow) {
+        moveTo(clampedCursor - 1);
+        return;
       }
-      return;
-    }
-
-    if (input === "j" || key.downArrow) {
-      moveTo(clampedCursor + 1);
-      return;
-    }
-    if (input === "k" || key.upArrow) {
-      moveTo(clampedCursor - 1);
-      return;
-    }
-    if (input === "g") {
-      moveTo(0);
-      return;
-    }
-    if (input === "G") {
-      moveTo(filtered.length - 1);
-      return;
-    }
-    if (input === "/") {
-      enterSearch();
-      return;
-    }
-    if (key.escape) {
-      setQuery("");
-      return;
-    }
-    if (key.return && clampedCursor >= 0 && onSelect) {
-      onSelect(filtered[clampedCursor]!);
-      return;
-    }
-    if (key.return && query && onCreate) {
-      onCreate(query);
-      setQuery("");
-      return;
-    }
-    if (input && onKeyAction && clampedCursor >= 0) {
-      onKeyAction(input, filtered[clampedCursor]!);
-    }
-  });
+      if (input === "g") {
+        moveTo(0);
+        return;
+      }
+      if (input === "G") {
+        moveTo(filtered.length - 1);
+        return;
+      }
+      if (input === "/") {
+        enterSearch();
+        return;
+      }
+      if (key.escape) {
+        setQuery("");
+        return;
+      }
+      if (key.return && clampedCursor >= 0 && onSelect) {
+        onSelect(filtered[clampedCursor]!);
+        return;
+      }
+      if (key.return && query && onCreate) {
+        onCreate(query);
+        setQuery("");
+        return;
+      }
+      if (input && onKeyAction && clampedCursor >= 0) {
+        onKeyAction(input, filtered[clampedCursor]!);
+      }
+    },
+    { isActive },
+  );
 
   const visible = filtered.slice(viewportStart, viewportStart + itemsPerViewport);
 

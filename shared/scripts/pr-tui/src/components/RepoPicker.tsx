@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Text } from "ink";
 import { SelectList } from "./SelectList.js";
 import { discoverRepos, type Repo } from "../lib/repos.js";
@@ -15,17 +15,7 @@ interface RepoPickerProps {
 }
 
 export function RepoPicker({ onSelect }: RepoPickerProps) {
-  const [repos, setRepos] = useState<Repo[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    discoverRepos().then((r) => {
-      setRepos(r);
-      setLoading(false);
-    });
-  }, []);
-
-  if (loading) return <Text color="yellow">Scanning for repositories...</Text>;
+  const [repos] = useState(() => discoverRepos());
 
   if (repos.length === 0)
     return (
@@ -44,25 +34,32 @@ export function RepoPicker({ onSelect }: RepoPickerProps) {
         <Text dimColor> j/k nav / search Enter select</Text>
       </Box>
       <SelectList
-        panel="picker"
+        panel="main"
         items={repos}
+        itemLines={2}
         searchValue={(r) => `${r.name} ${r.path}`}
         onSelect={(r) => onSelect(r.path)}
         emptyText="No git repos found"
         renderItem={(repo, { isCursor }) => {
           const cols = process.stdout.columns ?? 120;
-          const maxPath = cols - SIDEBAR_WIDTH - 2 - 2 - 1 - repo.name.length - 1;
+          // 2 cursor + 4 indent padding
+          const maxPath = cols - 6;
           const path = truncatePath(repo.path, Math.max(10, maxPath));
           return (
-            <>
-              <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
-                {isCursor ? "> " : "  "}
-              </Text>
-              <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
-                {repo.name}
-              </Text>
-              <Text dimColor> {path}</Text>
-            </>
+            <Box flexDirection="column">
+              <Box>
+                <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
+                  {isCursor ? "> " : "  "}
+                </Text>
+                <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
+                  {repo.name}
+                </Text>
+              </Box>
+              <Box>
+                <Text>{"    "}</Text>
+                <Text dimColor>{path}</Text>
+              </Box>
+            </Box>
           );
         }}
       />

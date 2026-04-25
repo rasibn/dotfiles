@@ -115,7 +115,7 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
   }
 
   const repoName = repoRoot.split("/").pop()!;
-  const rootBranch = await getMainWorktreeBranch(repoRoot);
+  const rootBranch = getMainWorktreeBranch(repoRoot);
   const rootSessionName = rootBranch ? sessionName(repoRoot, rootBranch) : null;
 
   return sessionNames.map((name, i) => {

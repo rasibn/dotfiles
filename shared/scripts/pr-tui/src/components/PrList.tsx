@@ -45,7 +45,7 @@ export function PrList({ cwd }: PrListProps) {
   );
 
   const handleSelect = async (pr: PR) => {
-    const repoRoot = await getRepoRoot(cwd);
+    const repoRoot = getRepoRoot(cwd);
     if (!repoRoot) {
       setStatus("Not in a git repository");
       return;

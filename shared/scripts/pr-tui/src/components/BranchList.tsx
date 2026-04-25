@@ -43,7 +43,7 @@ export function BranchList({ cwd }: BranchListProps) {
   );
 
   const handleSelect = async (branch: Branch) => {
-    const repoRoot = await getRepoRoot(cwd);
+    const repoRoot = getRepoRoot(cwd);
     if (!repoRoot) {
       setStatus("Not in a git repository");
       return;
@@ -70,7 +70,7 @@ export function BranchList({ cwd }: BranchListProps) {
   };
 
   const handleCreate = async (name: string) => {
-    const repoRoot = await getRepoRoot(cwd);
+    const repoRoot = getRepoRoot(cwd);
     if (!repoRoot) {
       setStatus("Not in a git repository");
       return;

@@ -1,42 +1,44 @@
-import { exec } from "./exec.js";
+import { readdirSync, statSync } from "fs";
+import { join } from "path";
 
 const REPO_DIR_ENV_VARS = ["PROJECT_DIR", "WORK_DIR", "ASSET_DIR"];
+const MAX_DEPTH = 4;
 
 export interface Repo {
   name: string;
   path: string;
 }
 
-async function findGitRepos(dir: string): Promise<Repo[]> {
-  const result = await exec([
-    "find",
-    dir,
-    "-name",
-    "node_modules",
-    "-prune",
-    "-o",
-    "-name",
-    ".git",
-    "-type",
-    "d",
-    "-print",
-  ]);
+function findGitRepos(dir: string): Repo[] {
+  const repos: Repo[] = [];
 
-  if (result.exitCode !== 0) return [];
+  function walk(current: string, depth: number) {
+    if (depth > MAX_DEPTH) return;
+    let entries;
+    try {
+      entries = readdirSync(current, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      if (entry.name === "node_modules") continue;
+      if (entry.name === ".git") {
+        const name = current.startsWith(dir + "/")
+          ? current.slice(dir.length + 1)
+          : current.split("/").pop() || current;
+        repos.push({ name, path: current });
+        return; // don't recurse into repos
+      }
+      walk(join(current, entry.name), depth + 1);
+    }
+  }
 
-  return result.stdout
-    .split("\n")
-    .filter(Boolean)
-    .map((gitDir) => {
-      const repoPath = gitDir.replace(/\/\.git$/, "");
-      const name = repoPath.startsWith(dir + "/")
-        ? repoPath.slice(dir.length + 1)
-        : repoPath.split("/").pop() || repoPath;
-      return { name, path: repoPath };
-    });
+  walk(dir, 0);
+  return repos;
 }
 
-export async function discoverRepos(): Promise<Repo[]> {
+export function discoverRepos(): Repo[] {
   const dirs: string[] = [];
 
   for (const envVar of REPO_DIR_ENV_VARS) {
@@ -44,13 +46,23 @@ export async function discoverRepos(): Promise<Repo[]> {
     if (dir) dirs.push(dir);
   }
 
-  const results = await Promise.all(dirs.map(findGitRepos));
-  const repos = results.flat();
+  const repos = dirs.flatMap(findGitRepos);
 
   const seen = new Set<string>();
-  return repos.filter((r) => {
+  const unique = repos.filter((r) => {
     if (seen.has(r.path)) return false;
     seen.add(r.path);
     return true;
+  });
+
+  // Sort by most recently modified (uses .git dir mtime)
+  return unique.sort((a, b) => {
+    try {
+      const mtimeA = statSync(`${a.path}/.git`).mtimeMs;
+      const mtimeB = statSync(`${b.path}/.git`).mtimeMs;
+      return mtimeB - mtimeA;
+    } catch {
+      return 0;
+    }
   });
 }

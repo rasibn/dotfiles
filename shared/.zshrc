@@ -144,24 +144,7 @@ kill-port() {
 }
 
 prtui() {
-  local cmd="bun run $DOTFILE_DIR/shared/scripts/pr-tui/src/cli.tsx $(pwd)"
-  local session="manager"
-  local window="prtui"
-
-  if tmux has-session -t "$session" 2>/dev/null; then
-    if tmux list-windows -t "$session" -F "#{window_name}" | grep -q "^${window}$"; then
-      # window exists — switch to it
-      tmux switch-client -t "$session:$window" 2>/dev/null || tmux attach-session -t "$session" \; select-window -t "$window"
-    else
-      # session exists but no prtui window — create it
-      tmux new-window -t "$session" -n "$window" "$cmd"
-      tmux switch-client -t "$session:$window" 2>/dev/null || tmux attach-session -t "$session"
-    fi
-  else
-    # no manager session — create it with the prtui window
-    tmux new-session -d -s "$session" -n "$window" "$cmd"
-    tmux attach-session -t "$session"
-  fi
+  "$DOTFILE_DIR/shared/scripts/tmux/prtui-open.sh" "$(pwd)"
 }
 
 # ============================================

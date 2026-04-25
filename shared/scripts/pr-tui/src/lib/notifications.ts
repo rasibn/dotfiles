@@ -1,4 +1,4 @@
-import { exec } from "./exec.js";
+import { unlinkSync } from "fs";
 import type { ClaudeNotification, TmuxWindow } from "./types.js";
 
 export function getSessionNotifications(
@@ -62,18 +62,25 @@ export function getAllNotificationFlags(): Map<string, "stop" | "notify"> {
   return map;
 }
 
-export async function clearWindowNotification(
+export function clearWindowNotification(
   sessionName: string,
   windowIndex: number,
   type: "stop" | "notify",
-): Promise<void> {
-  await exec(["rm", "-f", `/tmp/claude-${type}-${sessionName}-${windowIndex}`]);
+): void {
+  try {
+    unlinkSync(`/tmp/claude-${type}-${sessionName}-${windowIndex}`);
+  } catch {}
 }
 
-export async function clearAllNotifications(sessionName: string): Promise<void> {
-  await exec([
-    "bash",
-    "-c",
-    `rm -f /tmp/claude-stop-${sessionName}-* /tmp/claude-notify-${sessionName}-*`,
-  ]);
+export function clearAllNotifications(sessionName: string): void {
+  for (const f of new Bun.Glob(`/tmp/claude-stop-${sessionName}-*`).scanSync()) {
+    try {
+      unlinkSync(f as string);
+    } catch {}
+  }
+  for (const f of new Bun.Glob(`/tmp/claude-notify-${sessionName}-*`).scanSync()) {
+    try {
+      unlinkSync(f as string);
+    } catch {}
+  }
 }

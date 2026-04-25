@@ -42,11 +42,10 @@ export function App({ cwd: initialCwd }: AppProps) {
   }, []);
 
   useEffect(() => {
-    getRepoRoot(initialCwd).then((root) => {
-      if (root) setRepoCwd(root);
-      else setPicking(true);
-      setChecking(false);
-    });
+    const root = getRepoRoot(initialCwd);
+    if (root) setRepoCwd(root);
+    else setPicking(true);
+    setChecking(false);
   }, [initialCwd]);
 
   useInput((input, key) => {

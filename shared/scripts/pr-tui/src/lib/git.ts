@@ -1,3 +1,5 @@
+import { existsSync, mkdirSync, readFileSync } from "fs";
+import { join } from "path";
 import { ok, err, type Result } from "neverthrow";
 import { exec } from "./exec.js";
 import { openWorktreeSession } from "./tmux.js";
@@ -18,9 +20,14 @@ export function sessionName(repoRoot: string, branch: string): string {
   return `${repo}_${safeName(branch)}`;
 }
 
-export async function getRepoRoot(cwd: string): Promise<string | null> {
-  const result = await exec(["git", "rev-parse", "--show-toplevel"], { cwd });
-  return result.exitCode === 0 ? result.stdout : null;
+export function getRepoRoot(cwd: string): string | null {
+  let dir = cwd;
+  while (true) {
+    if (existsSync(join(dir, ".git"))) return dir;
+    const parent = join(dir, "..");
+    if (parent === dir) return null;
+    dir = parent;
+  }
 }
 
 export async function listBranches(cwd: string): Promise<Branch[]> {
@@ -89,9 +96,14 @@ export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
   return worktrees;
 }
 
-export async function getMainWorktreeBranch(repoRoot: string): Promise<string | null> {
-  const result = await exec(["git", "symbolic-ref", "--short", "HEAD"], { cwd: repoRoot });
-  return result.exitCode === 0 ? result.stdout.trim() : null;
+export function getMainWorktreeBranch(repoRoot: string): string | null {
+  try {
+    const head = readFileSync(join(repoRoot, ".git", "HEAD"), "utf8").trim();
+    const match = head.match(/^ref: refs\/heads\/(.+)$/);
+    return match ? match[1]! : null;
+  } catch {
+    return null;
+  }
 }
 
 export async function fetchBranch(cwd: string, branch: string): Promise<void> {
@@ -103,7 +115,7 @@ export async function addWorktree(
   branch: string,
   targetDir: string,
 ): Promise<Result<void, string>> {
-  await exec(["mkdir", "-p", worktreesDir(repoRoot)]);
+  mkdirSync(worktreesDir(repoRoot), { recursive: true });
   await fetchBranch(repoRoot, branch);
 
   const result = await exec(["git", "worktree", "add", targetDir, branch], { cwd: repoRoot });
