@@ -3,8 +3,15 @@ import { Box, Text, useInput } from "ink";
 import { useAtomValue } from "jotai";
 import { focusAtom } from "../lib/atoms.js";
 import { SelectList } from "./SelectList.js";
-import { sessionName, getRepoRoot, openBranchSession, worktreesDir } from "../lib/git.js";
+import {
+  sessionName,
+  getRepoRoot,
+  getRemoteUrl,
+  openBranchSession,
+  worktreesDir,
+} from "../lib/git.js";
 import { listPRs } from "../lib/gh.js";
+import { openInBrowser, prToGithubUrl } from "../lib/browser.js";
 import type { PR } from "../lib/types.js";
 
 interface PrListProps {
@@ -66,6 +73,25 @@ export function PrList({ cwd }: PrListProps) {
     await refresh();
   };
 
+  const handleKeyAction = async (key: string, pr: PR) => {
+    if (key === "o") {
+      const repoRoot = getRepoRoot(cwd);
+      if (!repoRoot) {
+        setStatus("Not in a git repository");
+        return;
+      }
+      const remoteUrl = await getRemoteUrl(repoRoot);
+      if (!remoteUrl) {
+        setStatus("Could not find remote URL");
+        return;
+      }
+      const url = prToGithubUrl(remoteUrl, pr.number);
+      setStatus(`Opening ${url}...`);
+      await openInBrowser(url);
+      setTimeout(() => setStatus(""), 2000);
+    }
+  };
+
   if (loading) return <Text color="yellow">Loading PRs...</Text>;
   if (error)
     return (
@@ -83,6 +109,7 @@ export function PrList({ cwd }: PrListProps) {
         itemLines={2}
         searchValue={(pr) => `${pr.number} ${pr.title} ${pr.headRefName} ${pr.author}`}
         onSelect={handleSelect}
+        onKeyAction={handleKeyAction}
         emptyText="No open PRs found"
         renderItem={(pr, { isCursor }) => (
           <Box flexDirection="column">

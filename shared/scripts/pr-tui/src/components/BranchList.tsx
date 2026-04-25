@@ -10,9 +10,11 @@ import {
   createBranch,
   cleanupBranch,
   getRepoRoot,
+  getRemoteUrl,
   openBranchSession,
   worktreesDir,
 } from "../lib/git.js";
+import { openInBrowser, branchToCompareUrl } from "../lib/browser.js";
 import type { Branch } from "../lib/types.js";
 
 interface BranchListProps {
@@ -112,10 +114,25 @@ export function BranchList({ cwd }: BranchListProps) {
     await refresh();
   };
 
-  const handleKeyAction = (key: string, branch: Branch) => {
+  const handleKeyAction = async (key: string, branch: Branch) => {
     if (confirming) return;
     if (key === "d" && !branch.isCurrent) {
       setConfirming(branch);
+    } else if (key === "o") {
+      const repoRoot = getRepoRoot(cwd);
+      if (!repoRoot) {
+        setStatus("Not in a git repository");
+        return;
+      }
+      const remoteUrl = await getRemoteUrl(repoRoot);
+      if (!remoteUrl) {
+        setStatus("Could not find remote URL");
+        return;
+      }
+      const url = branchToCompareUrl(remoteUrl, branch.name);
+      setStatus(`Opening ${url}...`);
+      await openInBrowser(url);
+      setTimeout(() => setStatus(""), 2000);
     }
   };
 

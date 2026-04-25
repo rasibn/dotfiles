@@ -3,6 +3,7 @@ import { join } from "path";
 import { ok, err, type Result } from "neverthrow";
 import { exec } from "./exec.js";
 import { killSession, openWorktreeSession } from "./tmux.js";
+import { logEvent } from "./events.js";
 import type { Branch, Worktree } from "./types.js";
 
 export const WORKTREES_SUBDIR = ".claude/worktrees";
@@ -106,6 +107,11 @@ export function getMainWorktreeBranch(repoRoot: string): string | null {
   }
 }
 
+export async function getRemoteUrl(repoRoot: string): Promise<string | null> {
+  const result = await exec(["git", "config", "--get", "remote.origin.url"], { cwd: repoRoot });
+  return result.exitCode === 0 ? result.stdout.trim() : null;
+}
+
 export async function fetchBranch(cwd: string, branch: string): Promise<void> {
   await exec(["git", "fetch", "origin", `${branch}:${branch}`], { cwd });
 }
@@ -148,6 +154,7 @@ export async function deleteBranch(
 export async function createBranch(cwd: string, branch: string): Promise<Result<void, string>> {
   const result = await exec(["git", "branch", branch], { cwd });
   if (result.exitCode !== 0) return err(result.stderr);
+  logEvent({ action: "create_branch", branch, cwd });
   return ok(undefined);
 }
 
@@ -162,16 +169,22 @@ export async function cleanupBranch(
 
   await killSession(sName);
   messages.push(`Killed session: ${sName}`);
+  logEvent({ action: "kill_session", sessionName: sName, cwd: repoRoot });
 
   if (worktreePath) {
     const wtResult = await removeWorktree(repoRoot, worktreePath);
-    if (wtResult.isOk()) messages.push(`Removed worktree: ${branch}`);
-    else messages.push(`Could not remove worktree: ${wtResult.error}`);
+    if (wtResult.isOk()) {
+      messages.push(`Removed worktree: ${branch}`);
+      logEvent({ action: "remove_worktree", worktreePath, cwd: repoRoot });
+    } else {
+      messages.push(`Could not remove worktree: ${wtResult.error}`);
+    }
   }
 
   const brResult = await deleteBranch(repoRoot, branch, false);
   if (brResult.isErr()) await deleteBranch(repoRoot, branch, true);
   messages.push(`Deleted branch: ${branch}`);
+  logEvent({ action: "delete_branch", branch, cwd: repoRoot });
 
   return messages;
 }
@@ -190,5 +203,6 @@ export async function openBranchSession(
     if (!allowExisting || !isExisting) return result;
   }
   await openWorktreeSession(sessionName(repoRoot, branch), wtDir);
+  logEvent({ action: "open_branch", branch, worktreePath: wtDir, cwd: repoRoot });
   return ok(undefined);
 }

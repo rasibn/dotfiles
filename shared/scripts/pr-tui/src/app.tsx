@@ -6,6 +6,7 @@ import { Tabs } from "./components/Tabs.js";
 import { Sessions } from "./components/Sessions.js";
 import { PrList } from "./components/PrList.js";
 import { BranchList } from "./components/BranchList.js";
+import { EventsList } from "./components/EventsList.js";
 import { RepoPicker } from "./components/RepoPicker.js";
 import { getRepoRoot } from "./lib/git.js";
 import { config } from "./lib/config.js";
@@ -28,6 +29,8 @@ export function App({ cwd: initialCwd }: AppProps) {
   const [termRows, setTermRows] = useState(process.stdout.rows ?? 24);
   const [termCols, setTermCols] = useState(process.stdout.columns ?? 80);
   const [expanded, setExpanded] = useState(false);
+  const [showingEvents, setShowingEvents] = useState(false);
+  const [eventsRefresh, setEventsRefresh] = useState(0);
   const { exit } = useApp();
 
   useEffect(() => {
@@ -49,6 +52,20 @@ export function App({ cwd: initialCwd }: AppProps) {
   }, [initialCwd]);
 
   useInput((input, key) => {
+    if (input === "q") {
+      exit();
+      return;
+    }
+    if (input === "e") {
+      setShowingEvents((e) => {
+        if (!e) setEventsRefresh((r) => r + 1);
+        return !e;
+      });
+      return;
+    }
+
+    if (showingEvents) return;
+
     if (searching) return;
 
     if (key.tab) {
@@ -57,10 +74,6 @@ export function App({ cwd: initialCwd }: AppProps) {
     }
     if (input === "f") {
       setExpanded((e) => !e);
-      return;
-    }
-    if (input === "q") {
-      exit();
       return;
     }
     if (key.ctrl && input === "o") {
@@ -103,6 +116,22 @@ export function App({ cwd: initialCwd }: AppProps) {
   const mainHeight = vertical ? termRows - 1 - sidebarHeight : termRows - 1;
   const sidebarExpanded = expanded && focus === "sidebar";
   const mainExpanded = expanded && focus === "main";
+
+  if (showingEvents) {
+    return (
+      <Box flexDirection="column" paddingX={1}>
+        <Box paddingX={1} marginBottom={1}>
+          <Text bold>Events Log</Text>
+        </Box>
+        <Box flexDirection="column" flexGrow={1} overflow="hidden">
+          <EventsList refreshSignal={eventsRefresh} />
+        </Box>
+        <Box paddingX={1} marginTop={1}>
+          <Text dimColor>e close q quit</Text>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <Box flexDirection="column" paddingX={1}>
