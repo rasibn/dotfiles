@@ -14,6 +14,7 @@ interface SelectListProps<T> {
   disabled?: boolean;
   emptyText?: string;
   viewportSize?: number;
+  itemLines?: number;
   scrollToTopSignal?: number;
 }
 
@@ -28,6 +29,7 @@ export function SelectList<T>({
   disabled = false,
   emptyText = "No items",
   viewportSize = 20,
+  itemLines = 1,
   scrollToTopSignal = 0,
 }: SelectListProps<T>) {
   const focus = useAtomValue(focusAtom);
@@ -71,11 +73,14 @@ export function SelectList<T>({
 
   const clampedCursor = filtered.length === 0 ? -1 : Math.min(cursor, filtered.length - 1);
 
+  const itemsPerViewport = Math.floor(viewportSize / itemLines);
+
   const moveTo = (index: number) => {
     const clamped = Math.max(0, Math.min(filtered.length - 1, index));
     setCursor(clamped);
     if (clamped < viewportStart) setViewportStart(clamped);
-    else if (clamped >= viewportStart + viewportSize) setViewportStart(clamped - viewportSize + 1);
+    else if (clamped >= viewportStart + itemsPerViewport)
+      setViewportStart(clamped - itemsPerViewport + 1);
   };
 
   useInput((input, key) => {
@@ -134,7 +139,7 @@ export function SelectList<T>({
     }
   });
 
-  const visible = filtered.slice(viewportStart, viewportStart + viewportSize);
+  const visible = filtered.slice(viewportStart, viewportStart + itemsPerViewport);
 
   return (
     <Box flexDirection="column">
@@ -167,9 +172,9 @@ export function SelectList<T>({
           return <Box key={realIndex}>{renderItem(item, { isCursor })}</Box>;
         })
       )}
-      {filtered.length > viewportSize && (
+      {filtered.length > itemsPerViewport && (
         <Text dimColor>
-          [{viewportStart + 1}-{Math.min(viewportStart + viewportSize, filtered.length)} of{" "}
+          [{viewportStart + 1}-{Math.min(viewportStart + itemsPerViewport, filtered.length)} of{" "}
           {filtered.length}]
         </Text>
       )}

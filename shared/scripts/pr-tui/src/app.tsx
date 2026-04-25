@@ -126,7 +126,7 @@ export function App({ cwd: initialCwd }: AppProps) {
               </Text>
             </Box>
             <Box paddingX={1} overflow="hidden">
-              <Sessions cwd={repoCwd} />
+              <Sessions cwd={repoCwd} expanded={sidebarExpanded} />
             </Box>
           </Box>
         )}

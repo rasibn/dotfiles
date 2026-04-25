@@ -18,6 +18,7 @@ import type { Session, ClaudeNotification, TmuxWindow } from "../lib/types.js";
 
 interface SessionsProps {
   cwd: string | null;
+  expanded?: boolean;
 }
 
 type SessionRow = { kind: "session"; session: Session };
@@ -25,7 +26,7 @@ type NotifRow = { kind: "notif"; session: Session; notif: ClaudeNotification };
 type WindowRow = { kind: "window"; session: Session; window: TmuxWindow };
 type ListItem = SessionRow | NotifRow | WindowRow;
 
-export function Sessions({ cwd }: SessionsProps) {
+export function Sessions({ cwd, expanded = false }: SessionsProps) {
   const focus = useAtomValue(focusAtom);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
@@ -185,35 +186,49 @@ export function Sessions({ cwd }: SessionsProps) {
           emptyText="No active sessions"
           scrollToTopSignal={scrollToTopSignal}
           renderItem={(item, { isCursor }) => {
+            // sidebar width - 2 (border) - 2 (cursor) - 2 (indent) - 2 (padding)
+            const effectiveWidth = expanded
+              ? (process.stdout.columns ?? 80) - 2
+              : config.sidebarWidth;
+            const maxLineWidth = effectiveWidth - 8;
+            const truncate = (prefix: string, text: string) => {
+              const avail = maxLineWidth - prefix.length;
+              return text.length > avail ? text.slice(0, avail - 1) + "…" : text;
+            };
+
             if (item.kind === "notif") {
               const { notif } = item;
+              const badge = notif.type === "notify" ? "[!]" : "[?]";
+              // prefix: "  " + " " + badge + " " + windowName + ": "
+              const prefix = `   ${badge} ${notif.windowName}: `;
+              const paneTitle = notif.paneTitle ? truncate(prefix, notif.paneTitle) : null;
               return (
                 <Box>
                   <Text>{isCursor ? "> " : "  "}</Text>
                   <Text dimColor> </Text>
-                  <Text color={notif.type === "notify" ? "red" : "yellow"}>
-                    {notif.type === "notify" ? "[!]" : "[?]"}
-                  </Text>
+                  <Text color={notif.type === "notify" ? "red" : "yellow"}>{badge}</Text>
                   <Text color={isCursor ? "magenta" : "white"}> {notif.windowName}</Text>
-                  {notif.paneTitle && <Text dimColor>: {notif.paneTitle}</Text>}
+                  {paneTitle && <Text dimColor>: {paneTitle}</Text>}
                 </Box>
               );
             }
 
             if (item.kind === "window") {
               const { window: win } = item;
+              const prefix = `   ${win.index}:${win.name}: `;
+              const paneTitle = win.paneTitle ? truncate(prefix, win.paneTitle) : null;
               return (
                 <Box>
                   <Text>{isCursor ? "> " : "  "}</Text>
                   <Text dimColor> </Text>
+                  <Text dimColor>{win.index}:</Text>
                   <Text color={isCursor ? "magenta" : "white"}>{win.name}</Text>
-                  {win.paneTitle && <Text dimColor>: {win.paneTitle}</Text>}
+                  {paneTitle && <Text dimColor>: {paneTitle}</Text>}
                 </Box>
               );
             }
 
             const { session: sess } = item;
-            const isExpanded = expandedSessions.has(sess.name);
             const maxName = 39 - (sess.isDirty ? 6 : 0) - (sess.isOrphan ? 7 : 0) - 2;
             const name =
               sess.name.length > maxName ? sess.name.slice(0, maxName - 1) + "…" : sess.name;
@@ -225,7 +240,6 @@ export function Sessions({ cwd }: SessionsProps) {
                 </Text>
                 {sess.isDirty && <Text color="yellow"> dirty</Text>}
                 {sess.isOrphan && <Text color="red"> orphan</Text>}
-                <Text dimColor> {isExpanded ? "▾" : "▸"}</Text>
               </Box>
             );
           }}

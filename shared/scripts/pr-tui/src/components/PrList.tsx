@@ -80,6 +80,7 @@ export function PrList({ cwd }: PrListProps) {
       <SelectList
         panel="main"
         items={prs}
+        itemLines={2}
         searchValue={(pr) => `${pr.number} ${pr.title} ${pr.headRefName} ${pr.author}`}
         onSelect={handleSelect}
         emptyText="No open PRs found"
