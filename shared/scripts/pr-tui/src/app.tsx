@@ -56,6 +56,14 @@ export function App({ cwd: initialCwd }: AppProps) {
       exit();
       return;
     }
+
+    if (searching) return;
+
+    if (key.ctrl && (input === "o" || input === "O")) {
+      setPicking(true);
+      return;
+    }
+
     if (input === "e") {
       setShowingEvents((e) => {
         if (!e) setEventsRefresh((r) => r + 1);
@@ -66,18 +74,12 @@ export function App({ cwd: initialCwd }: AppProps) {
 
     if (showingEvents) return;
 
-    if (searching) return;
-
     if (key.tab) {
       setFocus((f) => (f === "main" ? "sidebar" : "main"));
       return;
     }
     if (input === "f") {
       setExpanded((e) => !e);
-      return;
-    }
-    if (key.ctrl && input === "o") {
-      setPicking(true);
       return;
     }
 
