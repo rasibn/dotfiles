@@ -133,7 +133,8 @@ export function SelectList<T>({
         setQuery("");
         return;
       }
-      if (input && onKeyAction && clampedCursor >= 0) {
+      // Skip modifier combos — ink doesn't stop propagation, so Ctrl+o etc. would leak through
+      if (input && !key.ctrl && !key.meta && onKeyAction && clampedCursor >= 0) {
         onKeyAction(input, filtered[clampedCursor]!);
       }
     },

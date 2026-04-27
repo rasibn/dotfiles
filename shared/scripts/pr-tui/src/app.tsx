@@ -59,7 +59,7 @@ export function App({ cwd: initialCwd }: AppProps) {
 
     if (searching) return;
 
-    if (key.ctrl && (input === "o" || input === "O")) {
+    if (key.ctrl && (input === "o" || input === "O") && focus === "main") {
       setPicking(true);
       return;
     }

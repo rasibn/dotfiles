@@ -223,7 +223,8 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
             }
 
             const { session: sess } = item;
-            const maxName = 39 - (sess.isDirty ? 6 : 0) - (sess.isOrphan ? 7 : 0) - 2;
+            // effectiveWidth = sidebar box width; subtract border(2) + paddingX(2) + cursor(2)
+            const maxName = effectiveWidth - 6 - (sess.isDirty ? 6 : 0) - (sess.isOrphan ? 7 : 0);
             const name =
               sess.name.length > maxName ? sess.name.slice(0, maxName - 1) + "…" : sess.name;
             return (
