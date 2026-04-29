@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, useInput } from "ink";
+import { Box, Text } from "ink";
 import { useAtomValue } from "jotai";
 import { focusAtom } from "../lib/atoms.js";
+import { useGuardedInput } from "../lib/useGuardedInput.js";
 import { SelectList } from "./SelectList.js";
 import { Confirm } from "./Confirm.js";
 import {
@@ -71,7 +72,8 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
     return () => clearInterval(id);
   }, [cwd]);
 
-  useInput(
+  useGuardedInput(
+    "sidebar",
     (input) => {
       if (input === "r") refresh();
       if (input === "W") {

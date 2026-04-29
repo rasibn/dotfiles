@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, useInput } from "ink";
+import { Box, Text } from "ink";
 import { useAtomValue } from "jotai";
 import { focusAtom } from "../lib/atoms.js";
+import { useGuardedInput } from "../lib/useGuardedInput.js";
 import { SelectList } from "./SelectList.js";
 import {
   sessionName,
@@ -44,7 +45,8 @@ export function PrList({ cwd }: PrListProps) {
     refresh();
   }, [cwd]);
 
-  useInput(
+  useGuardedInput(
+    "main",
     (input) => {
       if (input === "r") refresh();
     },
