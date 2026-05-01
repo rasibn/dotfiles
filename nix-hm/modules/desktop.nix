@@ -9,6 +9,7 @@
     rofi-unwrapped
     pavucontrol
     hyprshot
+    anki
     swappy # A Wayland native snapshot and editor tool
     hyprpaper
     # swaylock-effects

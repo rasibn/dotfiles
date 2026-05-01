@@ -14,6 +14,7 @@
     nodejs
     bun
     biome
+    oxlint
     pnpm
     typescript-language-server
     svelte-language-server
