@@ -2,6 +2,7 @@ export interface Branch {
   name: string;
   isCurrent: boolean;
   hasWorktree: boolean;
+  commitAuthor?: string;
 }
 
 export interface PR {

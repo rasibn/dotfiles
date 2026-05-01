@@ -28,7 +28,6 @@ export async function killSession(name: string): Promise<void> {
   await exec(["tmux", "kill-session", "-t", name]);
 }
 
-
 export async function openWorktreeSession(sessionName: string, worktreeDir: string): Promise<void> {
   const exists = await sessionExists(sessionName);
   if (!exists) {

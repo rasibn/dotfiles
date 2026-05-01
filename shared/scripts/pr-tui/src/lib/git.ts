@@ -33,7 +33,10 @@ export function getRepoRoot(cwd: string): string | null {
 
 export async function listBranches(cwd: string): Promise<Branch[]> {
   const [branchResult, wtResult] = await Promise.all([
-    exec(["git", "branch", "--format=%(refname:short)|%(HEAD)"], { cwd }),
+    exec(
+      ["git", "branch", "--sort=-committerdate", "--format=%(refname:short)|%(HEAD)|%(authorname)"],
+      { cwd },
+    ),
     exec(["git", "worktree", "list", "--porcelain"], { cwd }),
   ]);
 
@@ -47,11 +50,12 @@ export async function listBranches(cwd: string): Promise<Branch[]> {
   if (!branchResult.stdout) return [];
 
   return branchResult.stdout.split("\n").map((line) => {
-    const [name, head] = line.split("|");
+    const [name, head, author] = line.split("|");
     return {
       name: name!,
       isCurrent: head === "*",
       hasWorktree: worktreeBranches.has(name!),
+      commitAuthor: author || undefined,
     };
   });
 }

@@ -146,32 +146,39 @@ export function BranchList({ cwd }: BranchListProps) {
         panel="main"
         disabled={!!confirming}
         items={branches}
-        searchValue={(b) => b.name}
+        itemLines={2}
+        searchValue={(b) => `${b.name} ${b.commitAuthor ?? ""}`}
         onSelect={handleSelect}
         onCreate={handleCreate}
         onKeyAction={handleKeyAction}
         emptyText="No branches found"
         renderItem={(branch, { isCursor }) => (
-          <>
-            <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
-              {isCursor ? "> " : "  "}
-            </Text>
-            <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
-              {branch.name}
-            </Text>
-            {branch.isCurrent && (
-              <Text color="green" dimColor>
-                {" "}
-                (main worktree)
+          <Box flexDirection="column">
+            <Box>
+              <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
+                {isCursor ? "> " : "  "}
               </Text>
-            )}
-            {branch.hasWorktree && !branch.isCurrent && (
-              <Text color="yellow" dimColor>
-                {" "}
-                (worktree)
+              <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
+                {branch.name}
               </Text>
-            )}
-          </>
+              {branch.isCurrent && (
+                <Text color="green" dimColor>
+                  {" "}
+                  (main worktree)
+                </Text>
+              )}
+              {branch.hasWorktree && !branch.isCurrent && (
+                <Text color="yellow" dimColor>
+                  {" "}
+                  (worktree)
+                </Text>
+              )}
+            </Box>
+            <Box>
+              <Text>{"    "}</Text>
+              {branch.commitAuthor && <Text dimColor>last commit by: {branch.commitAuthor}</Text>}
+            </Box>
+          </Box>
         )}
       />
       {confirming && (

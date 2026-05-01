@@ -52,12 +52,12 @@ export function App({ cwd: initialCwd }: AppProps) {
   }, [initialCwd]);
 
   useInput((input, key) => {
+    if (searching) return;
+
     if (input === "q") {
       exit();
       return;
     }
-
-    if (searching) return;
 
     if (key.ctrl && (input === "o" || input === "O") && focus === "main") {
       setPicking(true);
