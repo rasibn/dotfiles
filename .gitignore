@@ -1,6 +1,6 @@
 **/.DS_Store
 ui/sway/config.d/config-extras
-node_modules/
+**/node_modules/
 __pycache__/
 secrets.sh
 .env
@@ -9,4 +9,3 @@ shared/scripts/golang/proji/proji
 shared/scripts/golang/vimi/vimi
 desktop/linux/hypr/*.png
 shared/nvim/lua/plugins/dadbod.lua
-shared/scripts/pr-tui/node_modules/
