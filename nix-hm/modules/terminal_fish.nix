@@ -75,7 +75,7 @@
       set -gx PATH $HOME/.cargo/bin $PATH
 
       if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
-          dbus-run-session Hyprland
+          start-hyprland
       else
           # if not set -q TMUX
           #     tmux attach || tmux new -s base
