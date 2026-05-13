@@ -33,8 +33,8 @@
   goPackages = with pkgs; [
     go
     gopls
+    # gotools - conflics with gopls binary
     gofumpt
-    gotools
     air
     templ
   ];

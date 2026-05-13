@@ -50,6 +50,7 @@ in {
     gh.enable = true;
     yazi = {
       enable = true;
+      shellWrapperName = "y";
       settings = {
         mgr = {
           layout = "auto";

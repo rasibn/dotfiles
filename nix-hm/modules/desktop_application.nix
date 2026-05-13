@@ -8,14 +8,14 @@
   home.packages = with pkgs; [
     zed-editor
 
-    xfce.thunar
-    xfce.thunar-volman # for removable drives
-    xfce.tumbler # for thumbnails
+    pkgs.thunar
+    pkgs.thunar-volman # for removable drives
+    pkgs.tumbler # for thumbnails
     vesktop
 
     mpv
     feh
-    
+
     # E-book readers
     foliate
     zathura
@@ -36,5 +36,8 @@
     # inputs.zen-browser.packages."${system}".default
   ];
 
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
+  };
 }

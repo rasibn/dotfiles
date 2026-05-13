@@ -9,6 +9,7 @@
     rofi-unwrapped
     pavucontrol
     hyprshot
+    proton-vpn
     anki
     swappy # A Wayland native snapshot and editor tool
     hyprpaper
