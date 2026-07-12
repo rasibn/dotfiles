@@ -77,6 +77,9 @@ alias xrandrscaleup="xrandr --output eDP-1 --scale 0.95x0.95"
 alias xrandrscalereset="xrandr --output eDP-1 --scale 1x1"
 
 alias clauded="claude --dangerously-skip-permissions"
+alias claude-o="claude --model claude-opus-4-8"
+alias claude-s="claude --model claude-sonnet-4-6"
+alias claude-h="claude --model claude-haiku-4-5-20251001"
 alias gcmsg='git commit --message'
 # alias reader="zathura"
 # alias fdupes="rmlint"
