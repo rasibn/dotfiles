@@ -27,6 +27,8 @@
     # jetbrains.idea-community # or jetbrains.idea-ultimate
     bruno
     brave
+    # godot
+    android-studio
 
     # stremio
     # qbittorrent-enhanced

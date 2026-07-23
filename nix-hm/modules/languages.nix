@@ -40,8 +40,8 @@
   ];
 
   gleamPackages = with pkgs; [
+    beam28Packages.erlang
     gleam
-    erlang_28
     rebar3
   ];
 
@@ -67,7 +67,8 @@
   ];
 
   cppPackages = with pkgs; [
-    clang
+    # clang
+    gcc
     clang-tools
     gdb
   ];

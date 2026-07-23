@@ -23,7 +23,7 @@ in {
     ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/ghostty";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/waybar";
 
-    ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprland.conf";
+    ".config/hypr/hyprland.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprland.lua";
     ".config/hypr/hyprpaper.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprpaper.conf";
     ".config/hypr/monitors.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/monitors.conf";
     ".config/hypr/workspaces.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/workspaces.conf";

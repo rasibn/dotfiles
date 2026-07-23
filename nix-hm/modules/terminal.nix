@@ -31,7 +31,7 @@
 
   emulatorsApps = with pkgs; [
     ghostty
-    wezterm
+    # wezterm
   ];
 
   tuiApps = with pkgs; [
