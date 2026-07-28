@@ -109,7 +109,9 @@ export function PrList({ cwd }: PrListProps) {
         panel="main"
         items={prs}
         itemLines={2}
-        searchValue={(pr) => `${pr.number} ${pr.title} ${pr.headRefName} ${pr.author}`}
+        searchValue={(pr) =>
+          `${pr.number} ${pr.title} ${pr.headRefName} ${pr.author} ${pr.labels.join(" ")}`
+        }
         onSelect={handleSelect}
         onKeyAction={handleKeyAction}
         emptyText="No open PRs found"
@@ -129,6 +131,12 @@ export function PrList({ cwd }: PrListProps) {
               <Text>{"    "}</Text>
               <Text dimColor>{pr.headRefName}</Text>
               <Text dimColor> @{pr.author}</Text>
+              {pr.labels.map((label) => (
+                <Text key={label} color="cyan">
+                  {" "}
+                  [{label}]
+                </Text>
+              ))}
             </Box>
           </Box>
         )}

@@ -10,6 +10,7 @@ export interface PR {
   title: string;
   headRefName: string;
   author: string;
+  labels: string[];
 }
 
 export interface Worktree {

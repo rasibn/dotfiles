@@ -4,7 +4,7 @@ import type { PR } from "./types.js";
 
 export async function listPRs(cwd: string): Promise<Result<PR[], string>> {
   const result = await exec(
-    ["gh", "pr", "list", "--limit", "50", "--json", "number,title,headRefName,author", "--jq", "."],
+    ["gh", "pr", "list", "--limit", "50", "--json", "number,title,headRefName,author,labels", "--jq", "."],
     { cwd },
   );
   if (result.exitCode !== 0) return err("Failed to fetch PRs (is gh authenticated?)");
@@ -16,6 +16,7 @@ export async function listPRs(cwd: string): Promise<Result<PR[], string>> {
         title: pr.title,
         headRefName: pr.headRefName,
         author: pr.author?.login || "unknown",
+        labels: (pr.labels || []).map((l: any) => l.name).filter(Boolean),
       })),
     );
   } catch {
