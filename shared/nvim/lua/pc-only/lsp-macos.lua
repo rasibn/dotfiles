@@ -8,6 +8,7 @@ return {
       inlay_hints = { enabled = false },
       servers = {
         rust_analyzer = {},
+        pyright = {}
         ruff = {},
         gopls = {},
         yamlls = {},

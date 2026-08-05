@@ -14,6 +14,7 @@ import {
   getRemoteUrl,
   openBranchSession,
   worktreesDir,
+  listWorktrees,
 } from "../lib/git.js";
 import { openInBrowser, branchToCompareUrl } from "../lib/browser.js";
 import type { Branch } from "../lib/types.js";
@@ -57,7 +58,10 @@ export function BranchList({ cwd }: BranchListProps) {
     }
 
     const sName = sessionName(repoRoot, branch.name);
-    const wtDir = branch.isCurrent ? repoRoot : `${worktreesDir(repoRoot)}/${sName}`;
+    const existing = (await listWorktrees(repoRoot)).find((wt) => wt.branch === branch.name);
+    const wtDir = branch.isCurrent
+      ? repoRoot
+      : (existing?.path ?? `${worktreesDir(repoRoot)}/${sName}`);
 
     setBusy(true);
     setStatus(`Setting up ${branch.name}...`);
@@ -109,7 +113,10 @@ export function BranchList({ cwd }: BranchListProps) {
     if (!repoRoot) return;
 
     const sName = sessionName(repoRoot, branch.name);
-    const wtDir = branch.hasWorktree ? `${worktreesDir(repoRoot)}/${sName}` : null;
+    const existing = branch.hasWorktree
+      ? (await listWorktrees(repoRoot)).find((wt) => wt.branch === branch.name)
+      : undefined;
+    const wtDir = existing?.path ?? null;
     setStatus(`Deleting ${branch.name}...`);
     const messages = await cleanupBranch(repoRoot, branch.name, sName, wtDir);
     setStatus(messages.join("\n"));

@@ -1,5 +1,5 @@
 import { exec } from "./exec.js";
-import { worktreesDir, getMainWorktreeBranch, sessionName } from "./git.js";
+import { getMainWorktreeBranch, sessionName } from "./git.js";
 import { getSessionNotifications, getAllNotificationFlags } from "./notifications.js";
 import type { Session, TmuxWindow } from "./types.js";
 
@@ -39,19 +39,22 @@ export async function openWorktreeSession(sessionName: string, worktreeDir: stri
 async function fetchAllWindows(): Promise<{
   sessionNames: string[];
   windowsBySession: Map<string, TmuxWindow[]>;
+  pathsBySession: Map<string, string>;
 }> {
   const result = await exec([
     "tmux",
     "list-windows",
     "-a",
     "-F",
-    "#{session_name}\t#{window_index}\t#{window_name}\t#{pane_title}",
+    "#{session_name}\t#{window_index}\t#{window_name}\t#{pane_title}\t#{pane_current_path}",
   ]);
   const windowsBySession = new Map<string, TmuxWindow[]>();
-  if (result.exitCode !== 0) return { sessionNames: [], windowsBySession };
+  const pathsBySession = new Map<string, string>();
+  if (result.exitCode !== 0) return { sessionNames: [], windowsBySession, pathsBySession };
   for (const line of result.stdout.split("\n").filter(Boolean)) {
-    const [sess, idxStr, name, paneTitle] = line.split("\t");
+    const [sess, idxStr, name, paneTitle, panePath] = line.split("\t");
     if (!sess) continue;
+    if (panePath) pathsBySession.set(sess, panePath);
     const idx = parseInt(idxStr!);
     const window: TmuxWindow = {
       index: idx,
@@ -62,11 +65,11 @@ async function fetchAllWindows(): Promise<{
     if (existing) existing.push(window);
     else windowsBySession.set(sess, [window]);
   }
-  return { sessionNames: Array.from(windowsBySession.keys()), windowsBySession };
+  return { sessionNames: Array.from(windowsBySession.keys()), windowsBySession, pathsBySession };
 }
 
 export async function listSessions(repoRoot: string | null): Promise<Session[]> {
-  const { sessionNames, windowsBySession } = await fetchAllWindows();
+  const { sessionNames, windowsBySession, pathsBySession } = await fetchAllWindows();
   const notifFlags = getAllNotificationFlags();
   if (sessionNames.length === 0) return [];
 
@@ -79,6 +82,7 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
     return sessionNames.map((name, i) => ({
       name,
       branch: null,
+      worktreeName: null,
       worktreePath: null,
       isDirty: false,
       isOrphan: false,
@@ -87,16 +91,17 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
     }));
   }
 
-  const worktreeDir = `${worktreesDir(repoRoot)}/`;
   const wtResult = await exec(["git", "worktree", "list", "--porcelain"], { cwd: repoRoot });
 
-  const wtBlocks = wtResult.stdout.split("\n\n").filter((b) => b.includes(worktreeDir));
-  const wtEntries = wtBlocks.map((block) => {
-    const lines = block.split("\n");
-    const path = lines.find((l) => l.startsWith("worktree "))?.slice(9) ?? "";
-    const branch = lines.find((l) => l.startsWith("branch refs/heads/"))?.slice(18) ?? null;
-    return { path, branch };
-  });
+  const wtBlocks = wtResult.stdout.split("\n\n").filter(Boolean);
+  const wtEntries = wtBlocks
+    .map((block) => {
+      const lines = block.split("\n");
+      const path = lines.find((l) => l.startsWith("worktree "))?.slice(9) ?? "";
+      const branch = lines.find((l) => l.startsWith("branch refs/heads/"))?.slice(18) ?? null;
+      return { path, branch, name: path.split("/").pop() ?? path };
+    })
+    .filter(({ path }) => path !== repoRoot);
 
   const dirtyResults = await Promise.all(
     wtEntries.map(({ path }) =>
@@ -104,12 +109,16 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
     ),
   );
 
-  const worktreeMap = new Map<string, { path: string; branch: string | null; isDirty: boolean }>();
+  const worktreeMap = new Map<
+    string,
+    { path: string; branch: string | null; name: string; isDirty: boolean }
+  >();
   for (let i = 0; i < wtEntries.length; i++) {
-    const { path, branch } = wtEntries[i]!;
-    worktreeMap.set(path.split("/").pop()!, {
+    const { path, branch, name } = wtEntries[i]!;
+    worktreeMap.set(path, {
       path,
       branch,
+      name,
       isDirty: dirtyResults[i]!.stdout.length > 0,
     });
   }
@@ -119,12 +128,25 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
   const rootSessionName = rootBranch ? sessionName(repoRoot, rootBranch) : null;
 
   return sessionNames.map((name, i) => {
-    const wt = worktreeMap.get(name);
+    const sessionPath = pathsBySession.get(name);
+    const wt =
+      Array.from(worktreeMap.values()).find(
+        (entry) => sessionPath === entry.path || sessionPath?.startsWith(`${entry.path}/`),
+      ) ??
+      (rootBranch && name === sessionName(repoRoot, rootBranch)
+        ? {
+            path: repoRoot,
+            branch: rootBranch,
+            name: repoName,
+            isDirty: false,
+          }
+        : undefined);
     const isRootSession = name === rootSessionName;
     const isRepoSession = name.startsWith(`${repoName}_`);
     return {
       name,
       branch: wt?.branch ?? (isRootSession ? rootBranch : null),
+      worktreeName: wt?.name ?? null,
       worktreePath: wt?.path ?? (isRootSession ? repoRoot : null),
       isDirty: wt?.isDirty ?? false,
       isOrphan: isRepoSession && !wt && !isRootSession,

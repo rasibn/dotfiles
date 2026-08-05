@@ -10,6 +10,7 @@ import {
   getRemoteUrl,
   openBranchSession,
   worktreesDir,
+  listWorktrees,
 } from "../lib/git.js";
 import { listPRs } from "../lib/gh.js";
 import { openInBrowser, prToGithubUrl } from "../lib/browser.js";
@@ -61,7 +62,8 @@ export function PrList({ cwd }: PrListProps) {
     }
 
     const sName = sessionName(repoRoot, pr.headRefName);
-    const wtDir = `${worktreesDir(repoRoot)}/${sName}`;
+    const existing = (await listWorktrees(repoRoot)).find((wt) => wt.branch === pr.headRefName);
+    const wtDir = existing?.path ?? `${worktreesDir(repoRoot)}/${sName}`;
 
     setBusy(true);
     setStatus(`Setting up PR #${pr.number} (${pr.headRefName})...`);

@@ -62,18 +62,16 @@ export async function listBranches(cwd: string): Promise<Branch[]> {
 
 export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
   const [wtResult, vvResult] = await Promise.all([
-    exec(["git", "worktree", "list"], { cwd: repoRoot }),
+    exec(["git", "worktree", "list", "--porcelain"], { cwd: repoRoot }),
     exec(["git", "branch", "-vv"], { cwd: repoRoot }),
   ]);
   if (!wtResult.stdout) return [];
 
-  const worktreeDir = `${worktreesDir(repoRoot)}/`;
-  const lines = wtResult.stdout.split("\n").filter((l) => l.includes(worktreeDir));
-
-  const entries = lines.map((line) => {
-    const parts = line.split(/\s+/);
-    const path = parts[0]!;
-    const branch = (parts[2] || "").replace(/[[\]]/g, "");
+  const entries = wtResult.stdout.split("\n\n").flatMap((block) => {
+    const lines = block.split("\n");
+    const path = lines.find((line) => line.startsWith("worktree "))?.slice(9);
+    if (!path || path === repoRoot) return [];
+    const branch = lines.find((line) => line.startsWith("branch refs/heads/"))?.slice(18) || "";
     const sName = path.split("/").pop() || branch;
     const branchLine = vvResult.stdout
       .split("\n")
@@ -81,7 +79,7 @@ export async function listWorktrees(repoRoot: string): Promise<Worktree[]> {
         l.match(new RegExp(`^[* ] ${branch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s`)),
       );
     const isRemoteGone = branchLine ? branchLine.includes("[gone]") : false;
-    return { path, branch, sName, isRemoteGone };
+    return [{ path, branch, sName, isRemoteGone }];
   });
 
   const statusResults = await Promise.all(

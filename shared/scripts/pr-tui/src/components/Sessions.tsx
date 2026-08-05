@@ -48,6 +48,8 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
           const n = next[i]!;
           return (
             s.name === n.name &&
+            s.branch === n.branch &&
+            s.worktreeName === n.worktreeName &&
             s.isDirty === n.isDirty &&
             s.isOrphan === n.isOrphan &&
             s.windows.length === n.windows.length &&
@@ -177,6 +179,7 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
           disabled={!!confirming}
           items={items}
           searchValue={(item) => item.session.name}
+          itemLines={2}
           onSelect={handleSelect}
           onKeyAction={handleKeyAction}
           emptyText="No active sessions"
@@ -227,16 +230,24 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
             const { session: sess } = item;
             // effectiveWidth = sidebar box width; subtract border(2) + paddingX(2) + cursor(2)
             const maxName = effectiveWidth - 6 - (sess.isDirty ? 6 : 0) - (sess.isOrphan ? 7 : 0);
-            const name =
-              sess.name.length > maxName ? sess.name.slice(0, maxName - 1) + "…" : sess.name;
+            const branch = sess.branch ?? sess.name;
+            const name = branch.length > maxName ? branch.slice(0, maxName - 1) + "…" : branch;
             return (
-              <Box>
-                <Text color={isCursor ? "magenta" : undefined}>{isCursor ? "> " : "  "}</Text>
-                <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
-                  {name}
-                </Text>
-                {sess.isDirty && <Text color="yellow"> dirty</Text>}
-                {sess.isOrphan && <Text color="red"> orphan</Text>}
+              <Box flexDirection="column">
+                <Box>
+                  <Text color={isCursor ? "magenta" : undefined}>{isCursor ? "> " : "  "}</Text>
+                  <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
+                    {name}
+                  </Text>
+                  {sess.isDirty && <Text color="yellow"> dirty</Text>}
+                  {sess.isOrphan && <Text color="red"> orphan</Text>}
+                </Box>
+                {sess.worktreeName && (
+                  <Box>
+                    <Text>{"   "}</Text>
+                    <Text dimColor>{sess.worktreeName}</Text>
+                  </Box>
+                )}
               </Box>
             );
           }}

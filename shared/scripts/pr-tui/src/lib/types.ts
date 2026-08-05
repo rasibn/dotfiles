@@ -37,6 +37,7 @@ export interface ClaudeNotification {
 export interface Session {
   name: string;
   branch: string | null;
+  worktreeName: string | null;
   worktreePath: string | null;
   isDirty: boolean;
   isOrphan: boolean;
