@@ -4,7 +4,6 @@ import { useAtom, useAtomValue } from "jotai";
 import { focusAtom, mainSearchingAtom, sidebarSearchingAtom } from "./lib/atoms.js";
 import { Tabs } from "./components/Tabs.js";
 import { Sessions } from "./components/Sessions.js";
-import { PrList } from "./components/PrList.js";
 import { BranchList } from "./components/BranchList.js";
 import { EventsList } from "./components/EventsList.js";
 import { RepoPicker } from "./components/RepoPicker.js";
@@ -107,8 +106,10 @@ export function App({ cwd: initialCwd }: AppProps) {
     return (
       <>
         <Tabs activeIndex={activeTab} />
-        {activeTab === 0 && <BranchList cwd={repoCwd} />}
-        {activeTab === 1 && <PrList cwd={repoCwd} />}
+        {activeTab === 0 && <BranchList cwd={repoCwd} ownership="mine" viewportSize={mainHeight} />}
+        {activeTab === 1 && (
+          <BranchList cwd={repoCwd} ownership="other" viewportSize={mainHeight} />
+        )}
       </>
     );
   };
@@ -156,7 +157,7 @@ export function App({ cwd: initialCwd }: AppProps) {
               </Text>
             </Box>
             <Box paddingX={1} overflow="hidden">
-              <Sessions cwd={repoCwd} expanded={sidebarExpanded} />
+              <Sessions cwd={repoCwd} expanded={sidebarExpanded} viewportSize={sidebarHeight} />
             </Box>
           </Box>
         )}

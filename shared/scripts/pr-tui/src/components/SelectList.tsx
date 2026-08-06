@@ -14,7 +14,7 @@ interface SelectListProps<T> {
   disabled?: boolean;
   emptyText?: string;
   viewportSize?: number;
-  itemLines?: number;
+  itemLines?: number | ((item: T) => number);
   scrollToTopSignal?: number;
 }
 
@@ -71,14 +71,26 @@ export function SelectList<T>({
 
   const clampedCursor = filtered.length === 0 ? -1 : Math.min(cursor, filtered.length - 1);
 
-  const itemsPerViewport = Math.floor(viewportSize / itemLines);
+  const getItemLines = (item: T) => (typeof itemLines === "function" ? itemLines(item) : itemLines);
+  const visibleEnd = (start: number) => {
+    let height = 0;
+    let end = start;
+    while (end < filtered.length) {
+      const nextHeight = getItemLines(filtered[end]!);
+      if (end > start && height + nextHeight > viewportSize) break;
+      height += nextHeight;
+      end += 1;
+    }
+    return end;
+  };
 
   const moveTo = (index: number) => {
     const clamped = Math.max(0, Math.min(filtered.length - 1, index));
     setCursor(clamped);
-    if (clamped < viewportStart) setViewportStart(clamped);
-    else if (clamped >= viewportStart + itemsPerViewport)
-      setViewportStart(clamped - itemsPerViewport + 1);
+    let nextStart = viewportStart;
+    if (clamped < nextStart) nextStart = clamped;
+    while (clamped >= visibleEnd(nextStart)) nextStart += 1;
+    setViewportStart(nextStart);
   };
 
   useInput(
@@ -141,10 +153,11 @@ export function SelectList<T>({
     { isActive },
   );
 
-  const visible = filtered.slice(viewportStart, viewportStart + itemsPerViewport);
+  const end = visibleEnd(viewportStart);
+  const visible = filtered.slice(viewportStart, end);
 
   return (
-    <Box flexDirection="column">
+    <Box flexDirection="column" width="100%">
       {searching && (
         <Box marginBottom={1}>
           <Text color="yellow">find: </Text>
@@ -171,13 +184,16 @@ export function SelectList<T>({
         visible.map((item, i) => {
           const realIndex = viewportStart + i;
           const isCursor = realIndex === clampedCursor;
-          return <Box key={realIndex}>{renderItem(item, { isCursor })}</Box>;
+          return (
+            <Box key={realIndex} width="100%">
+              {renderItem(item, { isCursor })}
+            </Box>
+          );
         })
       )}
-      {filtered.length > itemsPerViewport && (
+      {end < filtered.length && (
         <Text dimColor>
-          [{viewportStart + 1}-{Math.min(viewportStart + itemsPerViewport, filtered.length)} of{" "}
-          {filtered.length}]
+          [{viewportStart + 1}-{end} of {filtered.length}]
         </Text>
       )}
     </Box>

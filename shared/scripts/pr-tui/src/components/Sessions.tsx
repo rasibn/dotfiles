@@ -20,6 +20,7 @@ import type { Session, ClaudeNotification, TmuxWindow } from "../lib/types.js";
 interface SessionsProps {
   cwd: string | null;
   expanded?: boolean;
+  viewportSize: number;
 }
 
 type SessionRow = { kind: "session"; session: Session };
@@ -27,7 +28,7 @@ type NotifRow = { kind: "notif"; session: Session; notif: ClaudeNotification };
 type WindowRow = { kind: "window"; session: Session; window: TmuxWindow };
 type ListItem = SessionRow | NotifRow | WindowRow;
 
-export function Sessions({ cwd, expanded = false }: SessionsProps) {
+export function Sessions({ cwd, expanded = false, viewportSize }: SessionsProps) {
   const focus = useAtomValue(focusAtom);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,7 +50,10 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
           return (
             s.name === n.name &&
             s.branch === n.branch &&
+            s.prNumber === n.prNumber &&
+            s.prTitle === n.prTitle &&
             s.worktreeName === n.worktreeName &&
+            s.paneBranches.join("\0") === n.paneBranches.join("\0") &&
             s.isDirty === n.isDirty &&
             s.isOrphan === n.isOrphan &&
             s.windows.length === n.windows.length &&
@@ -178,8 +182,15 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
           panel="sidebar"
           disabled={!!confirming}
           items={items}
-          searchValue={(item) => item.session.name}
-          itemLines={2}
+          viewportSize={viewportSize}
+          searchValue={(item) =>
+            `${item.session.name} ${item.session.branch ?? ""} ${item.session.prTitle ?? ""}`
+          }
+          itemLines={(item) =>
+            item.kind === "session"
+              ? 2 + (item.session.prTitle || item.session.paneBranches.length > 1 ? 1 : 0)
+              : 1
+          }
           onSelect={handleSelect}
           onKeyAction={handleKeyAction}
           emptyText="No active sessions"
@@ -231,7 +242,15 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
             // effectiveWidth = sidebar box width; subtract border(2) + paddingX(2) + cursor(2)
             const maxName = effectiveWidth - 6 - (sess.isDirty ? 6 : 0) - (sess.isOrphan ? 7 : 0);
             const branch = sess.branch ?? sess.name;
-            const name = branch.length > maxName ? branch.slice(0, maxName - 1) + "…" : branch;
+            const label = sess.prTitle ?? branch;
+            const name = label.length > maxName ? label.slice(0, maxName - 1) + "…" : label;
+            const secondary =
+              sess.paneBranches.length > 1
+                ? `panes: ${sess.paneBranches.join(" · ")}`
+                : sess.prTitle
+                  ? branch
+                  : "";
+            const secondaryText = secondary ? truncate("   ", secondary) : null;
             return (
               <Box flexDirection="column">
                 <Box>
@@ -242,12 +261,20 @@ export function Sessions({ cwd, expanded = false }: SessionsProps) {
                   {sess.isDirty && <Text color="yellow"> dirty</Text>}
                   {sess.isOrphan && <Text color="red"> orphan</Text>}
                 </Box>
-                {sess.worktreeName && (
+                {secondaryText && (
                   <Box>
                     <Text>{"   "}</Text>
-                    <Text dimColor>{sess.worktreeName}</Text>
+                    <Text dimColor>{secondaryText}</Text>
                   </Box>
                 )}
+                <Box
+                  width={Math.max(1, effectiveWidth - 4)}
+                  height={1}
+                  borderStyle="single"
+                  borderTop={false}
+                  borderLeft={false}
+                  borderRight={false}
+                />
               </Box>
             );
           }}

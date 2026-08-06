@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Text } from "ink";
 
-const TAB_LABELS = ["Open Local", "Open PRs"];
+const TAB_LABELS = ["Mine", "Open PRs"];
 
 interface TabsProps {
   activeIndex: number;

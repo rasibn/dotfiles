@@ -1,8 +1,24 @@
-export interface Branch {
+export interface LocalBranch {
   name: string;
   isCurrent: boolean;
   hasWorktree: boolean;
   commitAuthor?: string;
+  commitsAhead: number;
+  commitsBehind: number;
+  isRemoteGone: boolean;
+}
+
+export interface BranchEntry {
+  name: string;
+  isCurrent: boolean;
+  hasWorktree: boolean;
+  prNumber?: number;
+  prTitle?: string;
+  commitsAhead: number;
+  commitsBehind: number;
+  isRemote: boolean;
+  isRemoteGone: boolean;
+  unresolvedComments: number;
 }
 
 export interface PR {
@@ -11,6 +27,7 @@ export interface PR {
   headRefName: string;
   author: string;
   labels: string[];
+  unresolvedComments: number;
 }
 
 export interface Worktree {
@@ -37,10 +54,13 @@ export interface ClaudeNotification {
 export interface Session {
   name: string;
   branch: string | null;
+  prNumber: number | null;
+  prTitle: string | null;
   worktreeName: string | null;
   worktreePath: string | null;
   isDirty: boolean;
   isOrphan: boolean;
   windows: TmuxWindow[];
   notifications: ClaudeNotification[];
+  paneBranches: string[];
 }

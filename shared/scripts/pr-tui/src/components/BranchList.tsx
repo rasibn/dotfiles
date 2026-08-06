@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Box, Text } from "ink";
 import { useAtomValue } from "jotai";
 import { focusAtom } from "../lib/atoms.js";
@@ -17,30 +17,46 @@ import {
   listWorktrees,
 } from "../lib/git.js";
 import { openInBrowser, branchToCompareUrl } from "../lib/browser.js";
-import type { Branch } from "../lib/types.js";
+import type { BranchEntry } from "../lib/types.js";
+import { getCurrentUser, listPRs } from "../lib/gh.js";
+import { mergeBranchesWithPRs } from "../lib/branch-entries.js";
 
 interface BranchListProps {
   cwd: string;
+  ownership: "mine" | "other";
+  viewportSize: number;
 }
 
-export function BranchList({ cwd }: BranchListProps) {
+export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
   const focus = useAtomValue(focusAtom);
-  const [branches, setBranches] = useState<Branch[]>([]);
+  const [branches, setBranches] = useState<BranchEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
-  const [confirming, setConfirming] = useState<Branch | null>(null);
+  const [confirming, setConfirming] = useState<BranchEntry | null>(null);
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     setLoading(true);
     setStatus("");
-    setBranches(await listBranches(cwd));
+    const [nextBranches, prsResult, currentUser] = await Promise.all([
+      listBranches(cwd),
+      listPRs(cwd),
+      getCurrentUser(cwd),
+    ]);
+    setBranches(
+      mergeBranchesWithPRs(
+        nextBranches,
+        prsResult.isOk() ? prsResult.value : [],
+        currentUser,
+        ownership,
+      ),
+    );
     setLoading(false);
-  };
+  }, [cwd, ownership]);
 
   useEffect(() => {
     refresh();
-  }, [cwd]);
+  }, [refresh]);
 
   useGuardedInput(
     "main",
@@ -50,7 +66,7 @@ export function BranchList({ cwd }: BranchListProps) {
     { isActive: focus === "main" && !busy },
   );
 
-  const handleSelect = async (branch: Branch) => {
+  const handleSelect = async (branch: BranchEntry) => {
     const repoRoot = getRepoRoot(cwd);
     if (!repoRoot) {
       setStatus("Not in a git repository");
@@ -108,7 +124,7 @@ export function BranchList({ cwd }: BranchListProps) {
     await refresh();
   };
 
-  const doDelete = async (branch: Branch) => {
+  const doDelete = async (branch: BranchEntry) => {
     const repoRoot = getRepoRoot(cwd);
     if (!repoRoot) return;
 
@@ -123,7 +139,7 @@ export function BranchList({ cwd }: BranchListProps) {
     await refresh();
   };
 
-  const handleKeyAction = async (key: string, branch: Branch) => {
+  const handleKeyAction = async (key: string, branch: BranchEntry) => {
     if (confirming) return;
     if (key === "d" && !branch.isCurrent) {
       setConfirming(branch);
@@ -153,40 +169,91 @@ export function BranchList({ cwd }: BranchListProps) {
         panel="main"
         disabled={!!confirming}
         items={branches}
-        itemLines={2}
-        searchValue={(b) => `${b.name} ${b.commitAuthor ?? ""}`}
+        viewportSize={viewportSize}
+        itemLines={(branch) =>
+          2 + (branch.prTitle && !branch.isRemote ? 1 : 0) + (branch.unresolvedComments > 0 ? 1 : 0)
+        }
+        searchValue={(b) => `${b.name} ${b.prTitle ?? ""} ${b.isRemote ? "is:remote" : "is:local"}`}
         onSelect={handleSelect}
-        onCreate={handleCreate}
+        onCreate={ownership === "mine" ? handleCreate : undefined}
         onKeyAction={handleKeyAction}
         emptyText="No branches found"
-        renderItem={(branch, { isCursor }) => (
-          <Box flexDirection="column">
-            <Box>
-              <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
-                {isCursor ? "> " : "  "}
-              </Text>
-              <Text color={isCursor ? "magenta" : undefined} bold={isCursor}>
-                {branch.name}
-              </Text>
-              {branch.isCurrent && (
-                <Text color="green" dimColor>
-                  {" "}
-                  (main worktree)
+        renderItem={(branch, { isCursor }) => {
+          const label = branch.prTitle ?? branch.name;
+          const branchColor = branch.isRemoteGone
+            ? "red"
+            : branch.prTitle
+              ? isCursor
+                ? "magenta"
+                : "cyan"
+              : isCursor
+                ? "yellow"
+                : "blue";
+          const worktreeStatus = branch.isCurrent
+            ? " (main worktree)"
+            : branch.hasWorktree
+              ? " (worktree)"
+              : "";
+          return (
+            <Box flexDirection="column" width="100%">
+              <Box>
+                <Text color={branchColor} bold={isCursor}>
+                  {isCursor ? "> " : "  "}
                 </Text>
-              )}
-              {branch.hasWorktree && !branch.isCurrent && (
-                <Text color="yellow" dimColor>
-                  {" "}
-                  (worktree)
+                <Text color={branchColor} bold={isCursor} wrap="truncate">
+                  {branch.prNumber ? `#${branch.prNumber} ` : ""}
+                  {label}
+                  {branch.unresolvedComments > 0
+                    ? ` [${branch.unresolvedComments} unresolved]`
+                    : ""}
+                  {!branch.prTitle && worktreeStatus}
                 </Text>
+                {(branch.commitsAhead > 0 || branch.commitsBehind > 0) && (
+                  <>
+                    <Text dimColor> (</Text>
+                    {branch.commitsAhead > 0 && <Text color="green">up {branch.commitsAhead}</Text>}
+                    {branch.commitsAhead > 0 && branch.commitsBehind > 0 && <Text dimColor> </Text>}
+                    {branch.commitsBehind > 0 && (
+                      <Text color="red">down {branch.commitsBehind}</Text>
+                    )}
+                    <Text dimColor>)</Text>
+                  </>
+                )}
+                {branch.isRemoteGone && (
+                  <Text color="red" dimColor wrap="truncate">
+                    {" "}
+                    (remote gone)
+                  </Text>
+                )}
+              </Box>
+              {branch.prTitle && !branch.isRemote && (
+                <Box>
+                  <Text>{"    "}</Text>
+                  <Text dimColor wrap="truncate">
+                    {branch.name}
+                    {worktreeStatus}
+                  </Text>
+                </Box>
               )}
+              {branch.unresolvedComments > 0 && (
+                <Box>
+                  <Text>{"    "}</Text>
+                  <Text color="yellow" wrap="truncate">
+                    {branch.unresolvedComments} unresolved review comments
+                  </Text>
+                </Box>
+              )}
+              <Box
+                width="100%"
+                height={1}
+                borderStyle="single"
+                borderTop={false}
+                borderLeft={false}
+                borderRight={false}
+              />
             </Box>
-            <Box>
-              <Text>{"    "}</Text>
-              {branch.commitAuthor && <Text dimColor>last commit by: {branch.commitAuthor}</Text>}
-            </Box>
-          </Box>
-        )}
+          );
+        }}
       />
       {confirming && (
         <Confirm

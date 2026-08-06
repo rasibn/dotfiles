@@ -1,5 +1,6 @@
 import { exec } from "./exec.js";
 import { getMainWorktreeBranch, sessionName } from "./git.js";
+import { getPRsByBranch } from "./gh.js";
 import { getSessionNotifications, getAllNotificationFlags } from "./notifications.js";
 import type { Session, TmuxWindow } from "./types.js";
 
@@ -40,21 +41,32 @@ async function fetchAllWindows(): Promise<{
   sessionNames: string[];
   windowsBySession: Map<string, TmuxWindow[]>;
   pathsBySession: Map<string, string>;
+  paneBranchesBySession: Map<string, string[]>;
 }> {
-  const result = await exec([
-    "tmux",
-    "list-windows",
-    "-a",
-    "-F",
-    "#{session_name}\t#{window_index}\t#{window_name}\t#{pane_title}\t#{pane_current_path}",
+  const [windowsResult, sessionsResult] = await Promise.all([
+    exec([
+      "tmux",
+      "list-windows",
+      "-a",
+      "-F",
+      "#{session_name}\t#{window_index}\t#{window_name}\t#{pane_title}",
+    ]),
+    exec(["tmux", "list-sessions", "-F", "#{session_name}\t#{session_path}"]),
   ]);
   const windowsBySession = new Map<string, TmuxWindow[]>();
   const pathsBySession = new Map<string, string>();
-  if (result.exitCode !== 0) return { sessionNames: [], windowsBySession, pathsBySession };
-  for (const line of result.stdout.split("\n").filter(Boolean)) {
-    const [sess, idxStr, name, paneTitle, panePath] = line.split("\t");
+  const paneBranchesBySession = new Map<string, string[]>();
+  if (sessionsResult.exitCode === 0) {
+    for (const line of sessionsResult.stdout.split("\n").filter(Boolean)) {
+      const [sess, sessionPath] = line.split("\t");
+      if (sess && sessionPath) pathsBySession.set(sess, sessionPath);
+    }
+  }
+  if (windowsResult.exitCode !== 0)
+    return { sessionNames: [], windowsBySession, pathsBySession, paneBranchesBySession };
+  for (const line of windowsResult.stdout.split("\n").filter(Boolean)) {
+    const [sess, idxStr, name, paneTitle] = line.split("\t");
     if (!sess) continue;
-    if (panePath) pathsBySession.set(sess, panePath);
     const idx = parseInt(idxStr!);
     const window: TmuxWindow = {
       index: idx,
@@ -65,11 +77,46 @@ async function fetchAllWindows(): Promise<{
     if (existing) existing.push(window);
     else windowsBySession.set(sess, [window]);
   }
-  return { sessionNames: Array.from(windowsBySession.keys()), windowsBySession, pathsBySession };
+  const paneResult = await exec([
+    "tmux",
+    "list-panes",
+    "-a",
+    "-F",
+    "#{session_name}\t#{pane_current_path}",
+  ]);
+  if (paneResult.exitCode === 0) {
+    const panePaths = paneResult.stdout
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => {
+        const [session, path] = line.split("\t");
+        return session && path ? { session, path } : null;
+      })
+      .filter((pane): pane is { session: string; path: string } => pane !== null);
+    const branchResults = await Promise.all(
+      panePaths.map(async ({ session, path }) => {
+        const result = await exec(["git", "-C", path, "branch", "--show-current"]);
+        return { session, branch: result.exitCode === 0 ? result.stdout : "" };
+      }),
+    );
+    for (const { session, branch } of branchResults) {
+      if (!branch) continue;
+      const branches = paneBranchesBySession.get(session) ?? [];
+      if (!branches.includes(branch)) branches.push(branch);
+      paneBranchesBySession.set(session, branches);
+    }
+  }
+  return {
+    sessionNames: Array.from(windowsBySession.keys()),
+    windowsBySession,
+    pathsBySession,
+    paneBranchesBySession,
+  };
 }
 
 export async function listSessions(repoRoot: string | null): Promise<Session[]> {
-  const { sessionNames, windowsBySession, pathsBySession } = await fetchAllWindows();
+  const { sessionNames, windowsBySession, pathsBySession, paneBranchesBySession } =
+    await fetchAllWindows();
   const notifFlags = getAllNotificationFlags();
   if (sessionNames.length === 0) return [];
 
@@ -82,12 +129,15 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
     return sessionNames.map((name, i) => ({
       name,
       branch: null,
+      prNumber: null,
+      prTitle: null,
       worktreeName: null,
       worktreePath: null,
       isDirty: false,
       isOrphan: false,
       windows: windowsBySession.get(name) ?? [],
       notifications: notificationResults[i]!,
+      paneBranches: paneBranchesBySession.get(name) ?? [],
     }));
   }
 
@@ -126,6 +176,14 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
   const repoName = repoRoot.split("/").pop()!;
   const rootBranch = getMainWorktreeBranch(repoRoot);
   const rootSessionName = rootBranch ? sessionName(repoRoot, rootBranch) : null;
+  const prsResult = await getPRsByBranch(repoRoot);
+  const prsByBranch = new Map(
+    prsResult.isOk()
+      ? [...prsResult.value].map(
+          ([branch, pr]) => [branch, { number: pr.number, title: pr.title }] as const,
+        )
+      : [],
+  );
 
   return sessionNames.map((name, i) => {
     const sessionPath = pathsBySession.get(name);
@@ -142,16 +200,21 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
           }
         : undefined);
     const isRootSession = name === rootSessionName;
-    const isRepoSession = name.startsWith(`${repoName}_`);
+    const isRepoSession = name.startsWith(sessionName(repoRoot, ""));
+    const branch = wt?.branch ?? (isRootSession ? rootBranch : null);
+    const pr = branch ? prsByBranch.get(branch) : undefined;
     return {
       name,
-      branch: wt?.branch ?? (isRootSession ? rootBranch : null),
+      branch,
+      prNumber: pr?.number ?? null,
+      prTitle: pr?.title ?? null,
       worktreeName: wt?.name ?? null,
       worktreePath: wt?.path ?? (isRootSession ? repoRoot : null),
       isDirty: wt?.isDirty ?? false,
       isOrphan: isRepoSession && !wt && !isRootSession,
       windows: windowsBySession.get(name) ?? [],
       notifications: notificationResults[i]!,
+      paneBranches: paneBranchesBySession.get(name) ?? [],
     };
   });
 }

@@ -4,7 +4,7 @@ import { ok, err, type Result } from "neverthrow";
 import { exec } from "./exec.js";
 import { killSession, openWorktreeSession } from "./tmux.js";
 import { logEvent } from "./events.js";
-import type { Branch, Worktree } from "./types.js";
+import type { LocalBranch, Worktree } from "./types.js";
 
 export const WORKTREES_SUBDIR = ".claude/worktrees";
 
@@ -18,7 +18,9 @@ export function safeName(branch: string): string {
 
 export function sessionName(repoRoot: string, branch: string): string {
   const repo = repoRoot.split("/").pop() || "repo";
-  return `${repo}_${safeName(branch)}`;
+  const parts = repo.split(/[-_.\s]+/).filter(Boolean);
+  const sessionRepo = parts.length >= 2 ? parts.map((part) => part[0]).join("") : repo;
+  return `${sessionRepo}_${safeName(branch)}`;
 }
 
 export function getRepoRoot(cwd: string): string | null {
@@ -31,10 +33,15 @@ export function getRepoRoot(cwd: string): string | null {
   }
 }
 
-export async function listBranches(cwd: string): Promise<Branch[]> {
+export async function listBranches(cwd: string): Promise<LocalBranch[]> {
   const [branchResult, wtResult] = await Promise.all([
     exec(
-      ["git", "branch", "--sort=-committerdate", "--format=%(refname:short)|%(HEAD)|%(authorname)"],
+      [
+        "git",
+        "branch",
+        "--sort=-committerdate",
+        "--format=%(refname:short)|%(HEAD)|%(authorname)|%(upstream:track)",
+      ],
       { cwd },
     ),
     exec(["git", "worktree", "list", "--porcelain"], { cwd }),
@@ -49,13 +56,30 @@ export async function listBranches(cwd: string): Promise<Branch[]> {
 
   if (!branchResult.stdout) return [];
 
-  return branchResult.stdout.split("\n").map((line) => {
-    const [name, head, author] = line.split("|");
+  const branches = branchResult.stdout.split("\n").map((line) => {
+    const [name, head, author, upstreamTrack] = line.split("|");
     return {
       name: name!,
       isCurrent: head === "*",
       hasWorktree: worktreeBranches.has(name!),
       commitAuthor: author || undefined,
+      commitsAhead: 0,
+      commitsBehind: 0,
+      isRemoteGone: upstreamTrack?.includes("[gone]") ?? false,
+    };
+  });
+
+  const diffResults = await Promise.all(
+    branches.map(({ name }) =>
+      exec(["git", "rev-list", "--left-right", "--count", `${name}@{upstream}...${name}`], { cwd }),
+    ),
+  );
+  return branches.map((branch, i) => {
+    const [commitsBehind, commitsAhead] = diffResults[i]!.stdout.trim().split(/\s+/).map(Number);
+    return {
+      ...branch,
+      commitsAhead: commitsAhead || 0,
+      commitsBehind: commitsBehind || 0,
     };
   });
 }
