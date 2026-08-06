@@ -45,6 +45,7 @@ async function fetchPRs(cwd: string): Promise<Result<Map<string, PR>, string>> {
       author: pr.author?.login || details.get(pr.number)?.author || "unknown",
       labels: (pr.labels || []).map((l: any) => l.name).filter(Boolean),
       unresolvedComments: details.get(pr.number)?.unresolvedComments ?? 0,
+      sonarCoverage: details.get(pr.number)?.sonarCoverage ?? null,
     }));
     return ok(new Map(prs.map((pr: PR) => [pr.headRefName, pr] as const)));
   } catch {
@@ -54,7 +55,9 @@ async function fetchPRs(cwd: string): Promise<Result<Map<string, PR>, string>> {
 
 async function getPRDetails(
   cwd: string,
-): Promise<Map<number, { author?: string; unresolvedComments: number }>> {
+): Promise<
+  Map<number, { author?: string; unresolvedComments: number; sonarCoverage: number | null }>
+> {
   const repoResult = await exec(
     ["gh", "repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner"],
     {
@@ -70,7 +73,7 @@ async function getPRDetails(
       "api",
       "graphql",
       "-f",
-      "query=query($owner:String!, $name:String!) { repository(owner:$owner, name:$name) { pullRequests(states:OPEN, first:50) { nodes { number commits(last:1) { nodes { authors(first:1) { nodes { login } } } } reviewThreads(first:100) { nodes { isResolved } } } } } }",
+      "query=query($owner:String!, $name:String!) { repository(owner:$owner, name:$name) { pullRequests(states:OPEN, first:50) { nodes { number commits(last:1) { nodes { commit { author { user { login } } } } } reviewThreads(first:100) { nodes { isResolved } } comments(first:100) { nodes { body author { login } } } } } } }",
       "-F",
       `owner=${owner}`,
       "-F",
@@ -84,11 +87,17 @@ async function getPRDetails(
     const nodes = JSON.parse(result.stdout).data?.repository?.pullRequests?.nodes || [];
     return new Map(
       nodes.flatMap((pr: any) => {
-        const login = pr.commits?.nodes?.[0]?.authors?.nodes?.[0]?.login;
+        const login = pr.commits?.nodes?.[0]?.commit?.author?.user?.login;
         const unresolvedComments = (pr.reviewThreads?.nodes || []).filter(
           (thread: any) => !thread.isResolved,
         ).length;
-        return [[pr.number, { author: login, unresolvedComments }] as const];
+        let sonarCoverage: number | null = null;
+        for (const comment of pr.comments?.nodes || []) {
+          if (comment.author?.login !== "careem-cicd-sonarqube") continue;
+          const match = comment.body?.match(/(\d+(?:\.\d+)?)% Coverage on New Code/);
+          if (match) sonarCoverage = Number(match[1]);
+        }
+        return [[pr.number, { author: login, unresolvedComments, sonarCoverage }] as const];
       }),
     );
   } catch {

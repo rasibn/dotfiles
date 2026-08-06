@@ -49,6 +49,7 @@ export function Sessions({ cwd, expanded = false, viewportSize }: SessionsProps)
           const n = next[i]!;
           return (
             s.name === n.name &&
+            s.lastOpenedAt === n.lastOpenedAt &&
             s.branch === n.branch &&
             s.prNumber === n.prNumber &&
             s.prTitle === n.prTitle &&
@@ -267,14 +268,9 @@ export function Sessions({ cwd, expanded = false, viewportSize }: SessionsProps)
                     <Text dimColor>{secondaryText}</Text>
                   </Box>
                 )}
-                <Box
-                  width={Math.max(1, effectiveWidth - 4)}
-                  height={1}
-                  borderStyle="single"
-                  borderTop={false}
-                  borderLeft={false}
-                  borderRight={false}
-                />
+                <Text dimColor wrap="truncate">
+                  {"─".repeat(Math.max(1, effectiveWidth - 4))}
+                </Text>
               </Box>
             );
           }}

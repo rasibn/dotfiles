@@ -16,7 +16,7 @@ import {
   worktreesDir,
   listWorktrees,
 } from "../lib/git.js";
-import { openInBrowser, branchToCompareUrl } from "../lib/browser.js";
+import { openInBrowser, branchToCompareUrl, prToGithubUrl } from "../lib/browser.js";
 import type { BranchEntry } from "../lib/types.js";
 import { getCurrentUser, listPRs } from "../lib/gh.js";
 import { mergeBranchesWithPRs } from "../lib/branch-entries.js";
@@ -154,7 +154,9 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
         setStatus("Could not find remote URL");
         return;
       }
-      const url = branchToCompareUrl(remoteUrl, branch.name);
+      const url = branch.prNumber
+        ? prToGithubUrl(remoteUrl, branch.prNumber)
+        : branchToCompareUrl(remoteUrl, branch.name);
       setStatus(`Opening ${url}...`);
       await openInBrowser(url);
       setTimeout(() => setStatus(""), 2000);
@@ -171,7 +173,9 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
         items={branches}
         viewportSize={viewportSize}
         itemLines={(branch) =>
-          2 + (branch.prTitle && !branch.isRemote ? 1 : 0) + (branch.unresolvedComments > 0 ? 1 : 0)
+          2 +
+          (branch.prTitle && !branch.isRemote ? 1 : 0) +
+          (branch.unresolvedComments > 0 || branch.sonarCoverage !== null ? 1 : 0)
         }
         searchValue={(b) => `${b.name} ${b.prTitle ?? ""} ${b.isRemote ? "is:remote" : "is:local"}`}
         onSelect={handleSelect}
@@ -203,9 +207,6 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
                 <Text color={branchColor} bold={isCursor} wrap="truncate">
                   {branch.prNumber ? `#${branch.prNumber} ` : ""}
                   {label}
-                  {branch.unresolvedComments > 0
-                    ? ` [${branch.unresolvedComments} unresolved]`
-                    : ""}
                   {!branch.prTitle && worktreeStatus}
                 </Text>
                 {(branch.commitsAhead > 0 || branch.commitsBehind > 0) && (
@@ -226,6 +227,23 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
                   </Text>
                 )}
               </Box>
+              {branch.prTitle &&
+                (branch.unresolvedComments > 0 || branch.sonarCoverage !== null) && (
+                  <Box>
+                    <Text>{"    "}</Text>
+                    {branch.sonarCoverage !== null && (
+                      <Text color={branch.sonarCoverage >= 80 ? "green" : "red"}>
+                        coverage {branch.sonarCoverage}%
+                      </Text>
+                    )}
+                    {branch.sonarCoverage !== null && branch.unresolvedComments > 0 && (
+                      <Text dimColor> · </Text>
+                    )}
+                    {branch.unresolvedComments > 0 && (
+                      <Text color="red">unresolved {branch.unresolvedComments}</Text>
+                    )}
+                  </Box>
+                )}
               {branch.prTitle && !branch.isRemote && (
                 <Box>
                   <Text>{"    "}</Text>
@@ -235,22 +253,9 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
                   </Text>
                 </Box>
               )}
-              {branch.unresolvedComments > 0 && (
-                <Box>
-                  <Text>{"    "}</Text>
-                  <Text color="yellow" wrap="truncate">
-                    {branch.unresolvedComments} unresolved review comments
-                  </Text>
-                </Box>
-              )}
-              <Box
-                width="100%"
-                height={1}
-                borderStyle="single"
-                borderTop={false}
-                borderLeft={false}
-                borderRight={false}
-              />
+              <Text dimColor wrap="truncate">
+                {"─".repeat(200)}
+              </Text>
             </Box>
           );
         }}

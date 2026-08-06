@@ -42,6 +42,7 @@ async function fetchAllWindows(): Promise<{
   windowsBySession: Map<string, TmuxWindow[]>;
   pathsBySession: Map<string, string>;
   paneBranchesBySession: Map<string, string[]>;
+  lastOpenedAtBySession: Map<string, number>;
 }> {
   const [windowsResult, sessionsResult] = await Promise.all([
     exec([
@@ -51,19 +52,32 @@ async function fetchAllWindows(): Promise<{
       "-F",
       "#{session_name}\t#{window_index}\t#{window_name}\t#{pane_title}",
     ]),
-    exec(["tmux", "list-sessions", "-F", "#{session_name}\t#{session_path}"]),
+    exec([
+      "tmux",
+      "list-sessions",
+      "-F",
+      "#{session_name}\t#{session_path}\t#{session_last_attached}\t#{session_created}",
+    ]),
   ]);
   const windowsBySession = new Map<string, TmuxWindow[]>();
   const pathsBySession = new Map<string, string>();
   const paneBranchesBySession = new Map<string, string[]>();
+  const lastOpenedAtBySession = new Map<string, number>();
   if (sessionsResult.exitCode === 0) {
     for (const line of sessionsResult.stdout.split("\n").filter(Boolean)) {
-      const [sess, sessionPath] = line.split("\t");
+      const [sess, sessionPath, lastAttached, created] = line.split("\t");
       if (sess && sessionPath) pathsBySession.set(sess, sessionPath);
+      if (sess) lastOpenedAtBySession.set(sess, Number(lastAttached) || Number(created) || 0);
     }
   }
   if (windowsResult.exitCode !== 0)
-    return { sessionNames: [], windowsBySession, pathsBySession, paneBranchesBySession };
+    return {
+      sessionNames: [],
+      windowsBySession,
+      pathsBySession,
+      paneBranchesBySession,
+      lastOpenedAtBySession,
+    };
   for (const line of windowsResult.stdout.split("\n").filter(Boolean)) {
     const [sess, idxStr, name, paneTitle] = line.split("\t");
     if (!sess) continue;
@@ -111,12 +125,18 @@ async function fetchAllWindows(): Promise<{
     windowsBySession,
     pathsBySession,
     paneBranchesBySession,
+    lastOpenedAtBySession,
   };
 }
 
 export async function listSessions(repoRoot: string | null): Promise<Session[]> {
-  const { sessionNames, windowsBySession, pathsBySession, paneBranchesBySession } =
-    await fetchAllWindows();
+  const {
+    sessionNames,
+    windowsBySession,
+    pathsBySession,
+    paneBranchesBySession,
+    lastOpenedAtBySession,
+  } = await fetchAllWindows();
   const notifFlags = getAllNotificationFlags();
   if (sessionNames.length === 0) return [];
 
@@ -126,19 +146,22 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
   });
 
   if (!repoRoot) {
-    return sessionNames.map((name, i) => ({
-      name,
-      branch: null,
-      prNumber: null,
-      prTitle: null,
-      worktreeName: null,
-      worktreePath: null,
-      isDirty: false,
-      isOrphan: false,
-      windows: windowsBySession.get(name) ?? [],
-      notifications: notificationResults[i]!,
-      paneBranches: paneBranchesBySession.get(name) ?? [],
-    }));
+    return sessionNames
+      .map((name, i) => ({
+        name,
+        lastOpenedAt: lastOpenedAtBySession.get(name) ?? 0,
+        branch: null,
+        prNumber: null,
+        prTitle: null,
+        worktreeName: null,
+        worktreePath: null,
+        isDirty: false,
+        isOrphan: false,
+        windows: windowsBySession.get(name) ?? [],
+        notifications: notificationResults[i]!,
+        paneBranches: paneBranchesBySession.get(name) ?? [],
+      }))
+      .sort((a, b) => b.lastOpenedAt - a.lastOpenedAt || a.name.localeCompare(b.name));
   }
 
   const wtResult = await exec(["git", "worktree", "list", "--porcelain"], { cwd: repoRoot });
@@ -185,38 +208,41 @@ export async function listSessions(repoRoot: string | null): Promise<Session[]> 
       : [],
   );
 
-  return sessionNames.map((name, i) => {
-    const sessionPath = pathsBySession.get(name);
-    const wt =
-      Array.from(worktreeMap.values()).find(
-        (entry) => sessionPath === entry.path || sessionPath?.startsWith(`${entry.path}/`),
-      ) ??
-      (rootBranch && name === sessionName(repoRoot, rootBranch)
-        ? {
-            path: repoRoot,
-            branch: rootBranch,
-            name: repoName,
-            isDirty: false,
-          }
-        : undefined);
-    const isRootSession = name === rootSessionName;
-    const isRepoSession = name.startsWith(sessionName(repoRoot, ""));
-    const branch = wt?.branch ?? (isRootSession ? rootBranch : null);
-    const pr = branch ? prsByBranch.get(branch) : undefined;
-    return {
-      name,
-      branch,
-      prNumber: pr?.number ?? null,
-      prTitle: pr?.title ?? null,
-      worktreeName: wt?.name ?? null,
-      worktreePath: wt?.path ?? (isRootSession ? repoRoot : null),
-      isDirty: wt?.isDirty ?? false,
-      isOrphan: isRepoSession && !wt && !isRootSession,
-      windows: windowsBySession.get(name) ?? [],
-      notifications: notificationResults[i]!,
-      paneBranches: paneBranchesBySession.get(name) ?? [],
-    };
-  });
+  return sessionNames
+    .map((name, i) => {
+      const sessionPath = pathsBySession.get(name);
+      const wt =
+        Array.from(worktreeMap.values()).find(
+          (entry) => sessionPath === entry.path || sessionPath?.startsWith(`${entry.path}/`),
+        ) ??
+        (rootBranch && name === sessionName(repoRoot, rootBranch)
+          ? {
+              path: repoRoot,
+              branch: rootBranch,
+              name: repoName,
+              isDirty: false,
+            }
+          : undefined);
+      const isRootSession = name === rootSessionName;
+      const isRepoSession = name.startsWith(sessionName(repoRoot, ""));
+      const branch = wt?.branch ?? (isRootSession ? rootBranch : null);
+      const pr = branch ? prsByBranch.get(branch) : undefined;
+      return {
+        name,
+        lastOpenedAt: lastOpenedAtBySession.get(name) ?? 0,
+        branch,
+        prNumber: pr?.number ?? null,
+        prTitle: pr?.title ?? null,
+        worktreeName: wt?.name ?? null,
+        worktreePath: wt?.path ?? (isRootSession ? repoRoot : null),
+        isDirty: wt?.isDirty ?? false,
+        isOrphan: isRepoSession && !wt && !isRootSession,
+        windows: windowsBySession.get(name) ?? [],
+        notifications: notificationResults[i]!,
+        paneBranches: paneBranchesBySession.get(name) ?? [],
+      };
+    })
+    .sort((a, b) => b.lastOpenedAt - a.lastOpenedAt || a.name.localeCompare(b.name));
 }
 
 export async function openWindow(sessionName: string, windowIndex: number): Promise<void> {

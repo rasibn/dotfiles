@@ -17,6 +17,7 @@ export function mergeBranchesWithPRs(
         ...branch,
         isRemote: false,
         unresolvedComments: pr?.unresolvedComments ?? 0,
+        sonarCoverage: pr?.sonarCoverage ?? null,
         ...(pr && { prNumber: pr.number, prTitle: pr.title }),
       };
     }),
@@ -33,6 +34,7 @@ export function mergeBranchesWithPRs(
         isRemote: true,
         isRemoteGone: false,
         unresolvedComments: pr.unresolvedComments,
+        sonarCoverage: pr.sonarCoverage,
       })),
   ];
 

@@ -222,7 +222,11 @@ export async function openBranchSession(
   wtDir: string,
   allowExisting = false,
 ): Promise<Result<void, string>> {
-  const result = await addWorktree(repoRoot, branch, wtDir);
+  let result = await addWorktree(repoRoot, branch, wtDir);
+  if (result.isErr() && result.error.includes("missing but already registered")) {
+    await exec(["git", "worktree", "prune"], { cwd: repoRoot });
+    result = await addWorktree(repoRoot, branch, wtDir);
+  }
   if (result.isErr()) {
     const isExisting =
       result.error.includes("already used by worktree") || result.error.includes("already exists");

@@ -19,6 +19,7 @@ export interface BranchEntry {
   isRemote: boolean;
   isRemoteGone: boolean;
   unresolvedComments: number;
+  sonarCoverage: number | null;
 }
 
 export interface PR {
@@ -28,6 +29,7 @@ export interface PR {
   author: string;
   labels: string[];
   unresolvedComments: number;
+  sonarCoverage: number | null;
 }
 
 export interface Worktree {
@@ -53,6 +55,7 @@ export interface ClaudeNotification {
 
 export interface Session {
   name: string;
+  lastOpenedAt: number;
   branch: string | null;
   prNumber: number | null;
   prTitle: string | null;
