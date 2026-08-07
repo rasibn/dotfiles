@@ -166,7 +166,7 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
   if (loading) return <Text color="yellow">Loading branches...</Text>;
 
   return (
-    <Box flexDirection="column">
+    <Box flexDirection="column" width="100%" overflow="hidden">
       <SelectList
         panel="main"
         disabled={!!confirming}
@@ -175,7 +175,9 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
         itemLines={(branch) =>
           2 +
           (branch.prTitle && !branch.isRemote ? 1 : 0) +
-          (branch.unresolvedComments > 0 || branch.sonarCoverage !== null ? 1 : 0)
+          (branch.prTitle && (branch.unresolvedComments > 0 || branch.sonarCoverage !== null)
+            ? 1
+            : 0)
         }
         searchValue={(b) => `${b.name} ${b.prTitle ?? ""} ${b.isRemote ? "is:remote" : "is:local"}`}
         onSelect={handleSelect}
@@ -200,17 +202,19 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
               : "";
           return (
             <Box flexDirection="column" width="100%">
-              <Box>
+              <Box width="100%" overflow="hidden" flexWrap="nowrap">
                 <Text color={branchColor} bold={isCursor}>
                   {isCursor ? "> " : "  "}
                 </Text>
-                <Text color={branchColor} bold={isCursor} wrap="truncate">
-                  {branch.prNumber ? `#${branch.prNumber} ` : ""}
-                  {label}
-                  {!branch.prTitle && worktreeStatus}
-                </Text>
+                <Box flexShrink={1} overflow="hidden">
+                  <Text color={branchColor} bold={isCursor} wrap="truncate">
+                    {branch.prNumber ? `#${branch.prNumber} ` : ""}
+                    {label}
+                    {!branch.prTitle && worktreeStatus}
+                  </Text>
+                </Box>
                 {(branch.commitsAhead > 0 || branch.commitsBehind > 0) && (
-                  <>
+                  <Box flexShrink={0}>
                     <Text dimColor> (</Text>
                     {branch.commitsAhead > 0 && <Text color="green">up {branch.commitsAhead}</Text>}
                     {branch.commitsAhead > 0 && branch.commitsBehind > 0 && <Text dimColor> </Text>}
@@ -218,13 +222,15 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
                       <Text color="red">down {branch.commitsBehind}</Text>
                     )}
                     <Text dimColor>)</Text>
-                  </>
+                  </Box>
                 )}
                 {branch.isRemoteGone && (
-                  <Text color="red" dimColor wrap="truncate">
-                    {" "}
-                    (remote gone)
-                  </Text>
+                  <Box flexShrink={0}>
+                    <Text color="red" dimColor wrap="truncate">
+                      {" "}
+                      (remote gone)
+                    </Text>
+                  </Box>
                 )}
               </Box>
               {branch.prTitle &&
@@ -253,9 +259,11 @@ export function BranchList({ cwd, ownership, viewportSize }: BranchListProps) {
                   </Text>
                 </Box>
               )}
-              <Text dimColor wrap="truncate">
-                {"─".repeat(200)}
-              </Text>
+              <Box width="100%" overflow="hidden" flexShrink={1}>
+                <Text dimColor wrap="truncate-end">
+                  {"─".repeat(500)}
+                </Text>
+              </Box>
             </Box>
           );
         }}

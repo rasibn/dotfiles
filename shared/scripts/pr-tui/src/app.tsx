@@ -106,9 +106,11 @@ export function App({ cwd: initialCwd }: AppProps) {
     return (
       <>
         <Tabs activeIndex={activeTab} />
-        {activeTab === 0 && <BranchList cwd={repoCwd} ownership="mine" viewportSize={mainHeight} />}
+        {activeTab === 0 && (
+          <BranchList cwd={repoCwd} ownership="mine" viewportSize={mainListHeight} />
+        )}
         {activeTab === 1 && (
-          <BranchList cwd={repoCwd} ownership="other" viewportSize={mainHeight} />
+          <BranchList cwd={repoCwd} ownership="other" viewportSize={mainListHeight} />
         )}
       </>
     );
@@ -117,6 +119,12 @@ export function App({ cwd: initialCwd }: AppProps) {
   const vertical = termCols < config.verticalBreakpoint;
   const sidebarHeight = vertical ? Math.floor(termRows / 2) : termRows - 1;
   const mainHeight = vertical ? termRows - 1 - sidebarHeight : termRows - 1;
+  // Rows the main panel spends on chrome around the list: border (2), repo
+  // header (1), tabs (2, incl. marginBottom), footer (1), and SelectList's
+  // "[n-m of k]" indicator (1). Overshooting here makes Ink collapse list
+  // items onto shared rows instead of scrolling them.
+  const mainChrome = 7;
+  const mainListHeight = Math.max(1, mainHeight - mainChrome);
   const sidebarExpanded = expanded && focus === "sidebar";
   const mainExpanded = expanded && focus === "main";
 
@@ -178,7 +186,7 @@ export function App({ cwd: initialCwd }: AppProps) {
                 <Text dimColor> (Ctrl+o to switch)</Text>
               </Box>
             )}
-            <Box paddingX={1} flexDirection="column" flexGrow={1}>
+            <Box paddingX={1} flexDirection="column" flexGrow={1} overflow="hidden">
               {renderMain()}
             </Box>
             <Box paddingX={1}>
