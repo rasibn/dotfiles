@@ -29,6 +29,7 @@
     brave
     # godot
     android-studio
+    android-tools
 
     # stremio
     # qbittorrent-enhanced

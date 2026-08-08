@@ -3,10 +3,13 @@ onboarding = false
 [keys]
 prefix = "ctrl+a"
 copy_mode = "prefix+v"
-split_vertical = "prefix+backslash"
+split_vertical = "prefix+|"
 split_horizontal = "prefix+minus"
 rename_tab = ["prefix+shift+t", "prefix+comma"]
 rename_workspace = ["prefix+shift+w", "prefix+$"]
+settings = "prefix+o"
+workspace_picker = "prefix+s"
+goto = "prefix+w"
 
 [theme]
 name = "catppuccin"
@@ -22,4 +25,4 @@ shell_mode = "auto"
 delivery = "terminal"
 
 [experimental]
-pane_history = false
+pane_history = true
