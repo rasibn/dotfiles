@@ -1,0 +1,25 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+a"
+copy_mode = "prefix+v"
+split_vertical = "prefix+backslash"
+split_horizontal = "prefix+minus"
+rename_tab = ["prefix+shift+t", "prefix+comma"]
+rename_workspace = ["prefix+shift+w", "prefix+$"]
+
+[theme]
+name = "catppuccin"
+
+auto_switch = false
+[ui]
+mouse_capture = true
+
+[terminal]
+shell_mode = "auto"
+
+[ui.toast]
+delivery = "terminal"
+
+[experimental]
+pane_history = false

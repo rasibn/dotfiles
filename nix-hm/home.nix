@@ -12,6 +12,9 @@
     stateVersion = stateVersion;
     username = "rasib";
     homeDirectory = "/home/rasib";
+    packages = with pkgs; [
+      herdr
+    ];
   };
 
   #	wayland.windowManager.hyprland = {

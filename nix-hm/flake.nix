@@ -8,18 +8,31 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    herdr = {
+      url = "github:herdrdev/herdr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     nixpkgs,
     home-manager,
     zen-browser,
+    herdr,
     ...
   } @ inputs: let
     system = "x86_64-linux";
     desktopStateVersion = "24.11";
     laptopStateVersion = "25.05";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+      overlays = [
+        (final: prev: {
+          herdr = herdr.packages.${system}.herdr;
+        })
+      ];
+    };
   in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
