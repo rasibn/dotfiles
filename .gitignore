@@ -3,9 +3,11 @@ ui/sway/config.d/config-extras
 **/node_modules/
 __pycache__/
 secrets.sh
+secrets.fish
 .env
 desktop/linux/hypr/hypridle.conf
 shared/scripts/golang/proji/proji
 shared/scripts/golang/vimi/vimi
 desktop/linux/hypr/*.png
 shared/nvim/lua/plugins/dadbod.lua
+shared/fish/fish_variables

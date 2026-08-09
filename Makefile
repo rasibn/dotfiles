@@ -17,6 +17,10 @@ config_nix_hm:
 	# nixos-rebuilt switch flake run .
 
 # SHELL
+config_bash:
+	rm -f ~/.bashrc; ln -s $(DIR)/shared/.bashrc ~/.bashrc
+	rm -f ~/.bash_profile; ln -s $(DIR)/shared/.bash_profile ~/.bash_profile
+
 config_fish:
 	rm -rf ~/.config/fish; ln -s $(DIR)/shared/fish ~/.config/fish
 
@@ -61,6 +65,9 @@ config_tmux:
 	rm ~/.tmux.conf; ln -s $(DIR)/shared/.tmux.conf ~/.tmux.conf
 	rm -rf ~/.tmux/plugins/tpm;
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+config_herdr:
+	rm -rf ~/.config/herdr; ln -s $(DIR)/shared/herdr ~/.config/herdr
 
 config_pr_tui:
 	cd $(DIR)/shared/scripts/pr-tui && bun install
