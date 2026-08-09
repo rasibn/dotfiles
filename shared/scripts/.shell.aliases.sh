@@ -11,7 +11,7 @@ alias git_config_work_global="$DOTFILE_DIR/shared/scripts/git_config_work_global
 alias tmux_session_init_code="$DOTFILE_DIR/shared/scripts/tmux/tmux_session_init_code.sh"
 alias tmux_session_init_config="$DOTFILE_DIR/shared/scripts/tmux/tmux_session_init_config.sh"
 
-alias git-undo="git reset --soft HEAD^"
+alias git-undo="$DOTFILE_DIR/shared/scripts/git_scripts/git_undo.sh"
 alias cls="clear"
 alias ex="exit"
 alias ta="tmux a"

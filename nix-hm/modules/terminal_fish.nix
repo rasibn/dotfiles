@@ -18,6 +18,7 @@
       ngc7 = "sudo nix-collect-garbage --delete-older-than 7d";
       ngc14 = "sudo nix-collect-garbage --delete-older-than 14d";
       yz = "yazi";
+      git-undo = "$DOTFILE_DIR/shared/scripts/git_scripts/git_undo.sh";
 
       "dot.zsh" = "$EDITOR $DOTFILE_DIR/shared/.zshrc";
       "dot.tmux" = "$EDITOR $DOTFILE_DIR/shared/.tmux.conf";
@@ -53,8 +54,6 @@
       gb = "git branch";
       gpsup = "git push --set-upstream origin $(git_current_branch)";
       gdup = "git diff @{upstream}";
-
-      git-undo = "git reset --soft HEAD^";
     };
     shellInit = ''
       set -g fish_key_bindings fish_vi_key_bindings

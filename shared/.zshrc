@@ -51,6 +51,13 @@ elif command -v python &> /dev/null; then
     alias py="python"
 fi
 
+# Expand `...` -> ../.., `....` -> ../../.., etc.
+# Global aliases so they work as arguments (cd ..., ls ...), not just commands.
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+
 # ============================================
 # CONSOLIDATED PATH CONFIGURATION
 # ============================================
