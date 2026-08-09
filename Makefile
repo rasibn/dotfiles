@@ -67,7 +67,8 @@ config_tmux:
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 config_herdr:
-	rm -rf ~/.config/herdr; ln -s $(DIR)/shared/herdr ~/.config/herdr
+	mkdir -p ~/.config/herdr
+	rm -f ~/.config/herdr/config.toml; ln -s $(DIR)/shared/herdr/config.toml ~/.config/herdr/config.toml
 
 config_pr_tui:
 	cd $(DIR)/shared/scripts/pr-tui && bun install
