@@ -6,7 +6,7 @@ copy_mode = "prefix+v"
 split_vertical = "prefix+|"
 split_horizontal = "prefix+minus"
 rename_tab = ["prefix+shift+t", "prefix+comma"]
-rename_workspace = ["prefix+shift+w", "prefix+$"]
+rename_workspace = ["prefix+$"] # "prefix+shift+w" was default
 settings = "prefix+o"
 workspace_picker = "prefix+s"
 goto = "prefix+w"
@@ -18,6 +18,7 @@ auto_switch = false
 [ui]
 mouse_capture = true
 
+agent_panel_sort = "spaces"
 [terminal]
 shell_mode = "auto"
 
@@ -26,3 +27,35 @@ delivery = "terminal"
 
 [experimental]
 pane_history = true
+
+[[keys.command]]
+key = "prefix+t"
+type = "popup"
+command = "exec \"${SHELL:-sh}\""
+description = "open scratch terminal"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+d"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+description = "toggle reviewr pane"
+
+[[keys.command]]
+key = "prefix+shift+g"
+type = "plugin_action"
+command = "worktrunk.open"
+description = "Worktree: switch / create from default branch"
+
+[[keys.command]]
+key = "prefix+g"
+type = "plugin_action"
+command = "worktrunk.open-current"
+description = "Worktree: switch / create from current branch"
+
+[[keys.command]]
+key = "prefix+shift+w"
+type = "plugin_action"
+command = "worktrunk.remove"
+description = "Worktree: remove"

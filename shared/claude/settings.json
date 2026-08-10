@@ -18,10 +18,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Glass.aiff"
-          },
-          {
-            "type": "command",
             "command": "bash ~/assets/dotfiles/shared/scripts/tmux/claude-notify.sh stop",
             "async": true
           }
@@ -34,21 +30,6 @@
           {
             "type": "command",
             "command": "bash ~/assets/dotfiles/shared/scripts/tmux/claude-notify.sh clear",
-            "async": true
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "afplay /System/Library/Sounds/Sosumi.aiff"
-          },
-          {
-            "type": "command",
-            "command": "bash ~/assets/dotfiles/shared/scripts/tmux/claude-notify.sh notify",
             "async": true
           }
         ]
