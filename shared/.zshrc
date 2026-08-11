@@ -163,3 +163,6 @@ prtui() {
 export PATH="/Users/rasib.nadeem/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 export PATH="$HOME/.local/bin:$PATH"
+
+# Source secrets (managed by greenlane-careem-ai-dev-kit)
+[ -f ~/.zsecrets ] && source ~/.zsecrets
