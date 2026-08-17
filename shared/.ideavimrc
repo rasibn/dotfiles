@@ -48,6 +48,7 @@ nnoremap gr         :action ShowUsages<CR>
 nnoremap <leader>cr :action RenameElement<CR>
 nnoremap <leader>ce :action ExtractMethod<CR>
 nnoremap <leader>cv :action IntroduceVariable<CR>
+nnoremap <leader>ca :action ShowIntentionActions<CR>
 
 " === Commenting ===
 nnoremap gcc        :action CommentByLineComment<CR>
@@ -62,7 +63,7 @@ nnoremap <leader>dn :action stepover<cr>
 nnoremap <leader>di :action stepinto<cr>
 
 " === reload config ===
-nnoremap <leader>sr :source ~/.ideavimrc<CR>
+nnoremap <leader>sr
+nnoremap <leader>uw :action EditorToggleUseSoftWraps<CR>
 
-
-
+set visualbell
