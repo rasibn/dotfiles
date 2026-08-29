@@ -158,7 +158,7 @@
        end
 
        function prtui
-           $DOTFILE_DIR/shared/scripts/tmux/prtui-open.sh (pwd)
+           $DOTFILE_DIR/shared/scripts/tmux/prtui-open.sh
        end
 
        zoxide init --cmd cd fish | source
