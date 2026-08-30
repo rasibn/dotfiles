@@ -41,6 +41,7 @@
     neovim
     zoxide
     opencode
+    codex
     # lf # file manager in golang
   ];
 in {

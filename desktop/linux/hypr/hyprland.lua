@@ -11,7 +11,7 @@ local mainMod = "SUPER"
 
 -- Monitors
 hl.monitor({
-	output = "DP-1",
+	output = "DP-2",
 	mode = "2560x1440@180",
 	position = "0x0",
 	scale = 1.0,
@@ -209,7 +209,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("swayosd-server")
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("blueman-applet")
-	hl.exec_cmd("waybar & hyprpaper")
+	hl.exec_cmd("waybar")
 	hl.exec_cmd("mako")
 	hl.exec_cmd("udiskie &")
 	hl.exec_cmd("hypridle")

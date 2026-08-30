@@ -46,6 +46,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {
               stateVersion = desktopStateVersion;
               inherit inputs;
@@ -86,6 +87,7 @@
             };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {
               stateVersion = laptopStateVersion;
               inherit inputs;
