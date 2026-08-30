@@ -5,6 +5,7 @@
 }: let
   mainTools = with pkgs; [
     hypridle
+    hyprlock
     waybar
     rofi-unwrapped
     pavucontrol
