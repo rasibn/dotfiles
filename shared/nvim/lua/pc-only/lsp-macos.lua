@@ -1,4 +1,10 @@
 -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/eslint.lua
+--
+-- Install dependencies:
+--   brew install jdtls
+--   npm install -g svelte-language-server @tailwindcss/language-server @vtsls/language-server @fsouza/prettierd
+--   go install github.com/sqls-server/sqls@latest
+--
 local lombok_jar = vim.fn.expand("~/.local/share/nvim/mason/share/jdtls/lombok.jar")
 
 return {
@@ -8,13 +14,15 @@ return {
       inlay_hints = { enabled = false },
       servers = {
         rust_analyzer = {},
-        pyright = {}
         ruff = {},
+        pyright = {},
         gopls = {},
         yamlls = {},
         sourcekit = {},
         tailwindcss = {},
         gleam = {},
+        templ = {},
+        volar = {}, -- vue-language-server
         jdtls = {
           cmd = {
             "/opt/homebrew/bin/jdtls",
@@ -26,30 +34,23 @@ return {
             },
           },
         },
-        templ = {},
-        volar = {}, -- vue-language-server
-        -- ts_ls = {},
-        -- nil_ls = {},
-        -- ocamllsp = {},
-        -- -- javascript
-        --   eslint = {
-        -- tailwindcss = {},
-        --     filetypes = {
-        --       "javascript",
-        --       "javascriptreact",
-        --       "javascript.jsx",
-        --       "typescript", "typescriptreact",
-        --       "typescript.tsx",
-        --       "vue",
-        --       "svelte",
-        --       "astro",
-        --       "html",
-        --     },
-        --   },
-        -- svelte = {},
-        -- vtsls = {},
+        ts_ls = {},
+        sqls = {
+          cmd = { vim.fn.expand("~/go/bin/sqls") },
+        },
+        nil_ls = {},
+        ocamllsp = {},
+        -- javascript
+        tailwindcss = {},
+        svelte = {},
+        vtsls = {},
       },
     },
+  },
+  {
+    "nanotee/sqls.nvim",
+    ft = { "sql", "mysql" },
+    lazy = true,
   },
   -- adding formatting here as well because why not
   {
@@ -67,6 +68,7 @@ return {
         swift = { "swiftformat" },
         templ = { "rustywind", "templ" },
         gleam = { "gleam" },
+        java = {},
       },
     },
   },

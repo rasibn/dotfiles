@@ -58,6 +58,7 @@
   //   "button": false
   // },
   "agent": {
+    "dock": "right",
     "play_sound_when_agent_done": true,
     "default_profile": "write"
     // "default_model": {
