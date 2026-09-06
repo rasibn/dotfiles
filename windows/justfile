@@ -1,0 +1,17 @@
+# Run from Windows with:
+#   just --justfile windows/justfile setup
+
+windows_dir := justfile_directory()
+
+set shell := ["powershell.exe", "-NoLogo", "-NoProfile", "-NonInteractive", "-Command"]
+
+install-komorebi:
+    winget install --id LGUG2Z.komorebi --exact --accept-source-agreements --accept-package-agreements
+
+install-autohotkey:
+    winget install --id AutoHotkey.AutoHotkey --exact --accept-source-agreements --accept-package-agreements
+
+configure:
+    powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "{{windows_dir}}/komorebi/setup-komorebi-links.ps1"
+
+setup: install-komorebi install-autohotkey configure

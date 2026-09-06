@@ -6,11 +6,13 @@
 
 - `shared`: contains files that are universal in terminal environment
 - `desktop`: contains files relating to GUI Environment for i3 and sway mostly.
+- `windows`: contains Komorebi and AutoHotkey configuration.
 - `config.env`: contains environment variables.
 
 ## Install Instruction
 
-- Refer to the `justfile` for install instructions.
+- Refer to the `justfile` for Unix install instructions.
+- On Windows, run `just --justfile windows/justfile setup`.
 
 ## NixOS
 

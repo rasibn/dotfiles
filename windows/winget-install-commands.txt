@@ -1,0 +1,26 @@
+# Curated WinGet install commands — user applications and tools
+# Frameworks, runtimes, SDK dependencies, and App Installer packages excluded.
+winget install --id AutoHotkey.AutoHotkey --exact
+winget install --id Git.Git --exact
+winget install --id Proton.ProtonVPN --exact
+winget install --id LGUG2Z.komorebi --exact
+winget install --id GitHub.cli --exact
+winget install --id Google.GoogleDrive --exact
+winget install --id OpenJS.NodeJS --exact
+winget install --id Microsoft.Edge --exact
+winget install --id Valve.Steam --exact
+winget install --id Microsoft.VisualStudio.2022.Community --exact
+winget install --id MSI.MSICenter --exact
+winget install --id Anki.Anki --exact
+winget install --id Flow-Launcher.Flow-Launcher --exact
+winget install --id Microsoft.OneDrive --exact
+winget install --id Rustlang.Rustup --exact
+winget install --id Spokenly.Spokenly --exact
+winget install --id Obsidian.Obsidian --exact
+winget install --id SST.OpenCodeDesktop --exact
+winget install --id pnpm.pnpm --exact
+winget install --id ZedIndustries.Zed --exact
+winget install --id Microsoft.Teams --exact
+winget install --id Microsoft.Outlook --exact
+winget install --id Microsoft.WindowsTerminal --exact
+winget install --id Microsoft.WSL --exact

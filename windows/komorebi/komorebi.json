@@ -1,0 +1,76 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.41/schema.json",
+  "app_specific_configuration_path": "C:/Users/rasib/applications.json",
+  "window_hiding_behaviour": "Cloak",
+  "cross_monitor_move_behaviour": "Insert",
+  "default_workspace_padding": 10,
+  "default_container_padding": 10,
+  "border": true,
+  "border_width": 8,
+  "border_offset": -1,
+  "theme": {
+    "palette": "Base16",
+    "name": "Ashes",
+    "unfocused_border": "Base03",
+    "bar_accent": "Base0D"
+  },
+  "monitors": [
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 2,
+              "center_focused_column": true
+            }
+          }
+        },
+        {
+          "name": "2",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 2,
+              "center_focused_column": true
+            }
+          }
+        },
+        {
+          "name": "3",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 2,
+              "center_focused_column": true
+            }
+          }
+        },
+        {
+          "name": "4",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 2,
+              "center_focused_column": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "ignore_rules": [
+    {
+      "kind": "Exe",
+      "id": "spokenly.exe",
+      "matching_strategy": "Equals"
+    }
+  ],
+  "animation": {
+    "enabled": true,
+    "duration": 250,
+    "fps": 180,
+    "style": "EaseOutSine"
+  }
+}
