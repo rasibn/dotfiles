@@ -9,6 +9,9 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
+source "$HOME/assets/dotfiles/config.env"
+source "$DOTFILE_DIR/shared/scripts/.shell.aliases.sh"
+
 # Launch fish for interactive non-login shells
 if ! shopt -q login_shell 2>/dev/null && command -v fish &> /dev/null; then
     exec fish

@@ -9,9 +9,9 @@ zmodload zsh/zprof
 source /opt/homebrew/opt/zinit/zinit.zsh
 
 # ============================================
-# LOAD SECRETS & ALIASES EARLY
+# LOAD ENVIRONMENT & ALIASES EARLY
 # ============================================
-source $HOME/assets/dotfiles/secrets.sh
+source "$HOME/assets/dotfiles/config.env"
 source $DOTFILE_DIR/shared/scripts/.shell.aliases.sh
 
 # ============================================

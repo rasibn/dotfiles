@@ -1,0 +1,5 @@
+# Use Delta for Lazygit's file and commit diffs.
+git:
+  diffRenderers:
+    - colorArg: always
+      command: delta --paging=never
