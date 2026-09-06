@@ -116,8 +116,11 @@ config-sway:
     just link "{{linux_dir}}/rofi" "$HOME/.config/rofi"
     just link "{{linux_dir}}/i3status-rust" "$HOME/.config/i3status-rust"
 
-config-hyprland:
+config-hyprland-scrolling:
     just link "{{dotfiles}}/shared/hypr/hyprland-scrolling.lua" "$HOME/.config/hypr/hyprland.lua"
+
+config-hyprland-dwindle:
+    just link "{{linux_dir}}/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
 
 setup-gui-macos: config-aerospace config-wezterm config-ghostty
 setup-gui-i3: config-i3 config-wezterm
