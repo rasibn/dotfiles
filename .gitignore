@@ -13,3 +13,8 @@ shared/fish/fish_variables
 shared/herdr/.plugins.lock
 shared/herdr/session-history.json
 shared/herdr/session.json
+shared/herdr/herdr-client.log
+shared/herdr/herdr-client.sock
+shared/herdr/herdr-server.log
+shared/herdr/herdr.sock
+shared/herdr/release-notes.json
