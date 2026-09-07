@@ -20,10 +20,18 @@
 //   }
 // }
 {
+  "diff_view_style": "split",
+  "cli_default_open_behavior": "existing_window",
+  "markdown_preview_font_size": 20.0,
+  "agent_ui_font_size": 20.0,
   "git_panel": {
     "dock": "right"
   },
   "edit_predictions": {
+    "ollama": {
+      "api_url": "http://localhost:11434"
+    },
+    "provider": "zed",
     "disabled_globs": [
       "**/.git",
       "**/.svn",
@@ -51,15 +59,26 @@
       "proxy": null,
       "proxy_no_verify": null
     },
-    "enabled_in_text_threads": false
   },
-  // "notification_panel": {
-  //   "enabled": false,
-  //   "button": false
-  // },
   "agent": {
+    "tool_permissions": {
+      "tools": {
+        "terminal": {
+          "default": "allow"
+        }
+      }
+    },
+    "sandbox_permissions": {
+      "allow_unsandboxed": true
+    },
+    "default_model": {
+      "provider": "openai-subscribed",
+      "model": "gpt-5.6-luna",
+      "enable_thinking": true,
+      "effort": "high"
+    },
     "dock": "right",
-    "play_sound_when_agent_done": true,
+    "play_sound_when_agent_done": "always",
     "default_profile": "write"
     // "default_model": {
     //   "provider": "copilot_chat",
@@ -274,13 +293,8 @@
     "dock": "right",
     "button": false
   },
-  // "chat_panel": {
-  //   "dock": "right"
-  // },
-  "ui_font_size": 16,
-  "buffer_font_size": 16,
-  // "buffer_font_family": "Zed Plex Mono",
-  // "ui_font_family": "Zed Plex Mono",
+  "ui_font_size": 20.0,
+  "buffer_font_size": 18.0,
   "autosave": "on_focus_change",
   "theme": {
     "mode": "dark",
@@ -294,16 +308,4 @@
     "regex": false
   },
   "preferred_line_length": 120,
-  "features": {
-    "edit_prediction_provider": "zed"
-  },
-  "formatter": {
-    "language_server": {
-      "name": "biome"
-    }
-  },
-  "code_actions_on_format": {
-    "source.fixAll.biome": true,
-    "source.organizeImports.biome": true
-  }
 }

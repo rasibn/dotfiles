@@ -22,6 +22,7 @@
     nix-direnv
     direnv
     sqlite
+    duckdb
     gnumake
     docker-compose
     tree-sitter
