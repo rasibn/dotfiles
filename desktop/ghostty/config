@@ -2,7 +2,7 @@
 
 # Font settings
 font-family = JetBrainsMono Nerd Font Mono
-font-size = 13
+font-size = 16
 
 # Theme: Catppuccin Mocha
 background = 1e1e2e

@@ -25,17 +25,14 @@
     # Development tools
     vscode
     # jetbrains.idea-community # or jetbrains.idea-ultimate
-    bruno
     brave
+
     # godot
-    android-studio
-    android-tools
 
     # stremio
     # qbittorrent-enhanced
     transmission_4-gtk
 
-    google-chrome
     # inputs.zen-browser.packages."${system}".default
   ];
 

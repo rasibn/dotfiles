@@ -90,5 +90,5 @@ in {
     ++ luaPackages
     ++ cppPackages
     # ++ OCamlPackages
-    ++ nodePackages;
+    ;
 }
