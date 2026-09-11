@@ -54,3 +54,6 @@ window-padding-y = 10
 
 # Shell
 shell-integration-features = true
+
+# Host-specific overrides
+config-file = ?match:hostname:nixos-desktop

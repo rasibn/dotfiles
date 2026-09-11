@@ -14,14 +14,14 @@ hl.monitor({
 	output = "DP-2",
 	mode = "2560x1440@180",
 	position = "0x0",
-	scale = 1.0,
+	scale = 1.33,
 })
 
 hl.monitor({
 	output = "eDP-1",
 	mode = "1920x1200@60.0",
 	position = "0x0",
-	scale = 1.0,
+	scale = 1.33,
 })
 
 -- Environment
@@ -31,16 +31,16 @@ hl.env("HYPRCURSOR_SIZE", 24)
 -- Look and feel
 hl.config({
 	general = {
-		gaps_in = 4,
+		gaps_in = 3,
 		gaps_out = 8,
 		border_size = 2,
 		col = {
-			active_border = { colors = { "rgb(FF90BC)", "rgb(5FBDFF)" }, angle = 45 },
-			inactive_border = "rgba(00000000)",
+			active_border = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
+			inactive_border = "rgba(595959aa)",
 		},
 		resize_on_border = true,
 		allow_tearing = false,
-		layout = "dwindle",
+		layout = "scrolling",
 	},
 
 	decoration = {
@@ -63,7 +63,7 @@ hl.config({
 	},
 
 	animations = {
-		enabled = false,
+		enabled = true,
 	},
 
 	dwindle = {
@@ -85,12 +85,61 @@ hl.config({
 		kb_model = "",
 		kb_options = "caps:swapescape",
 		kb_rules = "",
-		follow_mouse = 1,
+		follow_mouse = 0,
 		sensitivity = 0,
 		touchpad = {
 			natural_scroll = true,
+			scroll_factor = 0.3,
 		},
 	},
+})
+
+-- Scrolling layout animations
+hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
+hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36, 1 } } })
+hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
+hl.curve("almostLinear", { type = "bezier", points = { { 0.5, 0.5 }, { 0.75, 1 } } })
+hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
+hl.curve("easy", { type = "spring", mass = 1, stiffness = 238.1191, dampening = 24.21279333 })
+
+hl.animation({ leaf = "global", enabled = true, speed = 12, bezier = "default" })
+hl.animation({ leaf = "border", enabled = true, speed = 6.3, bezier = "easeOutQuint" })
+hl.animation({ leaf = "windows", enabled = true, speed = 5.5, spring = "easy" })
+hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.7, spring = "easy", style = "popin 87%" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.7, bezier = "linear", style = "popin 87%" })
+hl.animation({ leaf = "fadeIn", enabled = true, speed = 2, bezier = "almostLinear" })
+hl.animation({ leaf = "fadeOut", enabled = true, speed = 1.7, bezier = "almostLinear" })
+hl.animation({ leaf = "fade", enabled = true, speed = 3.5, bezier = "quick" })
+hl.animation({ leaf = "layers", enabled = true, speed = 4.4, bezier = "easeOutQuint" })
+hl.animation({ leaf = "layersIn", enabled = true, speed = 4.6, bezier = "easeOutQuint", style = "fade" })
+hl.animation({ leaf = "layersOut", enabled = true, speed = 1.7, bezier = "linear", style = "fade" })
+hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 2.1, bezier = "almostLinear" })
+hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.6, bezier = "almostLinear" })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 2.3, bezier = "almostLinear", style = "fade" })
+hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.45, bezier = "almostLinear", style = "fade" })
+hl.animation({ leaf = "workspacesOut", enabled = true, speed = 2.3, bezier = "almostLinear", style = "fade" })
+hl.animation({ leaf = "zoomFactor", enabled = true, speed = 8.5, bezier = "quick" })
+
+-- Scrolling (niri-like) layout
+hl.config({
+	scrolling = {
+		direction = "right",
+		column_width = 0.5,
+		focus_fit_method = 1,
+		follow_focus = true,
+		follow_min_visible = 0.4,
+		fullscreen_on_one_column = true,
+		wrap_focus = true,
+		wrap_swapcol = true,
+		explicit_column_widths = "0.25, 0.333, 0.5, 0.667, 1.0",
+	},
+})
+
+-- Three-finger horizontal swipe to scroll through columns.
+hl.gesture({
+	fingers = 3,
+	direction = "horizontal",
+	action = "scroll_move",
 })
 
 -- Per-device input
@@ -109,42 +158,53 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit())
 hl.bind(
 	mainMod .. " + SHIFT + S",
-	hl.dsp.exec_cmd("hyprshot --freeze --mode=region --raw --clipboard-only | swappy -f -")
+	hl.dsp.exec_cmd("flock -n /tmp/hyprshot.lock sh -c 'hyprshot --freeze --mode=region --raw --clipboard-only | swappy -f -'")
 )
+hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
+hl.bind(mainMod .. " + ALT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + O", hl.dsp.layout("togglesplit"))
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float())
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("pavucontrol"))
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle", layout_aware = true }))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.layout("fit expand"))
+hl.bind(mainMod .. " + space", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + V", hl.dsp.layout("colresize +conf"))
 
--- Focus
-hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "l" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "r" }))
-hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "u" }))
-hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "d" }))
-hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "l" }))
-hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "r" }))
-hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }))
-hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }))
 
--- Move windows
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "l" }))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "r" }))
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "u" }))
-hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "d" }))
+-- Move focus between columns (niri: Mod+H/L)
+hl.bind(mainMod .. " + H", hl.dsp.layout("focus l"))
+hl.bind(mainMod .. " + L", hl.dsp.layout("focus r"))
+hl.bind(mainMod .. " + left", hl.dsp.layout("focus l"))
+hl.bind(mainMod .. " + right", hl.dsp.layout("focus r"))
 
--- Resize submap
-hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
-hl.define_submap("resize", function()
-	hl.bind("l", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
-	hl.bind("h", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
-	hl.bind("k", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
-	hl.bind("j", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
-	hl.bind("escape", hl.dsp.submap("reset"))
-end)
+-- Move focus between windows within a column (niri: Mod+K/J)
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+
+-- Move columns (niri: Mod+Shift+H/L)
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.layout("swapcol l"))
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.layout("swapcol r"))
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.layout("swapcol l"))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.layout("swapcol r"))
+
+-- Stack / unstack windows into columns
+hl.bind(mainMod .. " + comma", hl.dsp.layout("consume"))
+hl.bind(mainMod .. " + period", hl.dsp.layout("expel"))
+hl.bind(mainMod .. " + O", hl.dsp.layout("consume_or_expel prev"))
+
+-- Reset the focused column to the default width.
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.layout("colresize 0.5"))
+
+-- Super+O is enough for the stack/unstack workflow.
+-- Super+T is intentionally disabled; promote places the new column to the right,
+-- while Super+O targets the previous (left) column.
+-- hl.bind(mainMod .. " + T", hl.dsp.layout("promote"))
+
+-- Fit the focused column fully into view.
+hl.bind(mainMod .. " + SHIFT + space", hl.dsp.layout("fit_into_view"))
 
 -- Workspaces
 for i = 1, 9 do
@@ -154,9 +214,9 @@ end
 hl.bind(mainMod .. " + 0", hl.dsp.focus({ workspace = 10 }))
 hl.bind(mainMod .. " + SHIFT + 0", hl.dsp.window.move({ workspace = 10 }))
 
--- Scroll through workspaces
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+-- Scroll through columns
+hl.bind(mainMod .. " + mouse_down", hl.dsp.layout("move +col"))
+hl.bind(mainMod .. " + mouse_up", hl.dsp.layout("move -col"))
 
 -- Mouse binds
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
