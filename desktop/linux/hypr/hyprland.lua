@@ -9,6 +9,16 @@ local fileManager = "thunar"
 local menu = "rofi -combi-modi window,drun -show combi -show-icons"
 local mainMod = "SUPER"
 
+local function takeScreenshot()
+	return hl.dsp.exec_cmd("flock -n /tmp/hyprshot.lock sh -c 'hyprshot --freeze --mode=region --raw --clipboard-only | swappy -f -'")
+end
+
+local function toggleRecording()
+	return hl.dsp.exec_cmd(
+		"sh -c 'if pgrep -x wf-recorder >/dev/null; then pkill -INT -x wf-recorder; else mkdir -p \"$HOME/Videos\"; wf-recorder -g \"$(slurp)\" -f \"$HOME/Videos/recording-$(date +%Y%m%d-%H%M%S).mp4\" & fi'"
+	)
+end
+
 -- Monitors
 hl.monitor({
 	output = "DP-2",
@@ -85,7 +95,7 @@ hl.config({
 		kb_model = "",
 		kb_options = "caps:swapescape",
 		kb_rules = "",
-		follow_mouse = 0,
+		follow_mouse = true,
 		sensitivity = 0,
 		touchpad = {
 			natural_scroll = true,
@@ -104,9 +114,9 @@ hl.curve("easy", { type = "spring", mass = 1, stiffness = 238.1191, dampening = 
 
 hl.animation({ leaf = "global", enabled = true, speed = 12, bezier = "default" })
 hl.animation({ leaf = "border", enabled = true, speed = 6.3, bezier = "easeOutQuint" })
-hl.animation({ leaf = "windows", enabled = true, speed = 5.5, spring = "easy" })
-hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.7, spring = "easy", style = "popin 87%" })
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.7, bezier = "linear", style = "popin 87%" })
+hl.animation({ leaf = "windows", enabled = true, speed = 7, bezier = "easeOutQuint" })
+hl.animation({ leaf = "windowsIn", enabled = false })
+hl.animation({ leaf = "windowsOut", enabled = false })
 hl.animation({ leaf = "fadeIn", enabled = true, speed = 2, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeOut", enabled = true, speed = 1.7, bezier = "almostLinear" })
 hl.animation({ leaf = "fade", enabled = true, speed = 3.5, bezier = "quick" })
@@ -115,9 +125,9 @@ hl.animation({ leaf = "layersIn", enabled = true, speed = 4.6, bezier = "easeOut
 hl.animation({ leaf = "layersOut", enabled = true, speed = 1.7, bezier = "linear", style = "fade" })
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 2.1, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.6, bezier = "almostLinear" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 2.3, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.45, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 2.3, bezier = "almostLinear", style = "fade" })
+hl.animation({ leaf = "workspaces", enabled = false })
+hl.animation({ leaf = "workspacesIn", enabled = false })
+hl.animation({ leaf = "workspacesOut", enabled = false })
 hl.animation({ leaf = "zoomFactor", enabled = true, speed = 8.5, bezier = "quick" })
 
 -- Scrolling (niri-like) layout
@@ -156,12 +166,12 @@ hl.device({
 -- Keybinds
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit())
-hl.bind(
-	mainMod .. " + SHIFT + S",
-	hl.dsp.exec_cmd("flock -n /tmp/hyprshot.lock sh -c 'hyprshot --freeze --mode=region --raw --clipboard-only | swappy -f -'")
-)
+hl.bind(mainMod .. " + ALT + 4", takeScreenshot())
+hl.bind("CTRL + SHIFT + S", takeScreenshot())
+hl.bind(mainMod .. " + ALT + 5", toggleRecording())
+hl.bind("CTRL + space", hl.dsp.exec_cmd("voxtype record toggle"))
+hl.bind(mainMod .. " + SHIFT + S", takeScreenshot())
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + ALT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
@@ -198,10 +208,8 @@ hl.bind(mainMod .. " + O", hl.dsp.layout("consume_or_expel prev"))
 -- Reset the focused column to the default width.
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.layout("colresize 0.5"))
 
--- Super+O is enough for the stack/unstack workflow.
--- Super+T is intentionally disabled; promote places the new column to the right,
--- while Super+O targets the previous (left) column.
--- hl.bind(mainMod .. " + T", hl.dsp.layout("promote"))
+-- Super+O combines stack/unstack; Super+T promotes the focused window to its own column.
+hl.bind(mainMod .. " + T", hl.dsp.layout("promote"))
 
 -- Fit the focused column fully into view.
 hl.bind(mainMod .. " + SHIFT + space", hl.dsp.layout("fit_into_view"))
@@ -264,6 +272,7 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 
 -- Autostart
 hl.on("hyprland.start", function()
+	hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
 	hl.exec_cmd("wl-paste --type text --watch cliphist store")
 	hl.exec_cmd("wl-paste --type image --watch cliphist store")
 	hl.exec_cmd("swayosd-server")

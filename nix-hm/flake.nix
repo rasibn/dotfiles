@@ -12,6 +12,7 @@
       url = "github:herdrdev/herdr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    voxtype.url = "github:peteonrails/voxtype/v1.0.1";
   };
 
   outputs = {
@@ -19,6 +20,7 @@
     home-manager,
     zen-browser,
     herdr,
+    voxtype,
     ...
   } @ inputs: let
     system = "x86_64-linux";

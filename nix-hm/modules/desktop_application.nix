@@ -4,8 +4,13 @@
   inputs,
   system,
   ...
-}: {
+}: let
+  voxtype = inputs.voxtype.packages.${system}.vulkan;
+in {
   home.packages = with pkgs; [
+    voxtype
+    wtype
+    wl-clipboard
     zed-editor
 
     pkgs.thunar

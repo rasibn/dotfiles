@@ -77,6 +77,12 @@
   services.gnome.gnome-keyring.enable = true;
   virtualisation.docker.enable = true;
 
+  # Voxtype needs access to input devices for global hotkeys and text insertion.
+  services.udev.extraRules = ''
+    SUBSYSTEM=="input", KERNEL=="event*", TAG+="uaccess"
+    KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"
+  '';
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play

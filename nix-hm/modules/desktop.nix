@@ -10,6 +10,8 @@
     rofi-unwrapped
     pavucontrol
     hyprshot
+    wf-recorder
+    slurp
     proton-vpn
     anki
     swappy # A Wayland native snapshot and editor tool
@@ -25,7 +27,6 @@
   ];
 
   backgroundUtils = with pkgs; [
-    wl-clipboard-rs
     gnome-keyring
     udiskie #  to manage removable media from userspace
   ];

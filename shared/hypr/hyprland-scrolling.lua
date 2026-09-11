@@ -38,6 +38,9 @@ local terminal    = "ghostty"
 local fileManager = "thunar"
 local menu        = "rofi -combi-modi window,drun -show combi -show-icons"
 
+local function takeScreenshot()
+  return hl.dsp.exec_cmd("flock -n /tmp/hyprshot.lock sh -c 'hyprshot --freeze --mode=region --raw --clipboard-only | swappy -f -'")
+end
 
 -------------------
 ---- AUTOSTART ----
@@ -234,7 +237,7 @@ hl.config({
     kb_options   = "caps:swapescape",
     kb_rules     = "",
 
-    follow_mouse = 0,
+    follow_mouse = true,
 
     sensitivity  = 0, -- -1.0 - 1.0, 0 means no modification.
 
@@ -262,8 +265,9 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + M",
-  hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(mainMod .. " + SHIFT + 4", takeScreenshot())
+hl.bind("CTRL + SHIFT + S", takeScreenshot())
+hl.bind("CTRL + space", hl.dsp.exec_cmd("voxtype record toggle"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle", layout_aware = true }))
@@ -288,27 +292,25 @@ hl.bind(mainMod .. " + SHIFT + L", hl.dsp.layout("swapcol r"))
 hl.bind(mainMod .. " + SHIFT + left", hl.dsp.layout("swapcol l"))
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.layout("swapcol r"))
 
--- Stack / unstack windows into columns (niri: Mod+Comma/Period/BracketLeft)
-hl.bind(mainMod .. " + comma", hl.dsp.layout("consume"))
-hl.bind(mainMod .. " + period", hl.dsp.layout("expel"))
-hl.bind(mainMod .. " + bracketleft", hl.dsp.layout("consume_or_expel prev"))
+-- Stack / unstack windows with one combined action.
+hl.bind(mainMod .. " + O", hl.dsp.layout("consume_or_expel prev"))
+
+-- Promote the focused window to its own column.
+hl.bind(mainMod .. " + T", hl.dsp.layout("promote"))
 
 -- Cycle column width, reset to middle (niri: Mod+V / Mod+Shift+V)
 hl.bind(mainMod .. " + V", hl.dsp.layout("colresize +conf"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.layout("colresize 0.5"))
 
--- Promote focused window to its own column
-hl.bind(mainMod .. " + T", hl.dsp.layout("promote"))
-
 -- Fit the focused column fully into view
 hl.bind(mainMod .. " + SHIFT + space", hl.dsp.layout("fit_into_view"))
 
 -- Switch workspaces with mainMod + [0-9]
--- Move active window to a workspace with mainMod + SHIFT + [0-9]
+-- Move active window to a workspace with mainMod + ALT + [0-9]
 for i = 1, 10 do
   local key = i % 10 -- 10 maps to key 0
   hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-  hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+  hl.bind(mainMod .. " + ALT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- Example special workspace (scratchpad)

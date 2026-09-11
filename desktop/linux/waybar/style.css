@@ -6,6 +6,7 @@
   color: #dcdfe1;
 }
 
+
 /* 透明 Waybar 背景 */
 #waybar {
   background-color: rgba(0, 0, 0, 0);
@@ -50,6 +51,8 @@
 }
 
 #custom-reboot,
+#custom-recording,
+#custom-voxtype,
 #bluetooth,
 #battery,
 #pulseaudio,
@@ -84,9 +87,24 @@
 #custom-lock:hover,
 #custom-reboot:hover,
 #custom-power:hover,
+#custom-recording:hover,
+#custom-voxtype:hover,
 /*#workspaces:hover,*/
 #window:hover {
   background-color: rgba(70, 75, 90, 0.9);
+}
+
+#custom-voxtype.recording {
+  color: #FF4040;
+}
+
+#custom-voxtype.idle {
+  color: #00FF7F;
+}
+
+#custom-voxtype.stopped,
+#custom-voxtype.error {
+  color: #FFAA00;
 }
 
 /* 工作区激活状态高亮 */
@@ -119,4 +137,3 @@
   font-weight: 500;
   font-style: italic;
 }
-
