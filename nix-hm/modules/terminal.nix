@@ -4,6 +4,7 @@
   ...
 }: let
   cliTools = with pkgs; [
+    man-pages
     unzip
     lsof
     ncdu

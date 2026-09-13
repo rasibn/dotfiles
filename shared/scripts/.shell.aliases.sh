@@ -13,7 +13,7 @@ alias tmux_session_init_config="$DOTFILE_DIR/shared/scripts/tmux/tmux_session_in
 
 alias git-undo="$DOTFILE_DIR/shared/scripts/git_scripts/git_undo.sh"
 alias cls="clear"
-alias ex="exit"
+alias q="exit"
 alias ta="tmux a"
 alias oil="nvim +"Oil""
 alias vim="nvim"
