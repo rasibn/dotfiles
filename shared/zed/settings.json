@@ -20,9 +20,9 @@
 //   }
 // }
 {
-  "diff_view_style": "split",
+  "diff_view_style": "unified",
   "cli_default_open_behavior": "existing_window",
-  "markdown_preview_font_size": 20.0,
+  "markdown_preview_font_size": 16.0,
   "agent_ui_font_size": 20.0,
   "git_panel": {
     "dock": "right"
@@ -293,8 +293,8 @@
     "dock": "right",
     "button": false
   },
-  "ui_font_size": 20.0,
-  "buffer_font_size": 18.0,
+  "ui_font_size": 16.0,
+  "buffer_font_size": 15.0,
   "autosave": "on_focus_change",
   "theme": {
     "mode": "dark",
