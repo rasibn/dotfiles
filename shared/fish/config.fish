@@ -1,7 +1,7 @@
 # Ensure standard system binaries are available before anything else runs.
 # This prevents "Unknown command" errors in fish's built-in prompt functions
 # when fish is started with a minimal PATH.
-set -gx PATH /home/rasib/.local/bin /usr/local/bin /usr/bin /bin $PATH
+set -gx PATH $HOME/.local/share/pnpm/bin /home/rasib/.local/bin /usr/local/bin /usr/bin /bin $PATH
 
 # Fish-specific environment equivalent of the repository root config.env.
 source "$HOME/assets/dotfiles/config.env.fish"

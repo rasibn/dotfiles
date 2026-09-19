@@ -37,7 +37,7 @@ return {
       function()
         require("agentic").restore_session()
       end,
-      mode = { "n", "v", "i" },
+      mode = "n",
       desc = "Restore Codex session",
     },
     {
@@ -45,6 +45,7 @@ return {
       function()
         require("agentic").add_current_line_diagnostics()
       end,
+      mode = "n",
       desc = "Add line diagnostics to Codex",
     },
     {
@@ -52,6 +53,7 @@ return {
       function()
         require("agentic").add_buffer_diagnostics()
       end,
+      mode = "n",
       desc = "Add buffer diagnostics to Codex",
     },
   },
