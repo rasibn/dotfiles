@@ -43,7 +43,7 @@ in {
 
       [urgency=critical]
       border-color=#bf616a
-      default-timeout=0
+      default-timeout=5000
     '';
   };
 
