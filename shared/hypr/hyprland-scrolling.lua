@@ -265,7 +265,6 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + SHIFT + 4", takeScreenshot())
 hl.bind("CTRL + SHIFT + S", takeScreenshot())
 hl.bind("CTRL + space", hl.dsp.exec_cmd("voxtype record toggle"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
@@ -310,6 +309,9 @@ hl.bind(mainMod .. " + SHIFT + space", hl.dsp.layout("fit_into_view"))
 for i = 1, 10 do
   local key = i % 10 -- 10 maps to key 0
   hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
+  if i <= 4 then
+    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+  end
   hl.bind(mainMod .. " + ALT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
