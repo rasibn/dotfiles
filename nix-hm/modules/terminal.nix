@@ -10,6 +10,7 @@
     ncdu
     fzf
     ripgrep
+    just
     fd
     bat
     tokei
