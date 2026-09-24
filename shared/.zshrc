@@ -130,6 +130,47 @@ gwtb() {
   cd "$worktree_dir" || return 1
 }
 
+# Fuzzy-select and enter an existing Git worktree by branch
+# Usage: cwt [initial search]
+cwt() {
+  local selected worktree_path repo_dir worktrees
+
+  repo_dir=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -z "$repo_dir" ]]; then
+    echo "Not inside a Git repository"
+    return 1
+  fi
+
+  worktrees=$(
+    git -C "$repo_dir" worktree list --porcelain |
+      awk '
+        /^worktree / { path = substr($0, 10) }
+        /^branch / {
+          branch = substr($0, 8)
+          sub(/^refs\/heads\//, "", branch)
+          print branch "\t" path
+        }
+      '
+  )
+
+  if [[ -z "$worktrees" ]]; then
+    echo "No branch-backed worktrees found"
+    return 1
+  fi
+
+  selected=$(
+    print -r -- "$worktrees" |
+      fzf \
+        --delimiter=$'\t' \
+        --with-nth=1,2 \
+        --prompt='worktree branch> ' \
+        --query="$*"
+  ) || return
+
+  worktree_path=${selected#*$'\t'}
+  cd -- "$worktree_path"
+}
+
 # Kill process on port
 # Usage: kill-port 3000
 kill-port() {
