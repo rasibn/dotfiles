@@ -207,3 +207,8 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Source secrets (managed by greenlane-careem-ai-dev-kit)
 [ -f ~/.zsecrets ] && source ~/.zsecrets
+
+# herdr-automatic-rename: live tab naming hook
+for _f in $HOME/.config/herdr/plugins/github/herdr-automatic-rename-*/shell/hook.zsh(N); do
+  source $_f; break
+done
