@@ -13,6 +13,7 @@
     just
     fd
     bat
+    jq
     tokei
     railway
     jujutsu # git alternative

@@ -59,6 +59,10 @@
     shellInit = ''
       set -g fish_key_bindings fish_vi_key_bindings
 
+      for _f in $HOME/.config/herdr/plugins/github/herdr-automatic-rename-*/shell/hook.fish
+          test -r "$_f"; and source "$_f"; and break
+      end
+
       set -gx PATH $HOME/go/bin $PATH
 
       # Dynamic nswitchu function that detects current host

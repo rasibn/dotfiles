@@ -11,6 +11,8 @@ shared/nvim/lua/plugins/dadbod.lua
 shared/fish/fish_variables
 
 shared/herdr/.plugins.lock
+shared/herdr/plugins.json
+shared/herdr/plugins/
 shared/herdr/session-history.json
 shared/herdr/session.json
 shared/herdr/herdr-client.log
