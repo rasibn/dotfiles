@@ -23,6 +23,7 @@
     jujutsu
     nix-direnv
     direnv
+    devenv
     sqlite
     duckdb
     gnumake
@@ -45,6 +46,7 @@
     zoxide
     opencode
     codex
+    codex-acp
     # lf # file manager in golang
   ];
 in {

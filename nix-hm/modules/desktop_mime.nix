@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  firefoxDesktop = "firefox.desktop";
+  braveDesktop = "brave-browser.desktop";
   transmissionDesktop = "transmission-gtk.desktop";
   nvimDesktop = "nvim.desktop";
   fehDesktop = "feh.desktop";
@@ -26,28 +26,28 @@ in {
     enable = true;
     defaultApplications = {
       # Browsing / HTML
-      "text/html" = [firefoxDesktop];
-      "x-scheme-handler/http" = [firefoxDesktop];
-      "x-scheme-handler/https" = [firefoxDesktop];
-      "x-scheme-handler/about" = [firefoxDesktop];
-      "x-scheme-handler/unknown" = [firefoxDesktop];
-      "x-scheme-handler/chrome" = [firefoxDesktop];
-      "application/x-extension-htm" = [firefoxDesktop];
-      "application/x-extension-html" = [firefoxDesktop];
-      "application/x-extension-shtml" = [firefoxDesktop];
-      "application/xhtml+xml" = [firefoxDesktop];
-      "application/x-extension-xhtml" = [firefoxDesktop];
-      "application/x-extension-xht" = [firefoxDesktop];
+      "text/html" = [braveDesktop];
+      "x-scheme-handler/http" = [braveDesktop];
+      "x-scheme-handler/https" = [braveDesktop];
+      "x-scheme-handler/about" = [braveDesktop];
+      "x-scheme-handler/unknown" = [braveDesktop];
+      "x-scheme-handler/chrome" = [braveDesktop];
+      "application/x-extension-htm" = [braveDesktop];
+      "application/x-extension-html" = [braveDesktop];
+      "application/x-extension-shtml" = [braveDesktop];
+      "application/xhtml+xml" = [braveDesktop];
+      "application/x-extension-xhtml" = [braveDesktop];
+      "application/x-extension-xht" = [braveDesktop];
 
       # Torrent magnet links
       "x-scheme-handler/magnet" = [transmissionDesktop];
 
-      # Images → open in feh (fallback to firefox second)
-      "image/png" = [fehDesktop firefoxDesktop];
-      "image/jpeg" = [fehDesktop firefoxDesktop];
-      "image/gif" = [fehDesktop firefoxDesktop];
-      "image/webp" = [fehDesktop firefoxDesktop];
-      "image/svg+xml" = [firefoxDesktop]; # svg better in browser
+      # Images → open in feh (fallback to Brave second)
+      "image/png" = [fehDesktop braveDesktop];
+      "image/jpeg" = [fehDesktop braveDesktop];
+      "image/gif" = [fehDesktop braveDesktop];
+      "image/webp" = [fehDesktop braveDesktop];
+      "image/svg+xml" = [braveDesktop]; # svg better in browser
 
       # Video / media → mpv
       "video/mp4" = [mpvDesktop];
@@ -56,8 +56,8 @@ in {
       "audio/mpeg" = [mpvDesktop];
       "audio/flac" = [mpvDesktop];
 
-      # PDF → Zathura (fallback to Firefox)
-      "application/pdf" = [zathuraDesktop firefoxDesktop];
+      # PDF → Zathura (fallback to Brave)
+      "application/pdf" = [zathuraDesktop braveDesktop];
 
       # EPUB → Foliate
       "application/epub+zip" = [foliateDesktop];
@@ -72,8 +72,8 @@ in {
     };
     # Also register them as associations so they show up in chooser
     associations.added = {
-      "image/png" = [fehDesktop firefoxDesktop];
-      "image/jpeg" = [fehDesktop firefoxDesktop];
+      "image/png" = [fehDesktop braveDesktop];
+      "image/jpeg" = [fehDesktop braveDesktop];
       "text/plain" = [nvimDesktop];
       "text/markdown" = [nvimDesktop];
     };
