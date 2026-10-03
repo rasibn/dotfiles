@@ -122,7 +122,12 @@ config-hyprland-scrolling:
 config-hyprland-dwindle:
     just link "{{linux_dir}}/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
 
-setup-gui-macos: config-aerospace config-wezterm config-ghostty
+setup-gui-macos: setup-paneru config-wezterm config-ghostty
+
+# Apply the Paneru, SketchyBar and Borders configuration.
+setup-paneru:
+    bash "{{dotfiles}}/desktop/macos/setup-paneru.sh"
+
 setup-gui-i3: config-i3 config-wezterm
 setup-gui-sway: config-sway config-wezterm
 
@@ -151,10 +156,9 @@ git-config-home:
 # ------------------------------ GUI install -------------------------
 
 install-gui-macos:
-    brew tap FelixKratz/formulae
-    brew install borders
-    brew install --cask font-jetbrains-mono-nerd-font wezterm github
-    brew install --cask nikitabobko/tap/aerospace chatgpt
+    brew install paneru felixkratz/formulae/sketchybar felixkratz/formulae/borders python
+    brew install --cask font-jetbrains-mono-nerd-font wezterm ghostty github
+    brew install --cask chatgpt abue-ammar/tinycast/tinycast
 
 install-gui-i3:
     yay -S i3 i3status-rust gnome-keyring catppuccin-gtk-theme-mocha catppuccin-cursors-mocha ttf-jetbrains-mono-nerd rofi rofi-search-git picom nitrogen flameshot brightnessctl
@@ -174,7 +178,7 @@ setup-shell-macos: install-shell-macos setup-shell
 setup-shell-arch: install-shell-arch setup-shell
 setup-shell-phone: install-shell-phone setup-shell
 
-setup-macos: setup-shell-macos config-zsh setup-gui-macos git-config-work install-gui-macos
+setup-macos: setup-shell-macos config-zsh install-gui-macos setup-gui-macos git-config-work
 setup-i3-pc: setup-shell-arch config-zsh git-config-home setup-gui-i3 install-gui-i3
 setup-sway-pc: setup-shell-arch config-zsh git-config-home setup-gui-sway install-gui-sway
 setup-phone: setup-shell-phone git-config-home

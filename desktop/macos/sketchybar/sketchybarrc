@@ -1,0 +1,25 @@
+#!/bin/bash
+# Sage capsules and transparent bar adapted from emreekici3/dotfiles.
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+PLUGIN_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}/plugins"
+sketchybar --bar height=40 color=0x00000000 shadow=off position=top padding_left=18 padding_right=18 \
+  --default label.font="Menlo:Bold:12" label.color=0xffe5eedd icon.font="Menlo:Bold:12" \
+  icon.color=0xffb3e1a7 icon.padding_left=9 icon.padding_right=5 \
+  label.padding_left=5 label.padding_right=9 padding_left=3 padding_right=3 \
+  background.drawing=on background.color=0xee0d141b background.height=28 \
+  background.corner_radius=7 background.border_width=1 background.border_color=0xff527354
+for i in 1 2 3 4; do
+  sketchybar --add item "workspace.$i" left --set "workspace.$i" icon="$i" label.drawing=off \
+    icon.padding_right=9 click_script="paneru send-cmd window virtualnum $i"
+done
+sketchybar --add item focused left --set focused icon='>' label='Paneru' \
+  label.max_chars=32
+sketchybar --add item clock right --set clock icon='TIME' update_freq=1 script="$PLUGIN_DIR/clock.sh"
+sketchybar --add item battery right --set battery icon='BAT' update_freq=60 script="$PLUGIN_DIR/battery.sh" \
+  --subscribe battery power_source_change system_woke
+sketchybar --add item volume right --set volume icon='VOL' label='--' script="$PLUGIN_DIR/volume.sh" \
+  --subscribe volume volume_change
+sketchybar --update
+
+# Refresh the persistent listener after a bar reload.
+launchctl kickstart -k "gui/$(id -u)/local.paneru.sketchybar-events" 2>/dev/null || true

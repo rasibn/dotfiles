@@ -18,3 +18,8 @@
 
 - NixOS/Home Manager configuration is in [`nix-hm/`](nix-hm/).
 - credits to [XNM1](https://github.com/XNM1/linux-nixos-hyprland-config-dotfiles) for the nix config!
+
+## macOS
+
+- [Desktop setup](desktop/macos/README.md)
+- [Shortcut cheat sheet](desktop/macos/shortcuts.md)
