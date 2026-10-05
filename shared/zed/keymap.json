@@ -101,8 +101,8 @@
       "space 0": "pane::ActivateLastItem",
       "] b": "pane::ActivateNextItem",
       "[ b": "pane::ActivatePreviousItem",
-      "shift-h": "pane::ActivateNextItem",
-      "shift-l": "pane::ActivatePreviousItem",
+      "shift-h": "pane::ActivatePreviousItem",
+      "shift-l": "pane::ActivateNextItem",
 
       // Close buffer
       "space b d": "pane::CloseActiveItem",

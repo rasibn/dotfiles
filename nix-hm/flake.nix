@@ -24,6 +24,7 @@
     ...
   } @ inputs: let
     system = "x86_64-linux";
+    nonNixosStateVersion = "25.05";
     desktopStateVersion = "24.11";
     laptopStateVersion = "25.05";
     pkgs = import nixpkgs {
@@ -36,6 +37,19 @@
       ];
     };
   in {
+    homeConfigurations = {
+      "rasib-debian" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {
+          inherit inputs system;
+          username = "rasib-popos";
+          homeDirectory = "/home/rasib-popos";
+          stateVersion = nonNixosStateVersion;
+        };
+        modules = [./non-nixos/home.nix];
+      };
+    };
+
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         specialArgs = {

@@ -15,6 +15,7 @@ shared/herdr/plugins.json
 shared/herdr/plugins/
 shared/herdr/session-history.json
 shared/herdr/session.json
+shared/herdr/session-snapshots/
 shared/herdr/herdr-client.log
 shared/herdr/herdr-client.sock
 shared/herdr/herdr-server.log
