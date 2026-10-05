@@ -266,7 +266,7 @@ hl.bind("CTRL + space", hl.dsp.exec_cmd("voxtype record toggle"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle", layout_aware = true }))
-hl.bind(mainMod .. " + M", hl.dsp.layout("fit expand"))
+hl.bind("ALT + M", hl.dsp.layout("fit expand"))
 hl.bind(mainMod .. " + space", hl.dsp.window.float({ action = "toggle" }))
 
 -- Move focus between columns (niri: Mod+H/L)
