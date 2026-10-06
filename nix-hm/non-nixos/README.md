@@ -11,6 +11,9 @@ repository:
 nix --extra-experimental-features 'nix-command flakes' run github:nix-community/home-manager -- switch -b backup --flake ./nix-hm#rasib-debian
 ```
 
+The same profile can be applied with `just switch-home-manager` from the
+dotfiles repository root.
+
 The profile installs user packages from the flake's pinned nixpkgs and uses
 Home Manager to link the existing shell and app configs from `shared/`. Fish
 is linked as-is; its contents are not translated into Home Manager options.

@@ -29,6 +29,10 @@
       gh
       direnv
       nix-direnv
+      devenv
+      beamPackages.elixir
+      beamPackages.erlang
+      beamPackages.elixir-ls
     ];
   };
 

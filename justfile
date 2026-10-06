@@ -87,6 +87,12 @@ install-shell-phone:
     pkg install fish neovim zoxide ripgrep fd gh eza bat lazygit fzf herdr rust
     cargo install git-delta
 
+# ------------------------------ Nix ---------------------------------
+
+# Apply the standalone Home Manager profile for non-NixOS Linux.
+switch-home-manager:
+    nix --extra-experimental-features 'nix-command flakes' run github:nix-community/home-manager -- switch -b backup --flake "{{dotfiles}}/nix-hm#rasib-debian"
+
 # ------------------------------ GUI ---------------------------------
 
 config-wezterm:
