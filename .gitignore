@@ -10,14 +10,5 @@ desktop/linux/hypr/*.png
 shared/nvim/lua/plugins/dadbod.lua
 shared/fish/fish_variables
 
-shared/herdr/.plugins.lock
-shared/herdr/plugins.json
-shared/herdr/plugins/
-shared/herdr/session-history.json
-shared/herdr/session.json
-shared/herdr/session-snapshots/
-shared/herdr/herdr-client.log
-shared/herdr/herdr-client.sock
-shared/herdr/herdr-server.log
-shared/herdr/herdr.sock
-shared/herdr/release-notes.json
+shared/herdr/*
+!shared/herdr/config.toml

@@ -91,7 +91,7 @@ install-shell-phone:
 
 # Apply the standalone Home Manager profile for non-NixOS Linux.
 switch-home-manager:
-    nix --extra-experimental-features 'nix-command flakes' run github:nix-community/home-manager -- switch -b backup --flake "{{dotfiles}}/nix-hm#rasib-debian"
+    NIX_CONFIG='extra-experimental-features = nix-command flakes' nix run github:nix-community/home-manager -- switch -b backup --flake "{{dotfiles}}/nix-hm#rasib-debian"
 
 # ------------------------------ GUI ---------------------------------
 

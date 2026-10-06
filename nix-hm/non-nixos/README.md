@@ -8,7 +8,7 @@ After installing Nix and Home Manager on the target system, run from this
 repository:
 
 ```sh
-nix --extra-experimental-features 'nix-command flakes' run github:nix-community/home-manager -- switch -b backup --flake ./nix-hm#rasib-debian
+NIX_CONFIG='extra-experimental-features = nix-command flakes' nix run github:nix-community/home-manager -- switch -b backup --flake ./nix-hm#rasib-debian
 ```
 
 The same profile can be applied with `just switch-home-manager` from the
