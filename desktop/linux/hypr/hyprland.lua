@@ -10,12 +10,14 @@ local menu = "rofi -combi-modi window,drun -show combi -show-icons"
 local mainMod = "SUPER"
 
 local function takeScreenshot()
-	return hl.dsp.exec_cmd("flock -n /tmp/hyprshot.lock sh -c 'hyprshot --freeze --mode=region --raw --clipboard-only | swappy -f -'")
+	return hl.dsp.exec_cmd(
+		"flock -n /tmp/hyprshot.lock sh -c 'hyprshot --freeze --mode=region --raw --clipboard-only | swappy -f -'"
+	)
 end
 
 local function toggleRecording()
 	return hl.dsp.exec_cmd(
-		"sh -c 'if pgrep -x wf-recorder >/dev/null; then pkill -INT -x wf-recorder; else mkdir -p \"$HOME/Videos\"; wf-recorder -g \"$(slurp)\" -f \"$HOME/Videos/recording-$(date +%Y%m%d-%H%M%S).mp4\" & fi'"
+		'sh -c \'if pgrep -x wf-recorder >/dev/null; then pkill -INT -x wf-recorder; else mkdir -p "$HOME/Videos"; wf-recorder -g "$(slurp)" -f "$HOME/Videos/recording-$(date +%Y%m%d-%H%M%S).mp4" & fi\''
 	)
 end
 
@@ -96,7 +98,7 @@ hl.config({
 		kb_options = "caps:swapescape",
 		kb_rules = "",
 		follow_mouse = true,
-		sensitivity = 0,
+		sensitivity = -0.25,
 		touchpad = {
 			natural_scroll = true,
 			scroll_factor = 0.3,
@@ -180,7 +182,6 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle", layout_
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.layout("fit expand"))
 hl.bind(mainMod .. " + space", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + V", hl.dsp.layout("colresize +conf"))
-
 
 -- Move focus between columns (niri: Mod+H/L)
 hl.bind(mainMod .. " + H", hl.dsp.layout("focus l"))
@@ -272,7 +273,9 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 
 -- Autostart
 hl.on("hyprland.start", function()
-	hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
+	hl.exec_cmd(
+		"dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE"
+	)
 	hl.exec_cmd("wl-paste --type text --watch cliphist store")
 	hl.exec_cmd("wl-paste --type image --watch cliphist store")
 	hl.exec_cmd("swayosd-server")
