@@ -29,16 +29,6 @@ vim.keymap.set("v", "gh", "^", { desc = "Go to the start of the line" })
 vim.keymap.set("v", "gl", "$", { desc = "Go to the end of the line" })
 vim.keymap.set("v", "ge", "G", { desc = "Go to the end of the file" })
 
-vim.keymap.set("n", "<leader>r", ":LspRestart<CR>", { desc = "Restart LSP" })
-
-vim.keymap.set("n", "<leader>dd", function()
-  if next(require("diffview.lib").views) == nil then
-    vim.cmd("DiffviewOpen")
-  else
-    vim.cmd("DiffviewClose")
-  end
-end, { desc = "Diffview" })
-
 -- VSCode-neovim specific keybindings
 if vim.g.vscode then
   -- LSP Navigation

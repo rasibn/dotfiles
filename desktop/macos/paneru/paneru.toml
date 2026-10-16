@@ -94,8 +94,12 @@ bundle_id = "com.tinycast.app"
 title = ".*"
 floating = true
 
+[windows.vscode]
+title = ".*"
+bundle_id = "com.microsoft.VSCode"
+width = 1.0
+
 [windows.all]
 title = ".*"
 horizontal_padding = 3
 vertical_padding = 0
-width = 0.5
