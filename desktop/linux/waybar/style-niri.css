@@ -17,7 +17,7 @@ window#waybar > box {
   border-radius: 24px;
   padding: 5px;
 }
-#workspaces, #custom-open-windows, #clock, #tray, #network, #pulseaudio, #custom-power {
+#workspaces, #custom-open-windows, #clock, #tray, #network, #pulseaudio, #custom-recording, #custom-voxtype, #custom-power {
   background: rgba(255, 255, 255, 0.48);
   border-radius: 18px;
   margin: 0 3px;
@@ -42,10 +42,11 @@ window#waybar > box {
 #workspaces button.urgent { color: #b51d51; }
 #clock { color: @accent; font-weight: 600; }
 #custom-open-windows { padding: 0 8px; }
-#network, #pulseaudio { color: @accent; }
+#network, #pulseaudio, #custom-voxtype { color: @accent; }
+#custom-recording { color: #d1264c; font-weight: 700; }
 #pulseaudio.muted, #network.disconnected { color: @muted; }
 #tray { padding: 0 8px; }
-#network:hover, #pulseaudio:hover, #clock:hover, #custom-power:hover { background: rgba(255, 255, 255, 0.75); }
+#network:hover, #pulseaudio:hover, #custom-voxtype:hover, #clock:hover, #custom-power:hover { background: rgba(255, 255, 255, 0.75); }
 #custom-power { color: @accent; padding: 0 12px; }
 tooltip { background: #fff0f6; border-radius: 12px; border: 1px solid #efbad0; }
 tooltip label { color: @text; padding: 6px; }

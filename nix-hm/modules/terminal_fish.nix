@@ -79,7 +79,7 @@
 
       set -gx PATH $HOME/.cargo/bin $PATH
 
-      if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
+      if status is-interactive; and status is-login; and test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" = 1
           # start-hyprland
           niri-session
       else

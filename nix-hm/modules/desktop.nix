@@ -17,6 +17,7 @@
     swaybg
     xwayland-satellite
     grim
+    libnotify
     # swaylock-effects
     # waypaper # TODO: waypaper and hyprpaper both are probably not needed
   ];

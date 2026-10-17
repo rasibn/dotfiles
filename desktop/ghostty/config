@@ -48,6 +48,9 @@ palette = 14=#94e2d5
 palette = 7=#bac2de
 palette = 15=#a6adc8
 
+# Close surfaces without a confirmation prompt
+confirm-close-surface = false
+
 # Window settings
 window-padding-x = 10
 window-padding-y = 10

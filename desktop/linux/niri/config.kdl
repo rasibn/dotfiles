@@ -13,7 +13,6 @@ output "DP-2" {
 
 layout {
     gaps 10
-    center-focused-column "on-overflow"
     preset-column-widths {
         proportion 0.33333
         proportion 0.5
@@ -50,6 +49,7 @@ spawn-at-startup "udiskie"
 spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "before-sleep" "swaylock -f"
 
 binds {
+    Mod+T repeat=false { spawn "voxtype" "record" "toggle"; }
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Return { spawn "ghostty"; }
     Mod+D { spawn "rofi" "-show" "drun"; }
@@ -107,5 +107,9 @@ binds {
     XF86AudioNext { spawn "playerctl" "next"; }
     XF86AudioPrev { spawn "playerctl" "previous"; }
 
+    Mod+Alt+3 repeat=false { spawn "sh" "-c" "mkdir -p \"$HOME/Pictures/Screenshots\"; file=\"$HOME/Pictures/Screenshots/Screenshot-$(date +%Y-%m-%d-%H%M%S).png\"; grim \"$file\" && notify-send \"Screenshot saved\" \"$file\""; }
+    Mod+Alt+4 repeat=false { spawn "sh" "-c" "mkdir -p \"$HOME/Pictures/Screenshots\"; geometry=$(slurp) && file=\"$HOME/Pictures/Screenshots/Screenshot-$(date +%Y-%m-%d-%H%M%S).png\" && grim -g \"$geometry\" \"$file\" && notify-send \"Screenshot saved\" \"$file\""; }
+    Mod+Alt+5 repeat=false { spawn "sh" "-c" "if pgrep -x wf-recorder >/dev/null; then pkill -INT -x wf-recorder; while pgrep -x wf-recorder >/dev/null; do sleep 0.2; done; file=$(ls -t \"$HOME\"/Videos/recording-*.mp4 2>/dev/null | head -n1); notify-send \"Screen recording saved\" \"$file\"; else mkdir -p \"$HOME/Videos\"; geometry=$(slurp) || exit; file=\"$HOME/Videos/recording-$(date +%Y%m%d-%H%M%S).mp4\"; wf-recorder -g \"$geometry\" -f \"$file\" & notify-send \"Screen recording started\" \"Press Mod+Alt+5 to stop\"; fi"; }
+    Mod+Alt+6 repeat=false { spawn "sh" "-c" "if pgrep -x wf-recorder >/dev/null; then pkill -INT -x wf-recorder; while pgrep -x wf-recorder >/dev/null; do sleep 0.2; done; file=$(ls -t \"$HOME\"/Videos/recording-fullscreen-*.mp4 2>/dev/null | head -n1); notify-send \"Full screen recording saved\" \"$file\"; else mkdir -p \"$HOME/Videos\"; file=\"$HOME/Videos/recording-fullscreen-$(date +%Y%m%d-%H%M%S).mp4\"; wf-recorder -f \"$file\" & notify-send \"Full screen recording started\" \"Press Mod+Alt+6 to stop\"; fi"; }
     Print { spawn "sh" "-c" "grim -g \"$(slurp)\" - | swappy -f -"; }
 }

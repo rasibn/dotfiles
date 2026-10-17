@@ -17,6 +17,8 @@
     "tray",
     "network",
     "pulseaudio",
+    "custom/recording",
+    "custom/voxtype",
     "custom/power"
   ],
   "niri/workspaces": {
@@ -57,6 +59,21 @@
       "󰖀",
       "󰕾"
     ]
+  },
+  "custom/recording": {
+    "exec": "pgrep -x wf-recorder >/dev/null && echo '● REC'",
+    "interval": 1,
+    "format": "{}",
+    "hide-empty-text": true,
+    "tooltip": true,
+    "tooltip-format": "Screen recording in progress"
+  },
+  "custom/voxtype": {
+    "exec": "voxtype status --follow --format json --icon-theme nerd-font",
+    "return-type": "json",
+    "format": "{}",
+    "on-click-right": "systemctl --user restart voxtype",
+    "tooltip": true
   },
   "custom/power": {
     "exec": "echo '⏻'",
