@@ -21,6 +21,7 @@ in {
     ".config/mako/config".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/mako/config";
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/nvim";
     ".config/herdr".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/herdr";
+    ".config/fish/functions".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/fish/functions";
     ".wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/.wezterm.lua";
     ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/ghostty";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/waybar";

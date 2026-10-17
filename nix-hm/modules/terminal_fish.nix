@@ -68,13 +68,35 @@
 
       # Dynamic nswitchu function that detects current host
       function nswitchu_func
-          # Check if device has a battery (laptop indicator)
           if test -d /sys/class/power_supply/BAT0 -o -d /sys/class/power_supply/BAT1
-              set host_config "laptop"
+              set host_config laptop
           else
-              set host_config "desktop"
+              set host_config desktop
           end
           sudo nixos-rebuild switch --flake $DOTFILE_DIR/nix-hm/#$host_config
+      end
+
+      function mkcd
+          mkdir -p "$argv[1]"
+          cd "$argv[1]"
+      end
+
+      function kill-port
+          if test (count $argv) -eq 0
+              echo "Usage: kill-port <port-number>"
+              return 1
+          end
+
+          set port $argv[1]
+          set pid (lsof -ti :$port)
+          if test -z "$pid"
+              echo "No process found listening on port $port"
+              return 1
+          end
+
+          echo "Killing process $pid on port $port"
+          kill -9 $pid
+          echo "Process killed successfully"
       end
 
       set -gx PATH $HOME/.cargo/bin $PATH
@@ -87,86 +109,6 @@
           #     tmux attach || tmux new -s base
           # end
       end
-
-      function git-wt
-          # Usage: git-wt [--path DIR]
-          set target_dir ".."
-
-          # Parse optional flag
-          if test (count $argv) -ge 2
-              if test $argv[1] = "--path"
-                  set target_dir $argv[2]
-              else
-                  echo "Usage: git-wt [--path DIR]"
-                  return 1
-              end
-          end
-
-          # Ensure we’re inside a repo
-          if not git rev-parse --is-inside-work-tree >/dev/null 2>&1
-              echo "❌ Not inside a Git repo."
-              return 1
-          end
-
-          set repo_name (basename (git rev-parse --show-toplevel))
-
-          # Get branches (local + remote, deduplicated)
-          set branches (git for-each-ref --format='%(refname:short)' refs/heads refs/remotes | sort | uniq | grep -vE '^HEAD$')
-          if test (count $branches) -eq 0
-              echo "No branches found."
-              return 1
-          end
-
-          # Pick branch with fzf
-          set branch (printf "%s\n" $branches | fzf --prompt="Select branch> ")
-          if test -z "$branch"
-              echo "Aborted."
-              return 0
-          end
-
-          # Prepare target path
-          set branch_sanitized (string replace -a '/' '-' $branch)
-          set final_dir "$target_dir/$repo_name.$branch_sanitized"
-
-          # If worktree already exists
-          if test -d "$final_dir"
-              echo "✅ Worktree already exists: $final_dir"
-          else
-              echo "🛠️  Creating worktree for '$branch'"
-              git worktree add "$final_dir" "$branch"
-          end
-
-          cd $final_dir
-          eval "$EDITOR ."
-      end
-
-       function mkcd
-           mkdir -p "$argv[1]"
-           cd "$argv[1]"
-       end
-
-       function kill-port
-           if test (count $argv) -eq 0
-               echo "Usage: kill-port <port-number>"
-               return 1
-           end
-
-           set port $argv[1]
-           set pid (lsof -ti :$port)
-
-           if test -z "$pid"
-               echo "No process found listening on port $port"
-               return 1
-           end
-
-           echo "Killing process $pid on port $port"
-           kill -9 $pid
-           echo "Process killed successfully"
-       end
-
-       function prtui
-           $DOTFILE_DIR/shared/scripts/tmux/prtui-open.sh
-       end
 
        zoxide init --cmd cd fish | source
     '';
