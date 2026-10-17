@@ -31,7 +31,7 @@
       "p": "project_panel::Paste",
       // Close project panel as project file panel on the right
       "q": "workspace::ToggleRightDock",
-      "space e": "workspace::ToggleLeftDock",
+      "space e": "project_panel::ToggleFocus",
       "/": "project_panel::NewSearchInDirectory",
       "enter": "project_panel::OpenPermanent",
       "h": "project_panel::CollapseSelectedEntry",
@@ -57,7 +57,7 @@
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
       // Refactoring
-      "space c r ": "editor::Rename",
+      "space c r": "editor::Rename",
       // Chat with AI
       "ctrl-\\": "workspace::ToggleRightDock",
       "space a e": "assistant::InlineAssist",
@@ -123,7 +123,7 @@
       // Format
       "space c f": "editor::Format",
       // File explorer
-      "space e": "workspace::ToggleLeftDock",
+      "space e": "project_panel::ToggleFocus",
       // Telescope
       "space f f": "file_finder::Toggle",
       // Quit zed

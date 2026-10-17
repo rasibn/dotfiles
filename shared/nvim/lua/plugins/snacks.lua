@@ -2,43 +2,53 @@ return {
   "folke/snacks.nvim",
   ---@module "snacks"
   ---@type snacks.Config
-  opts = {
-    styles = {
-      lazygit = {
-        width = 0,
-        height = 0,
+  opts = function(_, opts)
+    table.insert(opts.dashboard.preset.keys, 2, {
+      icon = " ",
+      key = "b",
+      desc = "Review Branch vs PR Base",
+      action = function()
+        require("config.pr_review").open()
+      end,
+    })
+    return vim.tbl_deep_extend("force", opts, {
+      styles = {
+        lazygit = {
+          width = 0,
+          height = 0,
+        },
       },
-    },
-    image = { enabled = true },
-    picker = {
-      -- formatters = {
-      --   text = {
-      --     ft = nil, ---@type string? filetype for highlighting
-      --   },
-      --   file = {
-      --     filename_first = true, -- display filename before the file path
-      --     --- * left: truncate the beginning of the path
-      --     --- * center: truncate the middle of the path
-      --     --- * right: truncate the end of the path
-      --     ---@type "left"|"center"|"right"
-      --     truncate = "center",
-      --     min_width = 40, -- minimum length of the truncated path
-      --     filename_only = false, -- only show the filename
-      --     icon_width = 2, -- width of the icon (in characters)
-      --     git_status_hl = true, -- use the git status highlight group for the filename
-      --   },
-      -- },
-      sources = {
-        explorer = {
-          layout = {
+      image = { enabled = true },
+      picker = {
+        -- formatters = {
+        --   text = {
+        --     ft = nil, ---@type string? filetype for highlighting
+        --   },
+        --   file = {
+        --     filename_first = true, -- display filename before the file path
+        --     --- * left: truncate the beginning of the path
+        --     --- * center: truncate the middle of the path
+        --     --- * right: truncate the end of the path
+        --     ---@type "left"|"center"|"right"
+        --     truncate = "center",
+        --     min_width = 40, -- minimum length of the truncated path
+        --     filename_only = false, -- only show the filename
+        --     icon_width = 2, -- width of the icon (in characters)
+        --     git_status_hl = true, -- use the git status highlight group for the filename
+        --   },
+        -- },
+        sources = {
+          explorer = {
             layout = {
-              position = "right",
+              layout = {
+                position = "right",
+              },
             },
           },
         },
       },
-    },
-  },
+    })
+  end,
   keys = {
     {
       "<leader>gi",

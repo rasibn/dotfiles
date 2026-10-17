@@ -40,12 +40,9 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 
-  -- need this fix because lazyvim lazyloads neo-tree :(
   {
     "nvim-neo-tree/neo-tree.nvim",
-    keys = {
-      { "<leader>e", false },
-    },
+    enabled = false,
   },
 
   {

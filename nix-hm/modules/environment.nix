@@ -21,7 +21,10 @@ in {
     ".config/mako/config".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/mako/config";
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/nvim";
     ".config/herdr".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/herdr";
-    ".config/fish/functions".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/fish/functions";
+    ".config/fish/functions/cwt.fish".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/fish/functions/cwt.fish";
+    ".config/fish/functions/git-wt.fish".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/fish/functions/git-wt.fish";
+    ".config/fish/functions/przed.fish".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/fish/functions/przed.fish";
+    ".config/fish/functions/prnvim.fish".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/fish/functions/prnvim.fish";
     ".wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/.wezterm.lua";
     ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/ghostty";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/waybar";

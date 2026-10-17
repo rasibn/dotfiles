@@ -1,4 +1,4 @@
-function prdiff -d "Open the current PR's changes in Zed"
+function przed -d "Open the current PR's changes in Zed"
     if not command -q zeditor
         echo "zeditor is not installed"
         return 1
@@ -10,9 +10,10 @@ function prdiff -d "Open the current PR's changes in Zed"
         return 1
     end
 
-    set base_branch (gh pr view --json baseRefName --jq .baseRefName 2>/dev/null)
+    set branch (git branch --show-current)
+    set base_branch (gh pr view $argv[1] --json baseRefName --jq .baseRefName 2>/dev/null)
     if test -z "$base_branch"
-        echo "Could not determine the PR base branch"
+        echo "No pull request found for branch '$branch'"
         return 1
     end
 

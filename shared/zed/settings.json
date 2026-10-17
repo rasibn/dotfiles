@@ -22,7 +22,6 @@
 {
   "diff_view_style": "unified",
   "cli_default_open_behavior": "existing_window",
-  "markdown_preview_font_size": 16.0,
   "agent_ui_font_size": 20.0,
   "git_panel": {
     "dock": "right"
@@ -31,7 +30,8 @@
     "ollama": {
       "api_url": "http://localhost:11434"
     },
-    "provider": "zed",
+    // Re-enable Ollama once its server is running at the api_url above.
+    "provider": "none",
     "disabled_globs": [
       "**/.git",
       "**/.svn",
@@ -73,9 +73,9 @@
     },
     "default_model": {
       "provider": "openai-subscribed",
-      "model": "gpt-5.6-luna",
+      "model": "gpt-6-luna",
       "enable_thinking": true,
-      "effort": "high"
+      "effort": "medium"
     },
     "dock": "right",
     "play_sound_when_agent_done": "always",
@@ -222,7 +222,7 @@
   // Use zed commit editor
   "terminal": {
     "env": {
-      "EDITOR": "zed --wait"
+      "EDITOR": "zeditor --wait"
     },
     "font_size": 14,
     "detect_venv": {
