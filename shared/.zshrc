@@ -14,6 +14,10 @@ source /opt/homebrew/opt/zinit/zinit.zsh
 source "$HOME/assets/dotfiles/config.env"
 source $DOTFILE_DIR/shared/scripts/.shell.aliases.sh
 
+for _f in "$DOTFILE_DIR"/shared/zsh/functions/*.zsh(N); do
+    source "$_f"
+done
+
 # ============================================
 # STARSHIP PROMPT (inline theme)
 # ============================================
