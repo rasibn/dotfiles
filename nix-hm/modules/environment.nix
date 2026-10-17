@@ -18,20 +18,23 @@ in {
 
   home.file = {
     ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/rofi";
+    ".config/mako/config".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/mako/config";
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/nvim";
     ".config/herdr".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/shared/herdr";
     ".wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/.wezterm.lua";
     ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/ghostty";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/waybar";
 
-    ".config/hypr/hyprland.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprland.lua";
-    ".config/hypr/.luarc.json".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/.luarc.json";
-    ".config/hypr/hyprpaper.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprpaper.conf";
-    ".config/hypr/monitors.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/monitors.conf";
-    ".config/hypr/workspaces.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/workspaces.conf";
-    ".config/hypr/hyprlock.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprlock.png";
-    ".config/hypr/hypridle.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hypridle.conf";
-    ".config/hypr/thunder.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/thunder.png";
-    ".config/hypr/wallpaper.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/wallpaper.png";
+    ".config/niri".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/niri";
+    # Hyprland configuration retained for switching back from Niri.
+    # ".config/hypr/hyprland.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprland.lua";
+    # ".config/hypr/.luarc.json".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/.luarc.json";
+    # ".config/hypr/hyprpaper.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprpaper.conf";
+    # ".config/hypr/monitors.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/monitors.conf";
+    # ".config/hypr/workspaces.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/workspaces.conf";
+    # ".config/hypr/hyprlock.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprlock.png";
+    # ".config/hypr/hypridle.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hypridle.conf";
+    # ".config/hypr/thunder.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/thunder.png";
+    # ".config/hypr/wallpaper.png".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/wallpaper.png";
   };
 }

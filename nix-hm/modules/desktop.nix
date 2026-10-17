@@ -4,18 +4,19 @@
   ...
 }: let
   mainTools = with pkgs; [
-    hypridle
-    hyprlock
     waybar
     rofi-unwrapped
     pavucontrol
-    hyprshot
     wf-recorder
     slurp
     proton-vpn
     anki
     swappy # A Wayland native snapshot and editor tool
-    hyprpaper
+    swaylock
+    swayidle
+    swaybg
+    xwayland-satellite
+    grim
     # swaylock-effects
     # waypaper # TODO: waypaper and hyprpaper both are probably not needed
   ];

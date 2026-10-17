@@ -4,17 +4,17 @@ configuration{
     location: 0;
     disable-history: false;
     hide-scrollbar: true;
-    display-drun: "   Apps ";
-    display-run: "   Run ";
-    display-window: "❖ Window";
+    display-drun: "Apps";
+    display-run: "Run";
+    display-window: "Windows";
     display-Network: " 󰤨  Network";
-    sidebar-mode: true;
+    sidebar-mode: false;
 
     kb-accept-custom: "Control+y";
 
     /* vim keybinds */
-    kb-row-up: "Up,Control+k,Shift+Tab,Shift+ISO_Left_Tab";
-    kb-row-down: "Down,Control+j";
+    kb-row-up: "Up,Control+p,Control+k,Shift+Tab,Shift+ISO_Left_Tab";
+    kb-row-down: "Down,Control+n,Control+j";
     kb-accept-entry: "Control+m,Return,KP_Enter";
     kb-remove-to-eol: "Control+Shift+e";
     /* kb-mode-next: "Shift+Right,Control+Tab,Control+l"; */
@@ -22,6 +22,5 @@ configuration{
     kb-remove-char-back: "BackSpace";
 }
 
-@theme "spotlight-dark"
-
+@theme "sakura"
 

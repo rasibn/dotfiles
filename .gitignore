@@ -12,3 +12,5 @@ shared/fish/fish_variables
 
 shared/herdr/*
 !shared/herdr/config.toml
+
+desktop/linux/niri/wallpapers/madoka-shooting-stars.png

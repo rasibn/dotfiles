@@ -1,0 +1,32 @@
+sort=-time
+layer=overlay
+anchor=top-right
+font=Inter 11
+background-color=#fff0f8f5
+text-color=#64283f
+border-color=#efbad0
+border-size=1
+border-radius=18
+width=360
+height=180
+margin=64,16,12
+padding=16
+icons=1
+max-icon-size=40
+icon-border-radius=8
+max-visible=4
+default-timeout=6000
+ignore-timeout=0
+progress-color=over #e993b866
+format=<b>%s</b>\n%b
+
+[urgency=low]
+text-color=#855b6b
+default-timeout=4000
+
+[urgency=critical]
+background-color=#ffe1ed
+text-color=#812041
+border-color=#c73575
+border-size=2
+default-timeout=0

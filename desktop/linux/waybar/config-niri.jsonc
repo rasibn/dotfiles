@@ -1,0 +1,73 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 44,
+  "margin-top": 10,
+  "margin-left": 0,
+  "margin-right": 0,
+  "spacing": 2,
+  "modules-left": [
+    "niri/workspaces",
+    "custom/open-windows"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "tray",
+    "network",
+    "pulseaudio",
+    "custom/power"
+  ],
+  "niri/workspaces": {
+    "all-outputs": true,
+    "format": "{value}"
+  },
+  "niri/window": {
+    "format": "{app_id}",
+    "max-length": 36,
+    "rewrite": {
+      "^com\\.mitchellh\\.ghostty$": "Ghostty",
+      "^brave-browser$": "Brave",
+      "^firefox$": "Firefox"
+    },
+    "separate-outputs": true
+  },
+  "custom/open-windows": {
+    "exec": "/home/rasib/assets/dotfiles/desktop/linux/waybar/scripts/open-windows.sh --watch",
+    "return-type": "json",
+    "format": "{text}",
+    "restart-interval": 1,
+    "escape": false,
+    "tooltip": false,
+    "hide-empty-text": true
+  },
+  "network": {
+    "format-wifi": "󰤨 {essid}",
+    "format-ethernet": "󰈀 Wired",
+    "format-disconnected": "󰤭 Disconnected",
+    "interval": 5
+  },
+  "pulseaudio": {
+    "on-click": "pavucontrol",
+    "format": "{icon} {volume}%",
+    "format-muted": "󰖁 muted",
+    "format-icons": [
+      "󰕿",
+      "󰖀",
+      "󰕾"
+    ]
+  },
+  "custom/power": {
+    "exec": "echo '⏻'",
+    "interval": "once",
+    "on-click": "rofi -show p -modi p:/home/rasib/assets/dotfiles/desktop/linux/rofi/powermenu",
+    "tooltip": true,
+    "tooltip-format": "Power options"
+  },
+  "clock": {
+    "format": "{:%a %d %b · %H:%M}",
+    "tooltip": false
+  },
+  "width": 1180
+}

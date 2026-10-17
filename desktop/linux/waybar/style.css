@@ -28,6 +28,13 @@
   border-width: 0px;
 }
 
+#custom-open-windows {
+  background-color: transparent;
+  margin-top: 6px;
+  margin-left: 2px;
+  padding: 4px 0;
+}
+
 #clock,
 #custom-power{
   background-color: rgba(15,27,53,0.9);

@@ -19,6 +19,7 @@
       ngc7 = "sudo nix-collect-garbage --delete-older-than 7d";
       ngc14 = "sudo nix-collect-garbage --delete-older-than 14d";
       yz = "yazi";
+      codex = "codex --yolo";
       git-undo = "$DOTFILE_DIR/shared/scripts/git_scripts/git_undo.sh";
 
       "dot.zsh" = "$EDITOR $DOTFILE_DIR/shared/.zshrc";
@@ -79,7 +80,8 @@
       set -gx PATH $HOME/.cargo/bin $PATH
 
       if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
-          start-hyprland
+          # start-hyprland
+          niri-session
       else
           # if not set -q TMUX
           #     tmux attach || tmux new -s base

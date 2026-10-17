@@ -5,6 +5,7 @@
   "spacing": 0,
   "modules-left": [
     "hyprland/workspaces",
+    "custom/open-windows",
     "tray",
     "custom/lock",
     "custom/reboot",
@@ -30,7 +31,7 @@
     "format": "{icon}",
     "on-click": "activate",
     "persistent-workspaces": {
-    "*":[1,2,3,4,5,6]
+      "*": [1, 2, 3, 4, 5, 6]
     },
     "format-icons": {
       "1": "",
@@ -41,6 +42,15 @@
       "6": "󰇮",
       "default": "󰣇"
     }
+  },
+  "custom/open-windows": {
+    "exec": "/home/rasib/assets/dotfiles/desktop/linux/waybar/scripts/open-windows.sh",
+    "return-type": "json",
+    "format": "{text}",
+    "interval": 1,
+    "escape": false,
+    "tooltip": false,
+    "hide-empty-text": true
   },
   "custom/lock": {
   "format": "<span color='#00FFFF'>  </span>",

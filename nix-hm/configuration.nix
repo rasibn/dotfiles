@@ -65,7 +65,8 @@
   nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  programs.hyprland.enable = true;
+  # programs.hyprland.enable = true;
+  programs.niri.enable = true;
   programs.fish.enable = true;
 
   hardware.bluetooth = {
@@ -73,7 +74,8 @@
     powerOnBoot = true;
   };
   services.blueman.enable = true;
-  services.hypridle.enable = true;
+  # Niri starts swayidle from its compositor config.
+  # services.hypridle.enable = true;
   services.gnome.gnome-keyring.enable = true;
   virtualisation.docker.enable = true;
 
