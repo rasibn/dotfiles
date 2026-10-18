@@ -12,6 +12,10 @@ for i in 1 2 3 4; do
   sketchybar --add item "workspace.$i" left --set "workspace.$i" icon="$i" label.drawing=off \
     icon.padding_right=9 click_script="paneru send-cmd window virtualnum $i"
 done
+# Separate workspace navigation from the current workspace's window list.
+sketchybar --add item workspace_separator left --set workspace_separator \
+  icon='│' icon.color=0xff527354 icon.padding_left=0 icon.padding_right=0 \
+  label.drawing=off background.drawing=off padding_left=15 padding_right=15
 sketchybar --add item focused left --set focused icon='>' label='Paneru' \
   label.max_chars=32
 sketchybar --add item clock right --set clock icon='TIME' update_freq=1 script="$PLUGIN_DIR/clock.sh"

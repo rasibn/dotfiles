@@ -78,7 +78,9 @@ setup-shell: config-bash config-fish config-nvim config-tmux config-zellij confi
 
 # Baseline tools expected in every terminal environment.
 install-shell-macos:
-    brew install fish neovim zsh tmux zoxide ripgrep fd gh eza bat lazygit fzf herdr git-delta
+    brew install fish neovim zsh tmux zoxide ripgrep fd gh eza bat lazygit fzf herdr git-delta mysql-client@8.4
+    brew unlink mysql || true
+    brew link --force mysql-client@8.4
 
 install-shell-arch:
     yay -S fish neovim zsh tmux zoxide ripgrep fd github-cli eza bat lazygit fzf herdr-bin git-delta
@@ -130,8 +132,11 @@ config-hyprland-dwindle:
 
 setup-gui-macos: setup-paneru config-wezterm config-ghostty
 
+config-paneru:
+    just link "{{dotfiles}}/desktop/macos/paneru" "$HOME/.config/paneru"
+
 # Apply the Paneru, SketchyBar and Borders configuration.
-setup-paneru:
+setup-paneru: config-paneru
     bash "{{dotfiles}}/desktop/macos/setup-paneru.sh"
 
 setup-gui-i3: config-i3 config-wezterm

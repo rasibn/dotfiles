@@ -27,7 +27,7 @@ window_unstack = "alt - t"
 window_resize = ["alt - v", "ctrl + alt - ]"]
 # Reverse cycle; Paneru TOML has no direct reset-to-50% action.
 window_shrink = ["alt + shift - v", "ctrl + alt - ["]
-window_fullwidth = ["alt - f", "ctrl + alt - '"]
+window_fullwidth = ["alt - m", "ctrl + alt - '"]
 window_manage = ["alt - space", "ctrl + alt - ;"]
 window_snap = "alt + shift - space"
 window_center = ["alt - c", "ctrl + alt - c"]
