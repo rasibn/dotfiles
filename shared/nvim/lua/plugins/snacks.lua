@@ -19,6 +19,12 @@ return {
         require("config.pr_review").open_commit()
       end,
     })
+    table.insert(opts.dashboard.preset.keys, 4, {
+      icon = " ",
+      key = "d",
+      desc = "Review Uncommitted Changes",
+      action = "DiffviewOpen",
+    })
     return vim.tbl_deep_extend("force", opts, {
       styles = {
         lazygit = {
