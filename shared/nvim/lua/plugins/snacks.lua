@@ -11,6 +11,14 @@ return {
         require("config.pr_review").open()
       end,
     })
+    table.insert(opts.dashboard.preset.keys, 3, {
+      icon = " ",
+      key = "c",
+      desc = "Review Latest Commit",
+      action = function()
+        require("config.pr_review").open_commit()
+      end,
+    })
     return vim.tbl_deep_extend("force", opts, {
       styles = {
         lazygit = {

@@ -4,6 +4,9 @@ return {
     vim.api.nvim_create_user_command("PRReview", function()
       require("config.pr_review").open()
     end, { desc = "Review current branch against its PR base" })
+    vim.api.nvim_create_user_command("CommitReview", function()
+      require("config.pr_review").open_commit()
+    end, { desc = "Review the latest commit against its parent" })
   end,
   opts = {
     keymaps = {

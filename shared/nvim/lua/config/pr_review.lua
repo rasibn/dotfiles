@@ -100,8 +100,35 @@ function M.open()
   end)
 end
 
+function M.open_commit()
+  if M.running then
+    notify("Already preparing a review.")
+    return
+  end
+
+  M.running = true
+  local cwd = vim.fn.getcwd()
+  run({ "git", "rev-parse", "--show-toplevel" }, cwd, function(root)
+    run({ "git", "rev-parse", "--verify", "HEAD^" }, root, function(parent)
+      M.running = false
+      if vim.fn.getcwd() ~= cwd then
+        notify("Working directory changed. Open the repository root and try again.", vim.log.levels.WARN)
+        return
+      end
+
+      local opened, err = pcall(vim.cmd, {
+        cmd = "DiffviewOpen",
+        args = { parent .. "..HEAD" },
+      })
+      if not opened then
+        notify(tostring(err), vim.log.levels.ERROR)
+      end
+    end)
+  end)
+end
+
 notify = function(message, level)
-  vim.notify(message, level or vim.log.levels.INFO, { title = "Review PR" })
+  vim.notify(message, level or vim.log.levels.INFO, { title = "Code Review" })
 end
 
 run = function(args, cwd, callback)
