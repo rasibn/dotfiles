@@ -1,9 +1,33 @@
 return {
   "folke/snacks.nvim",
   ---@module "snacks"
-  ---@type snacks.Config
+  ---@param opts snacks.Config
   opts = function(_, opts)
-    table.insert(opts.dashboard.preset.keys, 2, {
+    local sections = opts.dashboard.sections or {
+      { section = "keys",   gap = 1, padding = 1 },
+      { section = "startup" },
+    }
+
+    assert(type(sections) == "table", "Dashboard sections must be a list")
+    sections = vim.tbl_filter(function(section)
+      return type(section) ~= "table" or section.section ~= "header"
+    end, sections)
+
+    table.insert(sections, 1, {
+      title = "Code navigation",
+      text = table.concat({
+        "Normal mode: press keys in sequence; leader = Space",
+        "gd   Definition           gr   References (source lines)",
+        "gai  Incoming callers     gao  Outgoing calls",
+        "gI   Implementation       gy   Type definition",
+        "K    Documentation        Ctrl-o / Ctrl-i  Back / Forward",
+        "Space ss  File symbols    Space sS  Workspace symbols",
+      }, "\n"),
+      padding = 1,
+    })
+    opts.dashboard.sections = sections
+
+    table.insert(opts.dashboard.preset.keys, 1, {
       icon = " ",
       key = "b",
       desc = "Review Branch vs PR Base",
@@ -11,7 +35,7 @@ return {
         require("config.pr_review").open()
       end,
     })
-    table.insert(opts.dashboard.preset.keys, 3, {
+    table.insert(opts.dashboard.preset.keys, 2, {
       icon = " ",
       key = "c",
       desc = "Review Latest Commit",
@@ -19,12 +43,13 @@ return {
         require("config.pr_review").open_commit()
       end,
     })
-    table.insert(opts.dashboard.preset.keys, 4, {
+    table.insert(opts.dashboard.preset.keys, 3, {
       icon = " ",
       key = "d",
       desc = "Review Uncommitted Changes",
       action = "DiffviewOpen",
     })
+
     return vim.tbl_deep_extend("force", opts, {
       styles = {
         lazygit = {
