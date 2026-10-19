@@ -62,7 +62,7 @@ File search and extensions need enabling in Tinycast settings. See the
 | `⌥←` / `⌥→` / `⌥↑` / `⌥↓` | Focus window in that direction |
 | `⌥⇧←` / `⌥⇧→` | Move window left / right |
 | `⌥V` / `⌥⇧V` | Cycle window widths forward / backward |
-| `⌥F` / `⌥Space` | Full width / toggle floating |
+| `⌥M` / `⌥Space` | Toggle focused window full width / toggle floating |
 | `⌥O` / `⌥T` | Stack / unstack |
 | `⌥C` / `⌥N` | Center / move to next display |
 | `⌥` + scroll | Step between columns |
