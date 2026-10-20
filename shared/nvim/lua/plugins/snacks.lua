@@ -47,7 +47,7 @@ return {
       icon = " ",
       key = "d",
       desc = "Review Uncommitted Changes",
-      action = "DiffviewOpen",
+      action = ":DiffviewOpen",
     })
 
     return vim.tbl_deep_extend("force", opts, {
