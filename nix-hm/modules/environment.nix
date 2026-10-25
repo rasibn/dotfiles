@@ -30,6 +30,7 @@ in {
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/waybar";
 
     ".config/niri".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/niri";
+    ".config/hypr/hyprlock.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprlock.conf";
     # Hyprland configuration retained for switching back from Niri.
     # ".config/hypr/hyprland.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/hyprland.lua";
     # ".config/hypr/.luarc.json".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles_dir}/desktop/linux/hypr/.luarc.json";

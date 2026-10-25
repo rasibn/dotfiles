@@ -74,7 +74,8 @@
     powerOnBoot = true;
   };
   services.blueman.enable = true;
-  # Niri starts swayidle from its compositor config.
+  # Home Manager owns swayidle; Hyprlock authenticates through PAM on Niri.
+  security.pam.services.hyprlock = {};
   # services.hypridle.enable = true;
   services.gnome.gnome-keyring.enable = true;
   virtualisation.docker.enable = true;

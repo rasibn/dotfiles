@@ -13,6 +13,7 @@
     anki
     swappy # A Wayland native snapshot and editor tool
     swaylock
+    hyprlock
     swayidle
     swaybg
     xwayland-satellite

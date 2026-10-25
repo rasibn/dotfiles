@@ -1,4 +1,8 @@
 input {
+    mouse {
+        accel-profile "flat"
+        accel-speed -0.2
+    }
     keyboard {
         xkb {
             layout "us"
@@ -50,7 +54,6 @@ spawn-at-startup "waybar" "-c" "/home/rasib/assets/dotfiles/desktop/linux/waybar
 spawn-at-startup "blueman-applet"
 spawn-at-startup "swaybg" "-i" "/home/rasib/assets/dotfiles/desktop/linux/niri/wallpapers/madoka-shooting-stars.png" "-m" "fill"
 spawn-at-startup "udiskie"
-spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "before-sleep" "swaylock -f"
 
 binds {
     Mod+T repeat=false { spawn "voxtype" "record" "toggle"; }

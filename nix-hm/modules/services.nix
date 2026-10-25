@@ -22,6 +22,18 @@ in {
 
   services.swayosd.enable = true;
 
+  services.swayidle = {
+    enable = true;
+    timeouts = [{
+      timeout = 300;
+      command = "${pkgs.hyprlock}/bin/hyprlock";
+    }];
+    events = {
+      before-sleep = "${pkgs.hyprlock}/bin/hyprlock";
+      lock = "${pkgs.hyprlock}/bin/hyprlock";
+    };
+  };
+
   xdg.configFile."voxtype/config.toml".text = ''
     engine = "whisper"
 
