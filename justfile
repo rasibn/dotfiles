@@ -102,6 +102,7 @@ config-wezterm:
 
 config-ghostty:
     just link "{{dotfiles}}/desktop/ghostty" "$HOME/.config/ghostty"
+    if [ "$(uname -s)" = "Darwin" ]; then just link "{{dotfiles}}/desktop/macos/ghostty.config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"; fi
 
 config-aerospace:
     just link "{{dotfiles}}/desktop/macos/.aerospace.toml" "$HOME/.aerospace.toml"

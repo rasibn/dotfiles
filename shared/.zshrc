@@ -65,7 +65,7 @@ alias -g ......='../../../../..'
 # ============================================
 # CONSOLIDATED PATH CONFIGURATION
 # ============================================
-export PATH="$HOME/.bun/bin:$HOME/.nimble/bin:$HOME/go/bin:$(go env GOPATH)/bin:$PATH"
+export PATH="$HOME/.bend/bin:$HOME/.bun/bin:$HOME/.nimble/bin:$HOME/go/bin:$(go env GOPATH)/bin:$PATH"
 
 # ============================================
 # ENVIRONMENT VARIABLES
