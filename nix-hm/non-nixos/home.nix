@@ -14,6 +14,8 @@
     inherit username homeDirectory stateVersion;
     packages = with pkgs; [
       inputs.herdr.packages.${system}.herdr
+      android-tools
+      scrcpy
       ripgrep
       fzf
       just
