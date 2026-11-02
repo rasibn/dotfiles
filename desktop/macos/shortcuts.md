@@ -62,12 +62,13 @@ File search and extensions need enabling in Tinycast settings. See the
 | `⌥←` / `⌥→` / `⌥↑` / `⌥↓` | Focus window in that direction |
 | `⌥⇧←` / `⌥⇧→` | Move window left / right |
 | `⌥V` / `⌥⇧V` | Cycle window widths forward / backward |
-| `⌥M` / `⌥Space` | Toggle focused window full width / toggle floating |
+| `⌥F` / `⌥M` | Toggle focused window full width |
+| `⌥⇧F` / `⌃⌥;` | Toggle floating |
 | `⌥O` / `⌥T` | Stack / unstack |
 | `⌥C` / `⌥N` | Center / move to next display |
 | `⌥` + scroll | Step between columns |
 | Four-finger horizontal swipe | Slide the window strip |
 
 `⌘1`–`⌘4` select Chrome tabs; `⌥1`–`⌥4` select Paneru workspaces.
-`⌘Space` opens Tinycast; `⌥Space` toggles a floating window. Paneru also uses
+`⌘Space` opens Tinycast; `⌥⇧F` or `⌃⌥;` toggles a floating window. Paneru also uses
 Option+arrow keys, which normally move by word in macOS text fields.

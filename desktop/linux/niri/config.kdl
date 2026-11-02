@@ -83,9 +83,9 @@ binds {
     Mod+Shift+Down { move-window-down; }
     Mod+Shift+Up { move-window-up; }
 
-    Mod+F { maximize-column; }
+    Mod+F { fullscreen-window; }
     Mod+M { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
+    Mod+Shift+F { toggle-window-floating; }
     Mod+R { switch-preset-column-width; }
     Mod+Comma { consume-window-into-column; }
     Mod+Period { expel-window-from-column; }

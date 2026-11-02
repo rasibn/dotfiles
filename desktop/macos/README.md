@@ -26,13 +26,13 @@ The optional [pixel aurora wallpaper](wallpapers/pixel-aurora.png) can be set in
 ## Launcher
 
 Tinycast uses Command+Space for app launching. Set its **App Launcher** shortcut
-and enable launch at login in Tinycast settings. Option+Space is Paneru's
-floating-window shortcut.
+and enable launch at login in Tinycast settings. Option+Shift+F and Control+Option+; toggle a window between tiled and floating.
 
 ## Window order in the bar
 
 After the four workspace buttons, the bar lists the current workspace’s windows
 in Paneru strip order (left to right, including off-screen windows). The focused
 window has a green background. Each window gets its own app label;
-floating windows follow the tiled list and have a `~` marker.
+floating windows follow the tiled list, with a `FLOAT` marker and amber border.
+A focused floating window has an amber background.
 The list updates from Paneru events, without periodic polling.

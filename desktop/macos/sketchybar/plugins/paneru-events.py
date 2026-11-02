@@ -97,10 +97,15 @@ def refresh():
             "label=" + name,
             "label.max_chars=" + str(max_chars),
             "label.color=" + color,
-            "icon=" + ("~" if floating else ""),
+            "icon=" + ("FLOAT" if floating else ""),
             "icon.drawing=" + ("on" if floating else "off"),
             "icon.color=" + color,
-            "background.color=" + ("0xffb3e1a7" if focused else "0xee0d141b"),
+            "background.color=" + (
+                "0xffffc77a" if focused and floating
+                else "0xffb3e1a7" if focused
+                else "0xee0d141b"
+            ),
+            "background.border_color=" + ("0xffffc77a" if floating else "0xff527354"),
             "--move",
             item,
             "after",
