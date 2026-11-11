@@ -29,6 +29,23 @@ vim.keymap.set("v", "gh", "^", { desc = "Go to the start of the line" })
 vim.keymap.set("v", "gl", "$", { desc = "Go to the end of the line" })
 vim.keymap.set("v", "ge", "G", { desc = "Go to the end of the file" })
 
+-- copy text with file location
+vim.keymap.set("x", "<leader>cy", function()
+  local path = vim.fn.expand("%:~:.")
+  if path == "" then
+    vim.notify("Cannot copy location: buffer has no file name", vim.log.levels.WARN)
+    return
+  end
+
+  local start_pos, end_pos = vim.fn.getpos("v"), vim.fn.getpos(".")
+  local first, last = math.min(start_pos[2], end_pos[2]), math.max(start_pos[2], end_pos[2])
+  local location = path .. ":" .. first .. (first ~= last and "-" .. last or "")
+  local lines = vim.fn.getregion(start_pos, end_pos, { type = vim.fn.mode(), exclusive = vim.o.selection == "exclusive" })
+
+  vim.fn.setreg("+", table.concat(lines, "\n") .. "\n---\n" .. location)
+  vim.notify("Copied selection with " .. location)
+end, { desc = "Copy selection with file location" })
+
 -- VSCode-neovim specific keybindings
 if vim.g.vscode then
   -- LSP Navigation

@@ -79,8 +79,8 @@ def refresh():
         args += [
             "--set",
             f"workspace.{number}",
-            "background.color=" + ("0xffb3e1a7" if selected else "0xee0d141b"),
-            "icon.color=" + ("0xff0d141b" if selected else "0xffb3e1a7"),
+            "background.color=" + ("0xfff58daf" if selected else "0xee151c32"),
+            "icon.color=" + ("0xff151c32" if selected else "0xff8ecdf4"),
         ]
     for index in range(len(windows), slot_count):
         args += ["--remove", f"window.{index}"]
@@ -89,7 +89,7 @@ def refresh():
         item = f"window.{index}"
         if index >= slot_count:
             args += ["--add", "item", item, "left"]
-        color = "0xff0d141b" if focused else "0xffe5eedd"
+        color = "0xff151c32" if focused else "0xffe4edfa"
         args += [
             "--set",
             item,
@@ -102,10 +102,10 @@ def refresh():
             "icon.color=" + color,
             "background.color=" + (
                 "0xffffc77a" if focused and floating
-                else "0xffb3e1a7" if focused
-                else "0xee0d141b"
+                else "0xfff58daf" if focused
+                else "0xee151c32"
             ),
-            "background.border_color=" + ("0xffffc77a" if floating else "0xff527354"),
+            "background.border_color=" + ("0xffffc77a" if floating else "0xff526b91"),
             "--move",
             item,
             "after",

@@ -1,20 +1,19 @@
 #!/bin/bash
-# Sage capsules and transparent bar adapted from emreekici3/dotfiles.
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 PLUGIN_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}/plugins"
 sketchybar --bar height=40 color=0x00000000 shadow=off position=top padding_left=18 padding_right=18 \
-  --default label.font="Menlo:Bold:12" label.color=0xffe5eedd icon.font="Menlo:Bold:12" \
-  icon.color=0xffb3e1a7 icon.padding_left=9 icon.padding_right=5 \
+  --default label.font="Menlo:Bold:12" label.color=0xffe4edfa icon.font="Menlo:Bold:12" \
+  icon.color=0xff8ecdf4 icon.padding_left=9 icon.padding_right=5 \
   label.padding_left=5 label.padding_right=9 padding_left=3 padding_right=3 \
-  background.drawing=on background.color=0xee0d141b background.height=28 \
-  background.corner_radius=7 background.border_width=1 background.border_color=0xff527354
+  background.drawing=on background.color=0xee151c32 background.height=28 \
+  background.corner_radius=7 background.border_width=1 background.border_color=0xff526b91
 for i in 1 2 3 4; do
   sketchybar --add item "workspace.$i" left --set "workspace.$i" icon="$i" label.drawing=off \
     icon.padding_right=9 click_script="paneru send-cmd window virtualnum $i"
 done
 # Separate workspace navigation from the current workspace's window list.
 sketchybar --add item workspace_separator left --set workspace_separator \
-  icon='│' icon.color=0xff527354 icon.padding_left=0 icon.padding_right=0 \
+  icon='│' icon.color=0xff526b91 icon.padding_left=0 icon.padding_right=0 \
   label.drawing=off background.drawing=off padding_left=15 padding_right=15
 sketchybar --add item focused left --set focused icon='>' label='Paneru' \
   label.max_chars=32
